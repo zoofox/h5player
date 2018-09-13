@@ -1,0 +1,406 @@
+body {
+  width: 800px;
+  height: 450px; }
+
+.live-h5player-container {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  position: relative; }
+  .live-h5player-container p {
+    padding: 0;
+    margin: 0; }
+  .live-h5player-container .live-h5player-video-box {
+    width: 100%;
+    height: 100%;
+    transform-origin: 50% 50%;
+    margin: 0 auto; }
+    .live-h5player-container .live-h5player-video-box .live-h5player-video {
+      width: 100%;
+      height: 100%; }
+  .live-h5player-container .live-h5player-controlbar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 45px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8); }
+    .live-h5player-container .live-h5player-controlbar .controlbar-left, .live-h5player-container .live-h5player-controlbar .controlbar-right {
+      cursor: pointer;
+      width: 25px;
+      height: 25px;
+      margin-top: 10px;
+      position: relative; }
+      .live-h5player-container .live-h5player-controlbar .controlbar-left:hover .controlbar-tip, .live-h5player-container .live-h5player-controlbar .controlbar-right:hover .controlbar-tip {
+        display: block; }
+      .live-h5player-container .live-h5player-controlbar .controlbar-left .controlbar-tip, .live-h5player-container .live-h5player-controlbar .controlbar-right .controlbar-tip {
+        z-index: 2;
+        width: 50px;
+        height: 30px;
+        line-height: 30px;
+        color: #aaa;
+        font-size: 12px;
+        text-align: center;
+        border-radius: 2px;
+        position: absolute;
+        top: -37px;
+        left: 50%;
+        background: #000;
+        margin-left: -25px;
+        display: none; }
+        .live-h5player-container .live-h5player-controlbar .controlbar-left .controlbar-tip:before, .live-h5player-container .live-h5player-controlbar .controlbar-right .controlbar-tip:before {
+          content: "";
+          position: absolute;
+          bottom: -8px;
+          left: 50%;
+          margin-left: -6px;
+          border-left: 6px solid transparent;
+          border-right: 6px solid transparent;
+          border-top: 8px solid rgba(0, 0, 0, 0.3); }
+        .live-h5player-container .live-h5player-controlbar .controlbar-left .controlbar-tip:after, .live-h5player-container .live-h5player-controlbar .controlbar-right .controlbar-tip:after {
+          content: "";
+          position: absolute;
+          bottom: -7px;
+          left: 50%;
+          margin-left: -6px;
+          border-left: 6px solid transparent;
+          border-right: 6px solid transparent;
+          border-top: 8px solid #000; }
+      .live-h5player-container .live-h5player-controlbar .controlbar-left .controlbar-tip-long, .live-h5player-container .live-h5player-controlbar .controlbar-right .controlbar-tip-long {
+        width: 100px;
+        margin-left: -50px; }
+    .live-h5player-container .live-h5player-controlbar .controlbar-left {
+      float: left;
+      margin-right: 10px; }
+    .live-h5player-container .live-h5player-controlbar .h5player-pauseplay {
+      margin-left: 16px;
+      background: url("../imgs/h5player/pause.png") no-repeat;
+      background-size: 25px 25px; }
+      .live-h5player-container .live-h5player-controlbar .h5player-pauseplay:hover {
+        background: url("../imgs/h5player/pause_p.png") no-repeat;
+        background-size: 25px 25px; }
+    .live-h5player-container .live-h5player-controlbar .h5player-pauseplay-switch {
+      background: url("../imgs/h5player/start.png") no-repeat;
+      background-size: 25px 25px; }
+      .live-h5player-container .live-h5player-controlbar .h5player-pauseplay-switch:hover {
+        background: url("../imgs/h5player/start_p.png") no-repeat;
+        background-size: 25px 25px; }
+    .live-h5player-container .live-h5player-controlbar .h5player-reload {
+      background: url("../imgs/h5player/reload.png") no-repeat;
+      background-size: 25px 25px; }
+      .live-h5player-container .live-h5player-controlbar .h5player-reload:hover {
+        background: url("../imgs/h5player/reload_p.png") no-repeat;
+        background-size: 25px 25px; }
+    .live-h5player-container .live-h5player-controlbar .controlbar-right {
+      float: right;
+      margin-left: 10px; }
+    .live-h5player-container .live-h5player-controlbar .h5player-fullscreen {
+      margin-right: 16px;
+      background: url("../imgs/h5player/fullscreen.png") no-repeat;
+      background-size: 25px 25px; }
+      .live-h5player-container .live-h5player-controlbar .h5player-fullscreen:hover {
+        background: url("../imgs/h5player/fullscreen_p.png") no-repeat;
+        background-size: 25px 25px; }
+    .live-h5player-container .live-h5player-controlbar .h5player-fullscreen-ing {
+      margin-right: 16px;
+      background: url("../imgs/h5player/fullscreen.png") no-repeat;
+      background-size: 25px 25px; }
+      .live-h5player-container .live-h5player-controlbar .h5player-fullscreen-ing:hover {
+        background: url("../imgs/h5player/fullscreen_p.png") no-repeat;
+        background-size: 25px 25px; }
+    .live-h5player-container .live-h5player-controlbar .h5player-pagescreen {
+      background: url("../imgs/h5player/pagescreen.png") no-repeat;
+      background-size: 25px 25px; }
+      .live-h5player-container .live-h5player-controlbar .h5player-pagescreen:hover {
+        background: url("../imgs/h5player/pagescreen_p.png") no-repeat;
+        background-size: 25px 25px; }
+    .live-h5player-container .live-h5player-controlbar .h5player-definition {
+      width: 34px;
+      height: 25px;
+      line-height: 18px;
+      text-align: center;
+      color: #aaa;
+      border-radius: 10px;
+      margin-top: 10px;
+      font-size: 12px; }
+      .live-h5player-container .live-h5player-controlbar .h5player-definition:hover .definition-items {
+        display: block; }
+      .live-h5player-container .live-h5player-controlbar .h5player-definition .definition-text {
+        width: 34px;
+        height: 25px; }
+      .live-h5player-container .live-h5player-controlbar .h5player-definition .definition-sd {
+        background: url("../imgs/h5player/definition/sd.png") no-repeat;
+        background-size: 34px 25px; }
+        .live-h5player-container .live-h5player-controlbar .h5player-definition .definition-sd:hover {
+          background: url("../imgs/h5player/definition/sd_p.png") no-repeat;
+          background-size: 34px 25px; }
+      .live-h5player-container .live-h5player-controlbar .h5player-definition .definition-hd {
+        background: url("../imgs/h5player/definition/hd.png") no-repeat;
+        background-size: 34px 25px; }
+        .live-h5player-container .live-h5player-controlbar .h5player-definition .definition-hd:hover {
+          background: url("../imgs/h5player/definition/hd_p.png") no-repeat;
+          background-size: 34px 25px; }
+      .live-h5player-container .live-h5player-controlbar .h5player-definition .definition-shd {
+        background: url("../imgs/h5player/definition/shd.png") no-repeat;
+        background-size: 34px 25px; }
+        .live-h5player-container .live-h5player-controlbar .h5player-definition .definition-shd:hover {
+          background: url("../imgs/h5player/definition/shd_p.png") no-repeat;
+          background-size: 34px 25px; }
+      .live-h5player-container .live-h5player-controlbar .h5player-definition .definition-items {
+        z-index: 2;
+        width: 100px;
+        height: 50px;
+        text-align: center;
+        border-radius: 2px;
+        position: absolute;
+        bottom: 13px;
+        left: 50%;
+        margin-left: -50px;
+        padding-bottom: 25px;
+        display: none; }
+        .live-h5player-container .live-h5player-controlbar .h5player-definition .definition-items p {
+          font-size: 12px;
+          color: #aaa;
+          line-height: 25px;
+          height: 25px;
+          background: #000;
+          cursor: pointer; }
+          .live-h5player-container .live-h5player-controlbar .h5player-definition .definition-items p:last-child {
+            border-radius: 0 0 2px; }
+          .live-h5player-container .live-h5player-controlbar .h5player-definition .definition-items p:hover {
+            color: #ff5959; }
+        .live-h5player-container .live-h5player-controlbar .h5player-definition .definition-items .active {
+          color: #ff5959; }
+        .live-h5player-container .live-h5player-controlbar .h5player-definition .definition-items:before {
+          content: "";
+          position: absolute;
+          bottom: 18px;
+          left: 50%;
+          margin-left: -6px;
+          border-left: 6px solid transparent;
+          border-right: 6px solid transparent;
+          border-top: 8px solid rgba(0, 0, 0, 0.3); }
+        .live-h5player-container .live-h5player-controlbar .h5player-definition .definition-items:after {
+          content: "";
+          position: absolute;
+          bottom: 18px;
+          left: 50%;
+          margin-left: -6px;
+          border-left: 6px solid transparent;
+          border-right: 6px solid transparent;
+          border-top: 8px solid #000; }
+    .live-h5player-container .live-h5player-controlbar .h5player-volume {
+      background: url("../imgs/h5player/volume.png") no-repeat;
+      background-size: 25px 25px; }
+      .live-h5player-container .live-h5player-controlbar .h5player-volume:hover {
+        background: url("../imgs/h5player/volume_p.png") no-repeat;
+        background-size: 25px 25px; }
+        .live-h5player-container .live-h5player-controlbar .h5player-volume:hover .volume-setbox {
+          display: block; }
+      .live-h5player-container .live-h5player-controlbar .h5player-volume .volume-setbox {
+        z-index: 2;
+        display: none;
+        width: 25px;
+        height: 100px;
+        position: absolute;
+        left: 0;
+        bottom: 20px;
+        background: url("../imgs/h5player/soundbg.png") no-repeat;
+        background-size: 25px 95px;
+        padding-bottom: 10px;
+        cursor: auto; }
+        .live-h5player-container .live-h5player-controlbar .h5player-volume .volume-setbox .volume-line {
+          cursor: pointer;
+          position: absolute;
+          bottom: 24px;
+          left: 5px;
+          width: 15px;
+          height: 75px;
+          border-radius: 2px;
+          background: url("../imgs/h5player/red_column.png") no-repeat top center;
+          background-size: 3px 75px;
+          overflow: hidden; }
+          .live-h5player-container .live-h5player-controlbar .h5player-volume .volume-setbox .volume-line .volume-line-gray {
+            width: 100%;
+            height: 100%;
+            background: url("../imgs/h5player/gray_column.png") no-repeat top center;
+            background-size: 3px 75px; }
+        .live-h5player-container .live-h5player-controlbar .h5player-volume .volume-setbox .volume-ball {
+          position: absolute;
+          left: 7px;
+          bottom: 20px;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background-color: #c3c3c3;
+          cursor: pointer;
+          border: none; }
+          .live-h5player-container .live-h5player-controlbar .h5player-volume .volume-setbox .volume-ball:active {
+            border: 1px solid #ff5959;
+            left: 6px; }
+        .live-h5player-container .live-h5player-controlbar .h5player-volume .volume-setbox .volume-percent {
+          width: 44px;
+          height: 20px;
+          background-color: #212322;
+          border-radius: 4px;
+          color: #c3c3c3;
+          text-align: center;
+          line-height: 20px;
+          font-size: 12px;
+          position: absolute;
+          bottom: 15px;
+          left: -48px; }
+    .live-h5player-container .live-h5player-controlbar .h5player-volume-mute {
+      background: url("../imgs/h5player/volume_no.png") no-repeat;
+      background-size: 25px 25px; }
+      .live-h5player-container .live-h5player-controlbar .h5player-volume-mute:hover {
+        background: url("../imgs/h5player/volume_no_p.png") no-repeat;
+        background-size: 25px 25px; }
+        .live-h5player-container .live-h5player-controlbar .h5player-volume-mute:hover .volume-setbox {
+          display: block; }
+    .live-h5player-container .live-h5player-controlbar .h5player-rotate {
+      background: url("../imgs/h5player/rotate.png") no-repeat;
+      background-size: 25px 25px; }
+      .live-h5player-container .live-h5player-controlbar .h5player-rotate:hover {
+        background: url("../imgs/h5player/rotate_p.png") no-repeat;
+        background-size: 25px 25px; }
+    .live-h5player-container .live-h5player-controlbar .h5player-barrage {
+      width: 34px;
+      height: 20px;
+      margin-top: 13px;
+      background: url("../imgs/h5player/barrage_on.png") no-repeat;
+      background-size: 34px 20px; }
+      .live-h5player-container .live-h5player-controlbar .h5player-barrage:hover .barrage-setbox {
+        display: block; }
+      .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox {
+        display: none;
+        width: 250px;
+        position: absolute;
+        bottom: 20px;
+        padding-bottom: 13px;
+        left: 50%;
+        margin-left: -125px;
+        cursor: auto; }
+        .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-tip-box {
+          position: relative; }
+          .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-tip-box .controlbar-tip {
+            display: block;
+            top: -25px; }
+        .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox:hover .barrage-tip-box .controlbar-tip {
+          display: none; }
+        .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column {
+          background: rgba(13, 13, 13, 0.9);
+          width: 100%;
+          height: 50px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+          .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-set-info {
+            width: 80px;
+            height: 50px;
+            float: left;
+            padding-left: 14px;
+            text-align: left;
+            line-height: 50px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.3); }
+          .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-fullscreen-input {
+            width: 80px;
+            height: 22px;
+            float: right;
+            margin-right: 14px;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 14px; }
+            .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-fullscreen-input .barrage-fullscreen-input-switch {
+              float: left;
+              width: 38px;
+              height: 20px;
+              border: 1px solid #434343;
+              color: #434343;
+              font-size: 14px;
+              line-height: 22px;
+              text-align: center;
+              cursor: pointer; }
+            .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-fullscreen-input .active {
+              background-color: #ff5959;
+              border: 1px solid #ff5959;
+              color: #fff; }
+          .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-opacity {
+            width: 136px;
+            height: 50px;
+            float: right;
+            margin-right: 14px; }
+            .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-opacity .barrage-opacity-choice {
+              width: 34px;
+              height: 50px;
+              text-align: right;
+              line-height: 50px;
+              float: right;
+              font-size: 13px;
+              color: #BDBDBE;
+              cursor: pointer; }
+              .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-opacity .barrage-opacity-choice:hover {
+                color: #FF5959; }
+            .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-opacity .active {
+              color: #FF5959; }
+          .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-position {
+            width: 140px;
+            height: 44px;
+            float: right;
+            margin-right: 14px;
+            margin-top: 14px; }
+            .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-position .barrage-position-choice {
+              float: right;
+              width: 34px;
+              height: 44px;
+              margin-left: 14px;
+              cursor: pointer; }
+              .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-position .barrage-position-choice .barrage-position-img {
+                display: block;
+                width: 34px;
+                height: 32px; }
+              .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-position .barrage-position-choice .barrage-position-text {
+                height: 16px;
+                line-height: 16px;
+                font-size: 12px;
+                margin-top: 4px;
+                text-align: center;
+                color: #C3C3C3; }
+              .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-position .barrage-position-choice .barrage-position-bottomscreen {
+                background: url("../imgs/h5player/barrage/down.png") no-repeat;
+                background-size: 34px 32px; }
+              .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-position .barrage-position-choice .barrage-position-topscreen {
+                background: url("../imgs/h5player/barrage/up.png") no-repeat;
+                background-size: 34px 32px; }
+              .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-position .barrage-position-choice .barrage-position-fullscreen {
+                background: url("../imgs/h5player/barrage/full.png") no-repeat;
+                background-size: 34px 32px; }
+              .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-position .barrage-position-choice:last-child {
+                margin-left: 0; }
+              .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-position .barrage-position-choice:hover .barrage-position-text {
+                color: #ff5959; }
+              .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-position .barrage-position-choice:hover .barrage-position-bottomscreen {
+                background: url("../imgs/h5player/barrage/down_p.png") no-repeat;
+                background-size: 34px 32px; }
+              .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-position .barrage-position-choice:hover .barrage-position-topscreen {
+                background: url("../imgs/h5player/barrage/up_p.png") no-repeat;
+                background-size: 34px 32px; }
+              .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-position .barrage-position-choice:hover .barrage-position-fullscreen {
+                background: url("../imgs/h5player/barrage/full_P.png") no-repeat;
+                background-size: 34px 32px; }
+            .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-position .active .barrage-position-text {
+              color: #ff5959; }
+            .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-position .active .barrage-position-bottomscreen {
+              background: url("../imgs/h5player/barrage/down_p.png") no-repeat;
+              background-size: 34px 32px; }
+            .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-position .active .barrage-position-topscreen {
+              background: url("../imgs/h5player/barrage/up_p.png") no-repeat;
+              background-size: 34px 32px; }
+            .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-position .active .barrage-position-fullscreen {
+              background: url("../imgs/h5player/barrage/full_P.png") no-repeat;
+              background-size: 34px 32px; }
+        .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column-position {
+          border: none;
+          height: 76px; }
+          .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column-position .barrage-set-info {
+            line-height: 12px;
+            margin-top: 14px; }

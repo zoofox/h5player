@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>h5 video test page</title>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" type="text/css" href="./css/h5player.css">
+</head>
+<body>
+	<div class="live-h5player-container" id="live-h5player-container">
+		<div class="live-h5player-video-box">
+			<video class="live-h5player-video" id='video'></video>
+		</div>
+		<div class="live-h5player-controlbar">
+				<div class="controlbar-left h5player-pauseplay" data-status='1'>
+					<p class="controlbar-tip">暂停</p>
+				</div>
+				<div class="controlbar-left h5player-reload">
+					<p class="controlbar-tip controlbar-tip-long">重新载入</p>
+				</div>
+				<div class="controlbar-right h5player-fullscreen">
+					<p class="controlbar-tip controlbar-tip-long">窗口全屏</p>
+				</div>
+				<div class="controlbar-right h5player-pagescreen">
+					<p class="controlbar-tip controlbar-tip-long">网页全屏</p>
+				</div>
+				<div class="controlbar-right h5player-definition">
+						<p class="definition-text definition-sd"></p>
+						<div class="definition-items">
+							<p class="definition-item">[线路1]标清</p>
+							<p class="definition-item">[线路1]标清</p>
+						</div>
+				</div>
+				<div class="controlbar-right h5player-volume">
+					<div class="volume-setbox">
+						<div class="volume-line">
+							<p class="volume-line-gray"></p>
+						</div>
+						<p class="volume-ball"></p>
+						<p class="volume-percent">10%</p>
+					</div>
+				</div>
+				<div class="controlbar-right h5player-rotate">
+					<p class="controlbar-tip controlbar-tip-long">屏幕旋转</p>
+				</div>
+				<div class="controlbar-right h5player-barrage">
+					
+					<div class="barrage-setbox">
+						<div class="barrage-set-column">
+							<p class="barrage-set-info">全屏弹幕输入</p>
+							<div class="barrage-fullscreen-input">
+								<div class="barrage-fullscreen-input-switch barrage-fullscreen-input-off">关</div>
+								<div class="barrage-fullscreen-input-switch barrage-fullscreen-input-on active">开</div>
+							</div>
+						</div>
+						<div class="barrage-set-column">
+							<p class="barrage-set-info">透明度</p>
+							<div class="barrage-opacity">
+								<p class="barrage-opacity-choice">高</p>
+								<p class="barrage-opacity-choice">中</p>
+								<p class="barrage-opacity-choice">低</p>
+								<p class="barrage-opacity-choice active">无</p>
+							</div>
+						</div>
+						<div class="barrage-set-column barrage-set-column-position">
+							<p class="barrage-set-info">弹幕位置</p>
+							<div class="barrage-position">
+								<div class="barrage-position-choice">
+									<i class="barrage-position-img barrage-position-bottomscreen"></i>
+									<p class="barrage-position-text">底端</p>
+								</div>
+								<div class="barrage-position-choice">
+									<i class="barrage-position-img barrage-position-topscreen"></i>
+									<p class="barrage-position-text">顶端</p>
+								</div>
+								<div class="barrage-position-choice">
+									<i class="barrage-position-img barrage-position-fullscreen"></i>
+									<p class="barrage-position-text">全屏</p>
+								</div>
+							</div>
+						</div>
+						<div class="barrage-tip-box">
+							<p class="controlbar-tip controlbar-tip-long">关闭弹幕</p>
+						</div>
+					</div>
+				</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="https://cdn.kascend.com/jellyfish/sysv730/js/lib/jquery/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="./js/flv.min.js"></script>
+	<script type="text/javascript" src="./js/StreamManager.js"></script>
+	<script type="text/javascript" src="./js/h5liveplay.js"></script>
+	<script type="text/javascript" src="./js/h5playerControlBar.js"></script>
+	<script type="text/javascript" src="./js/h5player.js"></script>
+	<script type="text/javascript">
+		var h5player = new h5player({
+			roomId:39849,
+			host:'',
+			videoId:'video'
+		});
+	</script>
+</body>
+</html>
