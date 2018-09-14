@@ -95,11 +95,25 @@
 			border:1px solid rgba(0,0,0,.8);
 			border-radius: 10px;
 			float: left;
-			margin-right: 20px;
 			margin-top: 20px;
 			cursor:pointer;
+			margin-left: 20px;
+		}
+		.test-input{
+			width: 100px;
+			height: 40px;
+			line-height: 40px;
+			padding-left: 20px;
+			border:1px solid rgba(0,0,0,.8);
+			border-radius: 10px;
+			outline: none;
+			float: left;
+			margin-top: 20px;
+
 		}
 	</style>
+	<input type="text" placeholder="输入房间号" class="test-input">
+	<div class="test-btn start-btn">开始</div>
 	<div class="test-btn play-btn">切回h5</div>
 	<script type="text/javascript" src="https://cdn.kascend.com/jellyfish/sysv730/js/lib/jquery/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="./js/flv.min.js"></script>
@@ -109,13 +123,18 @@
 	<script type="text/javascript" src="./js/h5playerControlBar.js"></script>
 	<script type="text/javascript" src="./js/h5player.js"></script>
 	<script type="text/javascript">
-		var h5player = new h5player({
-			roomId:4536540,
-			host:'',
-			videoId:'video'
-		});
+		var h5player2 = null;
+		$('.start-btn').click(function(){
+				var roomId = $('.test-input').val();
+				h5player2 = new h5player({
+					roomId:roomId,
+					host:'',
+					videoId:'video'
+				});
+		})
+		
 		$('.play-btn').click(function(){
-			h5player.switchBack();
+			h5player2.switchBack();
 		})
 	</script>
 </body>

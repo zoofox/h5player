@@ -27,7 +27,6 @@ h5playerControlBar.prototype = {
 		//音量
 		var isMute = this.player.getIsMute();
 		var volume = this.player.getVolume();
-		console.log(isMute,volume)
 		this.setVolume(volume,isMute);
 
 		//线路
@@ -279,7 +278,6 @@ h5playerControlBar.prototype = {
 	},
 	//弹幕配置导入
 	importBarrageConfig:function(config){
-		console.log(config)
 		if(config.barrageSwitch == 0){
 			$('.h5player-barrage').addClass('h5player-barrage-off');
 			$('.h5player-barrage').attr('data-status',config.barrageSwitch);
