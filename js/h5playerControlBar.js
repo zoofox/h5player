@@ -27,6 +27,7 @@ h5playerControlBar.prototype = {
 		//音量
 		var isMute = this.player.getIsMute();
 		var volume = this.player.getVolume();
+		console.log(isMute,volume)
 		this.setVolume(volume,isMute);
 
 		//线路
@@ -249,12 +250,18 @@ h5playerControlBar.prototype = {
 			$(this).addClass('active').siblings('.barrage-opacity-choice').removeClass('active');
 			self.setBarrageParam('barrageOpacity',value);
 		})
+		//弹幕位置
+		$('.barrage-position-choice').click(function(){
+			var value = $(this).data('value');
+			$(this).addClass('active').siblings('.barrage-position-choice').removeClass('active');
+			self.setBarrageParam('barragePosition',value);
+		})
 		//控制栏显示
-		// $('.live-h5player-container').hover(function(){
-		// 	$('.live-h5player-controlbar').slideDown();
-		// },function(){
-		// 	$('.live-h5player-controlbar').slideUp();
-		// })
+		$('.live-h5player-container').hover(function(){
+			$('.live-h5player-controlbar').slideDown();
+		},function(){
+			$('.live-h5player-controlbar').slideUp();
+		})
 		$('.live-h5player-container').click(function(){
 			$('.live-h5player-rightmenu').hide();
 		})
@@ -270,15 +277,23 @@ h5playerControlBar.prototype = {
 			this.barrage.setBarrageParam(name,value);
 		}
 	},
+	//弹幕配置导入
 	importBarrageConfig:function(config){
-		var barrageSwitch = config.barrageSwitch;
-		if(barrageSwitch == 0){
-			$('.h5player-barrage').addClass('.h5player-barrage-off');
+		console.log(config)
+		if(config.barrageSwitch == 0){
+			$('.h5player-barrage').addClass('h5player-barrage-off');
+			$('.h5player-barrage').attr('data-status',config.barrageSwitch);
 		}
-		if(barrageFullscreenInputSwitch == 0){
+		if(config.barrageFullscreenInputSwitch == 0){
 			$('.barrage-fullscreen-input-off').addClass('active');	
 			$('.barrage-fullscreen-input-on').removeClass('active');	
 		}
+		var barrageOpacity = config.barrageOpacity;
+		$('.barrage-opacity-choice'+barrageOpacity).addClass('active')
+			.siblings('.barrage-opacity-choice').removeClass('active');
+		var barragePosition = config.barragePosition;
+		$('.barrage-position-choice'+barragePosition).addClass('active')
+			.siblings('.barrage-position-choice').removeClass('active');
 
 	},
 	//音量设置

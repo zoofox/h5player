@@ -19,7 +19,7 @@ body {
       width: 100%;
       height: 100%; }
   .live-h5player-container .live-h5player-controlbar {
-    /*display: none;*/
+    display: none;
     position: absolute;
     bottom: 0;
     left: 0;

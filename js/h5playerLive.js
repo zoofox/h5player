@@ -143,7 +143,10 @@ h5playerLive.prototype = {
 		var supportFormat = ["mp4","flv","mov","m3u8"];
 
 		if(supportFormat.indexOf(format)>-1) {
-                return {type:format, url:url};
+                return {
+                	type:format, 
+                	url:url
+                };
         }else{
         	return null;
         }
@@ -195,7 +198,11 @@ h5playerLive.prototype = {
 		      		return document.cookie.substring(start, end);
 		      	}else{
 		      		var h5playerCookie = JSON.parse(document.cookie.substring(start, end));
-		      		return h5playerCookie[name]?h5playerCookie[name]:'';
+		      		if(typeof h5playerCookie[name]!='undefined'){
+		      			return h5playerCookie[name];
+		      		}else{
+		      			return '';
+		      		}
 		      	}
 		      	
 		    }

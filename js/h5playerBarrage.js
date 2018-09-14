@@ -9,15 +9,15 @@ function h5playerBarrage(params,callback){
 }
 h5playerBarrage.prototype = {
 	barrageInit:function(params){
-		this.barrageSwitch = this.getBarrageParam('barrageSwitch')||params.barrageSwitch; //弹幕开关 0关 1开
-		this.barrageFullscreenInputSwitch = this.getBarrageParam('barrageFullscreenInputSwitch')||params.barrageFullscreenInputSwitch; //弹幕开关 0关 1开
-		this.barrageOpacity = this.getBarrageParam('barrageOpacity')||params.barrageOpacity; //弹幕透明度 0无 1低 2中 3高
-		this.barragePosition = this.getBarrageParam('barragePosition')||params.barragePosition; //弹幕位置 0全屏 1顶端 2底端
+		var bs = this.getBarrageParam('barrageSwitch');
+		var bfis = this.getBarrageParam('barrageFullscreenInputSwitch');
+		var bo = this.getBarrageParam('barrageOpacity');
+		var bp = this.getBarrageParam('barragePosition');
 		this.barrageConfig = {
-			barrageSwitch:this.barrageSwitch,
-			barrageFullscreenInputSwitch:this.barrageFullscreenInputSwitch,
-			barrageOpacity:this.barrageOpacity,
-			barragePosition:this.barragePosition
+			barrageSwitch:bs===''?params.barrageSwitch:bs,//弹幕开关 0关 1开
+			barrageFullscreenInputSwitch:bfis===''?params.barrageFullscreenInputSwitch:bfis,//全屏弹幕输入开关 0关 1开
+			barrageOpacity:bo===''?params.barrageOpacity:bo,//弹幕透明度 0无 1低 2中 3高
+			barragePosition:bp===''?params.barragePosition:bp//弹幕位置 0全屏 1顶端 2底端
 		}
 		this.callback(this);
 	},
