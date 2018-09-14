@@ -1,17 +1,18 @@
 /*
 h5播放器播放业务
  */
-function h5liveplay(params){
+function h5playerLive(params,callback){
 	this.roomId = params.roomId;
     this.host = params.host;
     this.videoId = params.videoId;
+    this.callback = callback;
     this.stream = null;
-    this.COOKIE_NAME = 'h5player'; //cookie名
-    this.COOKIE_EXPIRE_DAYS = 7; //cookie过期天数
-    this.DEFAULT_VOLUME = 50; // 默认音量
+    this.COOKIE_NAME = params.cookieName; //cookie名
+    this.COOKIE_EXPIRE_DAYS = params.cookieExpireDays; //cookie过期天数
+    this.DEFAULT_VOLUME = params.defaultVolume; // 默认音量
     this.getLiveStreamUrl();
 }
-h5liveplay.prototype = {
+h5playerLive.prototype = {
 	//load播放器
 	flvjsPlayerLoad:function(obj,callback){
 		this.playerDestroy();
@@ -111,6 +112,9 @@ h5liveplay.prototype = {
 			host:this.host
 		}
 		this.stream = new StreamManager(params,function(){
+			if(self.callback){
+				self.callback(self);
+			}
 			 self.setPlayUrl(self.stream.getCurrentStreamUrl());
 		});
 	},
@@ -139,6 +143,32 @@ h5liveplay.prototype = {
         	return null;
         }
 	},
+	//获取流数据[{def:'sd',str:'[线路1]标清'}]
+	getStreamData:function(){
+		if(this.stream){
+			return this.stream.getStreamNameList();
+		}else{
+			return [];
+		}
+	},
+	//获取当前流index
+	getStreamIndex:function(){
+		if(this.stream){
+			return this.stream.getCurrentStreamDefinitionIndex();
+		}else{
+			return 0;		
+		}
+	},
+	//切换线路
+	setStreamDefinition:function(index,callback){
+		if(this.stream) {
+	        if(this.stream.setStreamDefinition(index)) {    // 可以切换线路
+	            this.setPlayUrl(this.stream.getCurrentStreamUrl());
+	            callback();
+	        }
+	    }
+	}
+	,
 	setCookie:function(name,value){
 		var h5playerCookie = JSON.parse(this.getCookie(''));
 	    h5playerCookie[name] = value;

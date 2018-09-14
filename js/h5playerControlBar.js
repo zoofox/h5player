@@ -1,25 +1,51 @@
-function h5playerControlBar(player,videoId){
-	this.player = player;
-	this.videoId = videoId;
+/*
+h5播放器控制栏
+ */
+function h5playerControlBar(params,callback){
+	this.player = params.player;
+	this.barrage = params.barrage;
+	this.videoId = params.videoId;
 	this.videoRotateDeg = 0; //屏幕旋转角度
 	this.isFullScreen = false; //是否全屏
+	this.callback = callback;
 	this.init();
 }
 h5playerControlBar.prototype = {
 	init:function(){
 		this.controBarStatusInit();
 		this.operate();
+		this.callback(this);
 	},
 	controBarStatusInit:function(){
 		//标记videoWidth videoHeight用于处理退出全屏后video宽高
 		this.videoWidth = $('.live-h5player-container').width();
 		this.videoHeight = $('.live-h5player-container').height();
 		this.videoFullScreenWidth = 0; //全屏video宽度
-
+		//播放
+		$('.h5player-pauseplay').removeClass('h5player-pauseplay-switch').attr('data-status',1)
+				.find('.controlbar-tip').text('暂停');
 		//音量
 		var isMute = this.player.getIsMute();
 		var volume = this.player.getVolume();
 		this.setVolume(volume,isMute);
+
+		//线路
+		var streamData = this.player.getStreamData();
+		var streamIndex = this.player.getStreamIndex();
+		var steamLen = streamData.length;
+		var streamHtml = '';
+		if(steamLen > 0){
+			var def = streamData[streamIndex].def;
+			$('')
+			for(var i = 0;i<steamLen;i++){
+				streamHtml+='<p class="definition-item" data-def="'+streamData[i].def+'">'+streamData[i].str+'</p>'
+			}
+			$('.definition-items').html(streamHtml);
+			this.setStreamDefinition(streamIndex,def);
+		}else{
+			$('.definition-items').html('');
+		}
+		
 	}
 	,
 	operate:function(){
@@ -41,7 +67,7 @@ h5playerControlBar.prototype = {
 		//重新载入
 		$('.h5player-reload').click(function(){
 			if($('.h5player-pauseplay').attr('data-status')=='0'){
-				$('.h5player-pauseplay').toggleClass('h5player-pauseplay-switch').attr('data-status',1)
+				$('.h5player-pauseplay').removeClass('h5player-pauseplay-switch').attr('data-status',1)
 				.find('.controlbar-tip').text('暂停');
 			}
 			self.player.refresh();
@@ -166,6 +192,27 @@ h5playerControlBar.prototype = {
 			}
 			
 		})
+		//切换线路
+		$('body').on('click','.definition-item',function(){
+			if(!$(this).hasClass('active')){
+				var index = $(this).index();
+				var def = $(this).data('def');
+				self.player.setStreamDefinition(index,function(){
+					self.setStreamDefinition(index,def);
+				});
+			}
+		})
+		//弹幕开关
+		$('.h5player-barrage').click(function(){
+			var status = $(this).attr('data-status');
+			self.barrageSwitch = status;
+			if(status == 0){
+				$(this).find('.controlbar-tip').text('关闭弹幕');
+			}else{
+				$(this).find('.controlbar-tip').text('开启弹幕');
+			}
+			$(this).toggleClass('h5player-barrage-off');
+		})
 
 	},
 	//音量设置
@@ -263,6 +310,10 @@ h5playerControlBar.prototype = {
 		var isFull =  document.fullscreenEnabled || window.fullScreen || document.webkitIsFullScreen || document.msFullscreenEnabled;
 		if(isFull === undefined) isFull = false;
 		return isFull;
+	},
+	setStreamDefinition:function(index,def){
+		$('.definition-item').eq(index).addClass('active').siblings('.definition-item').removeClass('active');
+		$('.definition-text').attr('class','definition-text definition-'+def);
 	}
 
 

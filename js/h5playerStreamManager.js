@@ -27,8 +27,8 @@ StreamManager.prototype.setRoomId = function (roomid) {
  *  获取当前播放的url数据
  * */
 StreamManager.prototype.getCurrentStreamUrl = function () {
-    if(this._streamData && this._lineIndex >= 0 && this._lineIndex < this._streamData.length) {
-        return this._streamData[this._lineIndex].url;
+    if(this.streamData && this._lineIndex >= 0 && this._lineIndex < this.streamData.length) {
+        return this.streamData[this._lineIndex].url;
     }
     return "";
 }
@@ -38,7 +38,7 @@ StreamManager.prototype.getCurrentStreamUrl = function () {
  *  切换线路
  * */
 StreamManager.prototype.setStreamDefinition = function(index) {
-    if(this._streamData && index >= 0 && index < this._streamData.length) {
+    if(this.streamData && index >= 0 && index < this.streamData.length) {
         this._lineIndex = index;
         return true;
     }
@@ -50,20 +50,20 @@ StreamManager.prototype.setStreamDefinition = function(index) {
  * */
 StreamManager.prototype.getStreamNameList = function () {
     var arr = [];
-    if(this._streamData) {
-        for(var i = 0; i < this._streamData.length; ++i) {
+    if(this.streamData) {
+        for(var i = 0; i < this.streamData.length; ++i) {
             var obj = {};
-            switch (this._streamData[i].def) {
+            switch (this.streamData[i].def) {
                 case "sd":
-                    obj = {str:"[" + this._streamData[i].name + "]标清", def:this._streamData[i].def};
+                    obj = {str:"[" + this.streamData[i].name + "]标清", def:this.streamData[i].def};
                     break;
 
                 case "hd":
-                    obj = {str:"[" + this._streamData[i].name + "]高清", def:this._streamData[i].def};
+                    obj = {str:"[" + this.streamData[i].name + "]高清", def:this.streamData[i].def};
                     break;
 
                 case "shd":
-                    obj = {str:"[" + this._streamData[i].name + "]超清", def:this._streamData[i].def};
+                    obj = {str:"[" + this.streamData[i].name + "]超清", def:this.streamData[i].def};
                     break;
 
                 default:
@@ -122,19 +122,18 @@ StreamManager.prototype.getPlayUrl = function () {
 StreamManager.prototype.parseData = function (resObj) {
     if(resObj) {
         if(0 == resObj.code && resObj.data) {
-            this._streamData = [];
+            this.streamData = [];
                 for(var i = 0; i < resObj.data.length; ++i) {
                     if(resObj.data[i].shdPlayUrl) {
-                        this._streamData.push({def:"shd", protocol:resObj.data[i].protocol, name:resObj.data[i].name, liveSourceId:resObj.data[i].liveSourceId, url:resObj.data[i].shdPlayUrl});
+                        this.streamData.push({def:"shd", protocol:resObj.data[i].protocol, name:resObj.data[i].name, liveSourceId:resObj.data[i].liveSourceId, url:resObj.data[i].shdPlayUrl});
                     }
                     if(resObj.data[i].hdPlayUrl) {
-                        this._streamData.push({def:"hd", protocol:resObj.data[i].protocol, name:resObj.data[i].name, liveSourceId:resObj.data[i].liveSourceId, url:resObj.data[i].hdPlayUrl});
+                        this.streamData.push({def:"hd", protocol:resObj.data[i].protocol, name:resObj.data[i].name, liveSourceId:resObj.data[i].liveSourceId, url:resObj.data[i].hdPlayUrl});
                     }
                     if(resObj.data[i].sdPlayUrl) {
-                        this._streamData.push({def:"sd", protocol:resObj.data[i].protocol, name:resObj.data[i].name, liveSourceId:resObj.data[i].liveSourceId, url:resObj.data[i].sdPlayUrl});
+                        this.streamData.push({def:"sd", protocol:resObj.data[i].protocol, name:resObj.data[i].name, liveSourceId:resObj.data[i].liveSourceId, url:resObj.data[i].sdPlayUrl});
                     }
                 }
-            
             this.selectLine();
             if(this._callback) {
                 this._callback();
@@ -152,9 +151,9 @@ StreamManager.prototype.parseData = function (resObj) {
 
 StreamManager.prototype.selectLine = function () {
     if(!this._definition) {
-        for(var i = 0; i < this._streamData.length; ++i) {
-            if(this._streamProtocol == this._streamData[i].protocol) {
-                if(this._streamData[i].liveSourceId != 1)
+        for(var i = 0; i < this.streamData.length; ++i) {
+            if(this._streamProtocol == this.streamData[i].protocol) {
+                if(this.streamData[i].liveSourceId != 1)
                 {
                     this._lineIndex = i;
                     break;
@@ -165,5 +164,5 @@ StreamManager.prototype.selectLine = function () {
 }
 
 StreamManager.prototype.clear = function () {
-    this._streamData = [];
+    this.streamData = [];
 }

@@ -26,8 +26,6 @@
 				<div class="controlbar-right h5player-definition">
 						<p class="definition-text definition-sd"></p>
 						<div class="definition-items">
-							<p class="definition-item">[线路1]标清</p>
-							<p class="definition-item">[线路1]标清</p>
 						</div>
 				</div>
 				<div class="controlbar-right h5player-volume">
@@ -42,7 +40,7 @@
 				<div class="controlbar-right h5player-rotate">
 					<p class="controlbar-tip controlbar-tip-long">屏幕旋转</p>
 				</div>
-				<div class="controlbar-right h5player-barrage">
+				<div class="controlbar-right h5player-barrage" data-status="1">
 					
 					<div class="barrage-setbox">
 						<div class="barrage-set-column">
@@ -85,18 +83,41 @@
 				</div>
 		</div>
 	</div>
+	<style>
+		.test-btn{
+			width: 80px;
+			height: 40px;
+			line-height: 40px;
+			text-align:center;
+			border:1px solid rgba(0,0,0,.8);
+			border-radius: 10px;
+			float: left;
+			margin-right: 20px;
+			margin-top: 20px;
+			cursor:pointer;
+		}
+	</style>
+	<div class="test-btn destroy-btn">切成flash</div>
+	<div class="test-btn play-btn">切回h5</div>
 	<script type="text/javascript" src="https://cdn.kascend.com/jellyfish/sysv730/js/lib/jquery/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="./js/flv.min.js"></script>
-	<script type="text/javascript" src="./js/StreamManager.js"></script>
-	<script type="text/javascript" src="./js/h5liveplay.js"></script>
+	<script type="text/javascript" src="./js/h5playerStreamManager.js"></script>
+	<script type="text/javascript" src="./js/h5playerBarrage.js"></script>
+	<script type="text/javascript" src="./js/h5playerLive.js"></script>
 	<script type="text/javascript" src="./js/h5playerControlBar.js"></script>
 	<script type="text/javascript" src="./js/h5player.js"></script>
 	<script type="text/javascript">
 		var h5player = new h5player({
-			roomId:39849,
+			roomId:20185,
 			host:'',
 			videoId:'video'
 		});
+		$('.play-btn').click(function(){
+			h5player.switchBack();
+		})
+		$('.destroy-btn').click(function(){
+			h5player.destroy();
+		})
 	</script>
 </body>
 </html>

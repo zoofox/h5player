@@ -404,3 +404,6 @@ body {
           .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column-position .barrage-set-info {
             line-height: 12px;
             margin-top: 14px; }
+    .live-h5player-container .live-h5player-controlbar .h5player-barrage-off {
+      background: url("../imgs/h5player/barrage_off.png") no-repeat;
+      background-size: 34px 20px; }
