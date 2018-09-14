@@ -41,22 +41,21 @@
 					<p class="controlbar-tip controlbar-tip-long">屏幕旋转</p>
 				</div>
 				<div class="controlbar-right h5player-barrage" data-status="1">
-					
 					<div class="barrage-setbox">
 						<div class="barrage-set-column">
 							<p class="barrage-set-info">全屏弹幕输入</p>
 							<div class="barrage-fullscreen-input">
-								<div class="barrage-fullscreen-input-switch barrage-fullscreen-input-off">关</div>
-								<div class="barrage-fullscreen-input-switch barrage-fullscreen-input-on active">开</div>
+								<div class="barrage-fullscreen-input-switch barrage-fullscreen-input-off" data-value='0'>关</div>
+								<div class="barrage-fullscreen-input-switch barrage-fullscreen-input-on active" data-value='1'>开</div>
 							</div>
 						</div>
 						<div class="barrage-set-column">
 							<p class="barrage-set-info">透明度</p>
 							<div class="barrage-opacity">
-								<p class="barrage-opacity-choice">高</p>
-								<p class="barrage-opacity-choice">中</p>
-								<p class="barrage-opacity-choice">低</p>
-								<p class="barrage-opacity-choice active">无</p>
+								<p class="barrage-opacity-choice"  data-value="3">高</p>
+								<p class="barrage-opacity-choice"  data-value="2">中</p>
+								<p class="barrage-opacity-choice"  data-value="1">低</p>
+								<p class="barrage-opacity-choice active" data-value="0">无</p>
 							</div>
 						</div>
 						<div class="barrage-set-column barrage-set-column-position">
@@ -70,7 +69,7 @@
 									<i class="barrage-position-img barrage-position-topscreen"></i>
 									<p class="barrage-position-text">顶端</p>
 								</div>
-								<div class="barrage-position-choice">
+								<div class="barrage-position-choice active">
 									<i class="barrage-position-img barrage-position-fullscreen"></i>
 									<p class="barrage-position-text">全屏</p>
 								</div>
@@ -81,6 +80,10 @@
 						</div>
 					</div>
 				</div>
+		</div>
+		<div class="live-h5player-rightmenu">
+			<p class="h5player-rightmenu-item"></p>
+			<p class="h5player-rightmenu-item h5plyaer-switch-flash">切换到Flash播放器</p>
 		</div>
 	</div>
 	<style>
@@ -97,7 +100,6 @@
 			cursor:pointer;
 		}
 	</style>
-	<div class="test-btn destroy-btn">切成flash</div>
 	<div class="test-btn play-btn">切回h5</div>
 	<script type="text/javascript" src="https://cdn.kascend.com/jellyfish/sysv730/js/lib/jquery/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="./js/flv.min.js"></script>
@@ -114,9 +116,6 @@
 		});
 		$('.play-btn').click(function(){
 			h5player.switchBack();
-		})
-		$('.destroy-btn').click(function(){
-			h5player.destroy();
 		})
 	</script>
 </body>

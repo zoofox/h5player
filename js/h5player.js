@@ -2,21 +2,24 @@
 h5播放器入口
  */
 function h5player(params){
+	this.h5playerVersion = '0.0.1'; //h5player版本
 	this.roomId = params.roomId||'';
 	this.videoId = params.videoId||'';
 	this.host = params.host||'https://chushou.tv';
 	this.COOKIE_NAME = 'h5player'; //cookie名
     this.COOKIE_EXPIRE_DAYS = 7; //cookie过期天数
     this.DEFAULT_VOLUME = 50; // 默认音量
-    this.DEFAULT_BARRAGE_SWITCH = 1;//弹幕开关
-    this.DEFAULT_BARRAGE_OPACITY = 0;//0无 1低 2中 3高
-    this.DEFAULT_BARRAGE_POSITION = 0; //0全屏 1顶端 2底端
+    this.DEFAULT_BARRAGE_SWITCH = 1;//弹幕开关 0关 1开
+    this.DEFAULT_BARRAGE_FULLSCREEN_INPUT_SWITCH = 1;//弹幕全屏输入开关 0关 1开
+    this.DEFAULT_BARRAGE_OPACITY = 0;//弹幕透明度 0无 1低 2中 3高
+    this.DEFAULT_BARRAGE_POSITION = 0; //弹幕位置 0全屏 1顶端 2底端
 	this.playerInit();
 }
 h5player.prototype = {
 	playerInit:function(){
 		var self = this;
 		if(flvjs.isSupported()){
+			$('.h5player-rightmenu-item').eq(0).text('H5Player v'+this.h5playerVersion);
 			this.h5liveplayerInit(function(){
 				self.barrageInit(function(){
 					self.controlBarInit(function(){
@@ -25,7 +28,7 @@ h5player.prototype = {
 				})
 			});
 		}else{
-			alert('浏览器不支持flvjs播放');
+			alert('浏览器不支持播放');
 		}
 	},
 	//播放初始化
@@ -51,6 +54,7 @@ h5player.prototype = {
 			videoId:this.videoId,
 			barrage:this.barrage
 		};
+		var self = this;
 		new h5playerControlBar(params,function(controlBar){
 			self.controlBar = controlBar;
 			callback();
@@ -63,6 +67,7 @@ h5player.prototype = {
 			player:this.player,
 			videoId:this.videoId,
 			barrageSwitch:this.DEFAULT_BARRAGE_SWITCH,
+			barrageFullscreenInputSwitch:this.DEFAULT_BARRAGE_FULLSCREEN_INPUT_SWITCH,
 			barrageOpacity:this.DEFAULT_BARRAGE_OPACITY,
 			barragePosition:this.DEFAULT_BARRAGE_POSITION,
 			cookieName:this.COOKIE_NAME,

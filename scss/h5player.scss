@@ -21,6 +21,7 @@ body{
 		}
 	}
 	.live-h5player-controlbar{
+		/*display: none;*/
 		position: absolute;
 		bottom:0;
 		left:0;
@@ -501,6 +502,36 @@ body{
 		.h5player-barrage-off{
 			background: url('../imgs/h5player/barrage_off.png') no-repeat;
 			background-size: 34px 20px;
+		}
+	}
+	.live-h5player-rightmenu{
+		display: none;
+		width: 200px;
+		border-radius: 3px;
+		overflow: hidden;
+		position: absolute;
+		background-color: #f0f0f0;
+		top:0;
+		left:0;
+		.h5player-rightmenu-item{
+			padding-left: 25px;
+			height: 30px;
+			line-height: 30px;
+			text-align: left;
+			font-size:14px;
+			color: #000;
+			cursor:pointer;
+			&:hover{
+				background-color: #d0d0d0;
+			};
+			&:first-child{
+				cursor:auto;
+				border-bottom:2px solid rgba(0,0,0,.1);
+				&:hover{
+					background-color: #f0f0f0;
+				};
+			};
+			
 		}
 	}
 }

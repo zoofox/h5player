@@ -1,4 +1,4 @@
-function StreamManager(params, callback) {
+function h5playerStreamManager(params, callback) {
     this._roomId = params.roomId;
     this._host = params.host;
     this._callback = callback;
@@ -16,7 +16,7 @@ function StreamManager(params, callback) {
 /**
  *  切换房间
  * */
-StreamManager.prototype.setRoomId = function (roomid) {
+h5playerStreamManager.prototype.setRoomId = function (roomid) {
     this._roomId = roomid;
     this._definition = null;
     this._lineIndex = 0;        // 当前播放线路的index
@@ -26,7 +26,7 @@ StreamManager.prototype.setRoomId = function (roomid) {
 /**
  *  获取当前播放的url数据
  * */
-StreamManager.prototype.getCurrentStreamUrl = function () {
+h5playerStreamManager.prototype.getCurrentStreamUrl = function () {
     if(this.streamData && this._lineIndex >= 0 && this._lineIndex < this.streamData.length) {
         return this.streamData[this._lineIndex].url;
     }
@@ -37,7 +37,7 @@ StreamManager.prototype.getCurrentStreamUrl = function () {
 /**
  *  切换线路
  * */
-StreamManager.prototype.setStreamDefinition = function(index) {
+h5playerStreamManager.prototype.setStreamDefinition = function(index) {
     if(this.streamData && index >= 0 && index < this.streamData.length) {
         this._lineIndex = index;
         return true;
@@ -48,7 +48,7 @@ StreamManager.prototype.setStreamDefinition = function(index) {
 /**
  *  获取播放Url列表
  * */
-StreamManager.prototype.getStreamNameList = function () {
+h5playerStreamManager.prototype.getStreamNameList = function () {
     var arr = [];
     if(this.streamData) {
         for(var i = 0; i < this.streamData.length; ++i) {
@@ -80,21 +80,21 @@ StreamManager.prototype.getStreamNameList = function () {
 /**
  *  获取当前播放url的清晰度
  * */
-StreamManager.prototype.getCurrentStreamDefinition = function () {
+h5playerStreamManager.prototype.getCurrentStreamDefinition = function () {
     return this._definition;
 }
 
 /**
  *  获取视频清晰度列表
  * */
-StreamManager.prototype.getCurrentStreamDefinitionIndex = function () {
+h5playerStreamManager.prototype.getCurrentStreamDefinitionIndex = function () {
     return this._lineIndex;
 }
 
 /**
  *  获取播放url
  * */
-StreamManager.prototype.getPlayUrl = function () {
+h5playerStreamManager.prototype.getPlayUrl = function () {
     if(this._roomId) {
         var self = this;
         var opts = {
@@ -106,7 +106,7 @@ StreamManager.prototype.getPlayUrl = function () {
                 self.parseData(res);
             },
             error:function(xhr) {
-                window.console&&console.log("streammanager jsonp error:" + JSON.stringify(xhr));
+                window.console&&console.log("h5playerstreammanager jsonp error:" + JSON.stringify(xhr));
             }
         };
         $.ajax(opts);
@@ -119,7 +119,7 @@ StreamManager.prototype.getPlayUrl = function () {
 /**
  *  解析播放url
  * */
-StreamManager.prototype.parseData = function (resObj) {
+h5playerStreamManager.prototype.parseData = function (resObj) {
     if(resObj) {
         if(0 == resObj.code && resObj.data) {
             this.streamData = [];
@@ -145,11 +145,11 @@ StreamManager.prototype.parseData = function (resObj) {
         }
 
     } else {
-        console.log("streammanager parsedata error");
+        console.log("h5playerstreammanager parsedata error");
     }
 }
 
-StreamManager.prototype.selectLine = function () {
+h5playerStreamManager.prototype.selectLine = function () {
     if(!this._definition) {
         for(var i = 0; i < this.streamData.length; ++i) {
             if(this._streamProtocol == this.streamData[i].protocol) {
@@ -163,6 +163,6 @@ StreamManager.prototype.selectLine = function () {
     }
 }
 
-StreamManager.prototype.clear = function () {
+h5playerStreamManager.prototype.clear = function () {
     this.streamData = [];
 }

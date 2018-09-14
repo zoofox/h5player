@@ -45,7 +45,25 @@ h5playerControlBar.prototype = {
 		}else{
 			$('.definition-items').html('');
 		}
-		
+
+		//右键菜单
+		$('.live-h5player-container').contextmenu(function (e) {
+			var clientX = e.clientX;
+			var clientY = e.clientY;
+			var containerX = $('.live-h5player-container').offset().left;
+			var containerY = $('.live-h5player-container').offset().top;
+			var menuX = clientX - containerX;
+			var menuY = clientY - containerY;
+			$('.live-h5player-rightmenu').css({
+				top:menuY,
+				left:menuX
+			}).show();
+			return false;
+	    });
+
+	    //弹幕
+	    var barrageConfig = this.barrage.getAllBarrageParams();
+	    this.importBarrageConfig(barrageConfig);
 	}
 	,
 	operate:function(){
@@ -203,16 +221,64 @@ h5playerControlBar.prototype = {
 			}
 		})
 		//弹幕开关
-		$('.h5player-barrage').click(function(){
-			var status = $(this).attr('data-status');
-			self.barrageSwitch = status;
-			if(status == 0){
-				$(this).find('.controlbar-tip').text('关闭弹幕');
-			}else{
-				$(this).find('.controlbar-tip').text('开启弹幕');
+		$('.h5player-barrage').click(function(e){
+			if(e.target.classList.value.indexOf('h5player-barrage')>-1){
+				var status = $(this).attr('data-status');
+				self.barrageSwitch = status;
+				if(status == 0){
+					$(this).find('.controlbar-tip').text('关闭弹幕');
+				}else{
+					$(this).find('.controlbar-tip').text('开启弹幕');
+				}
+				status = 1 - status;
+				$(this).attr('data-status',status);
+				self.setBarrageParam('barrageSwitch',status);
+				$(this).toggleClass('h5player-barrage-off');
 			}
-			$(this).toggleClass('h5player-barrage-off');
+			
 		})
+		//全屏弹幕输入开关
+		$('.barrage-fullscreen-input-switch').click(function(){
+			var value = $(this).data('value');
+			$(this).addClass('active').siblings('.barrage-fullscreen-input-switch').removeClass('active');
+			self.setBarrageParam('barrageFullscreenInputSwitch',value);
+		})
+		//弹幕透明度
+		$('.barrage-opacity-choice').click(function(){
+			var value = $(this).data('value');
+			$(this).addClass('active').siblings('.barrage-opacity-choice').removeClass('active');
+			self.setBarrageParam('barrageOpacity',value);
+		})
+		//控制栏显示
+		// $('.live-h5player-container').hover(function(){
+		// 	$('.live-h5player-controlbar').slideDown();
+		// },function(){
+		// 	$('.live-h5player-controlbar').slideUp();
+		// })
+		$('.live-h5player-container').click(function(){
+			$('.live-h5player-rightmenu').hide();
+		})
+		//切换到Flash播放器
+		$('.h5plyaer-switch-flash').click(function(){
+	    	self.player.playerDestroy();
+	    	$('.live-h5player-rightmenu').hide();
+	    })
+	},
+	//弹幕参数
+	setBarrageParam:function(name,value){
+		if(this.barrage){
+			this.barrage.setBarrageParam(name,value);
+		}
+	},
+	importBarrageConfig:function(config){
+		var barrageSwitch = config.barrageSwitch;
+		if(barrageSwitch == 0){
+			$('.h5player-barrage').addClass('.h5player-barrage-off');
+		}
+		if(barrageFullscreenInputSwitch == 0){
+			$('.barrage-fullscreen-input-off').addClass('active');	
+			$('.barrage-fullscreen-input-on').removeClass('active');	
+		}
 
 	},
 	//音量设置

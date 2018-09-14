@@ -15,22 +15,27 @@ function h5playerLive(params,callback){
 h5playerLive.prototype = {
 	//load播放器
 	flvjsPlayerLoad:function(obj,callback){
-		this.playerDestroy();
-		var video = document.getElementById(this.videoId);
-		this.video = video;
-        this.player = flvjs.createPlayer(obj);
-        this.player.attachMediaElement(video);
-        this.player.load();
-        if(typeof callback === 'function'){
-        	callback();
-        }
+		var self = this;
+		this.playerDestroy(function(){
+			var video = document.getElementById(self.videoId);
+			self.video = video;
+	        self.player = flvjs.createPlayer(obj);
+	        self.player.attachMediaElement(video);
+	        self.player.load();
+	        if(typeof callback === 'function'){
+	        	callback();
+	        }
+		});
 	},
 	//回收播放器
-	playerDestroy:function(){
+	playerDestroy:function(callback){
 		if(this.player) {
 	        this.player.pause();
 	        this.player.destroy();
 	        this.player = null;
+	    }
+	    if(callback){
+	       callback();
 	    }
 	},
 	//播放
@@ -111,7 +116,7 @@ h5playerLive.prototype = {
 			roomId:this.roomId,
 			host:this.host
 		}
-		this.stream = new StreamManager(params,function(){
+		this.stream = new h5playerStreamManager(params,function(){
 			if(self.callback){
 				self.callback(self);
 			}
