@@ -10,6 +10,11 @@
 		<div class="live-h5player-video-box">
 			<video class="live-h5player-video" id='video'></video>
 		</div>
+		<div class="live-h5player-barrage">
+			<div class="h5player-barrage">
+				这是一条弹幕
+			</div>
+		</div>
 		<div class="live-h5player-controlbar">
 				<div class="controlbar-left h5player-pauseplay" data-status='1'>
 					<p class="controlbar-tip">暂停</p>
@@ -118,12 +123,19 @@
 	<script type="text/javascript" src="https://cdn.kascend.com/jellyfish/sysv730/js/lib/jquery/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="./js/flv.min.js"></script>
 	<script type="text/javascript" src="./js/h5playerStreamManager.js"></script>
+	<script type="text/javascript" src="./js/h5playerBarrageTunnel.js"></script>
+	<script type="text/javascript" src="./js/h5playerBarrageBullet.js"></script>
 	<script type="text/javascript" src="./js/h5playerBarrage.js"></script>
 	<script type="text/javascript" src="./js/h5playerLive.js"></script>
 	<script type="text/javascript" src="./js/h5playerControlBar.js"></script>
 	<script type="text/javascript" src="./js/h5player.js"></script>
 	<script type="text/javascript">
 		var h5player2 = null;
+		h5player2 = new h5player({
+					roomId:39849,
+					host:'',
+					videoId:'video'
+				});
 		$('.start-btn').click(function(){
 				var roomId = $('.test-input').val();
 				h5player2 = new h5player({

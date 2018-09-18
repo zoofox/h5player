@@ -130,7 +130,9 @@ h5playerLive.prototype = {
 		if(flvjsobj){
 			this.flvjsPlayerLoad(flvjsobj,function(){
 				self.initPlayerSound();
-				self.play();
+				setTimeout(function(){
+					self.play();
+				},100)
 			});
 		}else{
 			window.console&&console.log('格式错误');
@@ -145,7 +147,10 @@ h5playerLive.prototype = {
 		if(supportFormat.indexOf(format)>-1) {
                 return {
                 	type:format, 
-                	url:url
+                	url:url,
+                	isLive:true,
+                	hasAudio:true,
+                	hasVideo:true
                 };
         }else{
         	return null;
@@ -185,6 +190,7 @@ h5playerLive.prototype = {
 		exdate.setDate(exdate.getDate() + this.COOKIE_EXPIRE_DAYS);
 		document.cookie = this.COOKIE_NAME + "=" + cookieValue + ((this.COOKIE_EXPIRE_DAYS == null) ? "" : ";expires=" + exdate.toGMTString());
 	},
+	//1. name=='' 全部h5player cookie 2. name!='' 指定name cookie
 	getCookie:function(name){
 		if (document.cookie.length > 0) {
 	    	var start = document.cookie.indexOf(this.COOKIE_NAME + "=");

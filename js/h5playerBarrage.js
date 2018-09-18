@@ -1,14 +1,17 @@
 /*
-h5播放器弹幕
+h5播放器弹幕 
  */
 function h5playerBarrage(params,callback){
 	this.player = params.player;
+	this.videoId = params.videoId;
+	this.singleTunnelHeight = params.singleTunnelHeight;
 	this.callback = callback;
 	this.barrageInit(params);
 	
 }
 h5playerBarrage.prototype = {
 	barrageInit:function(params){
+		var self = this;
 		var bs = this.getBarrageParam('barrageSwitch');
 		var bfis = this.getBarrageParam('barrageFullscreenInputSwitch');
 		var bo = this.getBarrageParam('barrageOpacity');
@@ -19,7 +22,13 @@ h5playerBarrage.prototype = {
 			barrageOpacity:bo===''?params.barrageOpacity:bo,//弹幕透明度 0无 1低 2中 3高
 			barragePosition:bp===''?params.barragePosition:bp//弹幕位置 0全屏 1顶端 2底端
 		}
-		this.callback(this);
+		new h5playerBarrageTunnel({
+			videoId:this.videoId,
+			singleTunnelHeight:this.singleTunnelHeight
+		},function(tunnel){
+			self.tunnel = tunnel;
+			self.callback(self);
+		});
 	},
 	getBarrageParam:function(name){
 		if(this.player && name != ''){
