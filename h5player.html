@@ -11,7 +11,7 @@
 			<video class="live-h5player-video" id='video'></video>
 		</div>
 		<div class="live-h5player-barrage">
-			<div class="h5player-barrage">
+			<div class="h5player-barrage-item">
 				这是一条弹幕
 			</div>
 		</div>
@@ -123,25 +123,28 @@
 	<script type="text/javascript" src="https://cdn.kascend.com/jellyfish/sysv730/js/lib/jquery/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="./js/flv.min.js"></script>
 	<script type="text/javascript" src="./js/h5playerStreamManager.js"></script>
-	<script type="text/javascript" src="./js/h5playerBarrageTunnel.js"></script>
-	<script type="text/javascript" src="./js/h5playerBarrageBullet.js"></script>
+	<script type="text/javascript" src="./js/h5playerBarrageTunnelManager.js"></script>
+	<script type="text/javascript" src="./js/h5playerBarrageBulletManager.js"></script>
 	<script type="text/javascript" src="./js/h5playerBarrage.js"></script>
 	<script type="text/javascript" src="./js/h5playerLive.js"></script>
 	<script type="text/javascript" src="./js/h5playerControlBar.js"></script>
 	<script type="text/javascript" src="./js/h5player.js"></script>
 	<script type="text/javascript">
+		//31306403 1308281
 		var h5player2 = null;
 		h5player2 = new h5player({
-					roomId:39849,
-					host:'',
-					videoId:'video'
-				});
+			roomId:1308281,
+			host:'',
+			videoId:'video',
+			userUid:1001
+		});
 		$('.start-btn').click(function(){
 				var roomId = $('.test-input').val();
 				h5player2 = new h5player({
 					roomId:roomId,
 					host:'',
-					videoId:'video'
+					videoId:'video',
+					userUid:1001
 				});
 		})
 		

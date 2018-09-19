@@ -412,21 +412,26 @@ body {
     height: 100%;
     position: absolute;
     top: 0;
-    left: 0;
-    border: 1px solid red; }
-    .live-h5player-container .live-h5player-barrage .h5player-barrage {
+    left: 0; }
+    .live-h5player-container .live-h5player-barrage .h5player-barrage-item {
       position: absolute;
       top: 0;
       color: #fff;
       font-weight: bold;
-      line-height: 30px;
-      border: 1px solid red;
-      height: 30px;
+      line-height: 28px;
+      height: 28px;
       display: inline-block;
       animation: barrage 5s linear 0s;
-      visibility: hidden; }
+      visibility: hidden;
+      font-size: 23px;
+      font-family: PingFangSC-Regular, SimHei, sans-serif;
+      text-align: center;
+      padding: 0 3px;
+      border: 1px solid transparent; }
+    .live-h5player-container .live-h5player-barrage .h5player-barrage-item-self {
+      border: 1px solid #66ffff; }
 
-@-webkit-keyframes barrage {
+@keyframes barrage {
   from {
     visibility: visible;
     -webkit-transform: translateX(800px); }
