@@ -508,7 +508,6 @@ body{
 		height: 100%;
 		position: absolute;
 		top:0;
-		left:0;
 		.h5player-barrage-item{
 			position: absolute;
 			top:0;
@@ -517,28 +516,19 @@ body{
 			line-height: 28px;
 			height: 28px;
 			display: inline-block;
-			animation:barrage 5s linear 0s;
-			visibility: hidden;
+			/*animation:barrage 5s linear 0s;*/
+			/*visibility: hidden;*/
 			font-size: 23px;
 			font-family: PingFangSC-Regular, SimHei, sans-serif;
 			text-align: center;
 			padding: 0 3px;
-			border:1px solid transparent;
+			border:1px solid red;
 
 		}
 		.h5player-barrage-item-self{
 			border:1px solid #66ffff;
 		}
-		@keyframes barrage{
-			from{
-				visibility: visible;
-				-webkit-transform: translateX(800px);
-			}
-			to{
-				visibility: visible;
-				-webkit-transform: translateX(-200px);
-			}
-		}
+		
 	}
 	.live-h5player-rightmenu{
 		display: none;

@@ -93,17 +93,27 @@ h5playerBarrage.prototype = {
 		}
 	},
 	fly:function(bullet, tunnel, callback){
-		console.log(bullet,tunnel)
 		var self = this;
 		var videoWidth = $('#'+this.videoId).width();
-		var textWidth = this.getBarrageContentLen(bullet.content);
-		var time = ((videoWidth+textWidth) / this.barrageFlySpeed).toFixed(2);
-		var animation = 'animation:barrage '+time+'s linear 0s;';
-		var from = 'from { visibility: visible; -webkit-transform: translateX('+videoWidth+'px); }';
-		var to = 'to { visibility: visible; -webkit-transform: translateX(-100%); }';
-		var keyframe = '@keyframes barrage {'+from+' '+to+'};';
+		var textWidth = this.getBarrageContentLen(bullet.content)*24.3;
+		var allwidth = videoWidth+textWidth;
+		var time = (allwidth / this.barrageFlySpeed).toFixed(2);
+		console.log(allwidth,time);
+	
+
+
 		var top = tunnel.id*this.singleTunnelHeight;
-		var style = 'top:'+top+'px;'+keyframe+animation;
+
+
+		var trans = 'will-change:transform;left:'+videoWidth+'px;transform: translateX(-'+allwidth+'px) translateY(0px) translateZ(0px);transition:transform '+time+'s linear 0s;';
+
+		var style = 'top:'+top+'px;'+trans;
+
+
+
+
+
+
 		bullet.barrageHtml = bullet.barrageHtml.replace('tmpstyle',style); //how to reuse ??
 		bullet.isBusy = true;
 		$('.live-h5player-barrage').append(bullet.barrageHtml);
@@ -174,7 +184,17 @@ h5playerBarrage.buffer = [
 	uid:1001
 },
 {
-	content:'创造快乐生活',
+	content:'创造快乐创造快乐生活创造快乐生活创造快乐生活创造快乐生活创造快乐生活生活',
+	type:1,
+	uid:1201
+},
+{
+	content:'创造快乐创造快乐生活创造快乐生活生活',
+	type:1,
+	uid:1201
+},
+{
+	content:'创造快创造快乐生活乐生活',
 	type:1,
 	uid:1201
 },
@@ -184,17 +204,7 @@ h5playerBarrage.buffer = [
 	uid:1201
 },
 {
-	content:'创造快乐生活',
-	type:1,
-	uid:1201
-},
-{
-	content:'创造快乐生活',
-	type:1,
-	uid:1201
-},
-{
-	content:'创造快乐生活',
+	content:'创造快乐创造快乐生活创造快乐生活创造快乐生活创造快乐生活创造快乐生活生活',
 	type:1,
 	uid:1201
 },
