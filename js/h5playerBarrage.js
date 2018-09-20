@@ -28,7 +28,8 @@ h5playerBarrage.prototype = {
 		this.tunnelManagerInit(function(){
 			self.bulletManagerInit(function(){
 				h5playerLog('barrage tunnel and bullet init finish',2);
-				self.sendTimer = setInterval(self.check.bind(self),30);
+				console.log('===================================================================')
+				self.sendTimer = setInterval(self.check.bind(self),10);
 				self.callback(self);
 			})
 		})
@@ -55,37 +56,32 @@ h5playerBarrage.prototype = {
 	,
 	//检查当前是否有等待发送的弹幕
 	check:function(){
-		if(!this.firing){
-			if(h5playerBarrage.buffer.length!=0){
-				this.firing = true;
-				console.log(this.hasTunnelReady())
-				var tunnelReadyCount = this.hasTunnelReady();
-				if(tunnelReadyCount!=0){
+
+		if(!this.firing && h5playerBarrage.buffer.length!=0){
+			var self = this;
+			this.firing = true;
+			this.getTunnelReady(function(obj){
+				var tunnelReadyCount = obj.count;
+				console.log('ready tunnel count---------------->:'+tunnelReadyCount)
+				if(tunnelReadyCount != 0){
 					var barrageReadyBuffer = h5playerBarrage.buffer.slice(0,tunnelReadyCount);
-					this.distribute(barrageReadyBuffer,0);
+					self.distribute(barrageReadyBuffer,obj.tunnels,0);
 					//clearInterval ?
 				}else{
-					// this.firing = false;
+					self.firing = false;
 				}
-			}
+			});
 		}
 	},
 	//分配弹道和弹幕
-	distribute:function(barrageReadyBuffer,index){
+	distribute:function(barrageReadyBuffer,tunnels,index){
 		var self = this;
 		if(index != barrageReadyBuffer.length){
+			// temp produce
 			this.bulletManager.produce(barrageReadyBuffer[index],function(bullet){
-				self.tunnelManager.getTunnel(index,function(tunnel){
-					if(tunnel){
-						self.fly(bullet,tunnel,function(){
-							console.log('1')
-							self.distribute(barrageReadyBuffer,++index);
+						self.fly(bullet,tunnels[index],function(){
+							self.distribute(barrageReadyBuffer,tunnels,++index);
 						});
-					}else{
-						//get tunnel failed
-					}
-					
-				})
 			});
 		}else{
 			console.log('barrage load end.....');
@@ -97,7 +93,7 @@ h5playerBarrage.prototype = {
 		var videoWidth = $('#'+this.videoId).width();
 		var textWidth = Math.floor(this.getBarrageContentLen(bullet.content)*13.5);
 		
-		var allwidth = Math.floor(videoWidth+textWidth);
+		var allwidth = videoWidth+textWidth;
 		var time = (allwidth / this.barrageFlySpeed).toFixed(2);
 		
 		var top = tunnel.id*this.singleTunnelHeight;
@@ -129,11 +125,16 @@ h5playerBarrage.prototype = {
 	}
 	,
 	//查看是否有弹道可用 返回可用数
-	hasTunnelReady:function(){
+	getTunnelReady:function(callback){
 		if(this.tunnelManager){
-			return this.tunnelManager.hasTunnelReady();
+			this.tunnelManager.getTunnelReady(function(obj){
+				callback(obj);
+			});
 		}else{
-			return 0;
+			callback({
+				count:0,
+				tunnels:[]
+			});
 		}
 	}
 	,
@@ -172,75 +173,86 @@ h5playerBarrage.prototype = {
 
 h5playerBarrage.buffer = [
 {
-	content:'11111111创造快乐生活',
+	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
 	type:1,
 	uid:1201
 },
 {
-	content:'2有你有我',
-	type:1,
-	uid:1001
-},
-{
-	content:'3创造快乐创造快乐生活创造快乐生活创造快乐生活创造快乐生活创造快乐生活生活',
+	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
 	type:1,
 	uid:1201
 },
 {
-	content:'4创造快乐创造快乐生活创造快乐生活生活',
+	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
 	type:1,
 	uid:1201
 },
 {
-	content:'5创造快创造快乐生活乐生活',
+	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
 	type:1,
 	uid:1201
 },
 {
-	content:'6133123123123创造快乐生活',
+	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
 	type:1,
 	uid:1201
 },
 {
-	content:'7创造快乐创造快乐生活创造快乐生活创造快乐生活创造快乐生活创造快乐生活生活',
+	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
 	type:1,
 	uid:1201
 },
 {
-	content:'8创造4快乐生活8创造4快乐生活',
+	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
 	type:1,
 	uid:1201
 },
 {
-	content:'9创',
+	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
 	type:1,
 	uid:1201
 },
 {
-	content:'102333333333333333',
+	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
 	type:1,
 	uid:1201
 },
 {
-	content:'11创活',
+	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
 	type:1,
 	uid:1201
 },
 {
-	content:'12创造快乐生活',
+	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
 	type:1,
 	uid:1201
 },
 {
-	content:'13创造快乐生活',
+	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
 	type:1,
 	uid:1201
 },
 {
-	content:'14创造快乐生活',
+	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
 	type:1,
 	uid:1201
 },
+{
+	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
+	type:1,
+	uid:1201
+},
+{
+	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
+	type:1,
+	uid:1201
+},
+{
+	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
+	type:1,
+	uid:1201
+}
+
 ];
 
 

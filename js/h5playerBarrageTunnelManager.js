@@ -28,21 +28,14 @@ h5playerBarrageTunnelManager.prototype = {
 		}
 		h5playerLog('tunnel count:'+this.tunnelCount,1);
 	},
-	hasTunnelReady:function(){
-		var tunnelReadyCount = 0;
-		this.readyTunnels = this.tunnels.filter(function(tunnel){
+	getTunnelReady:function(callback){
+		var readyTunnels = this.tunnels.filter(function(tunnel){
 			return tunnel && tunnel.ready;
 		})
-		tunnelReadyCount = this.readyTunnels.length;
-		return tunnelReadyCount;
-	},
-	getTunnel:function(index,callback){
-		try{
-			callback(this.readyTunnels[index]);
-		}catch(e){
-			h5playerLog('get tunnel error,tunnel index:'+index+',e:'+e,4);
-			callback(null);
-		}
+		callback({
+			count: readyTunnels.length,
+			tunnels:readyTunnels
+		});
 	},
 	setTunnelStatus:function(tunnelid,status){
 		this.tunnels[tunnelid].ready = status;
