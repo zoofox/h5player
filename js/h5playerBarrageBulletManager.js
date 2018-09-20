@@ -16,9 +16,9 @@ h5playerBarrageBulletManager.prototype = {
 		switch(barrage.type){
 			case 1: //普通弹幕
 				var itemselfCls = barrage.uid==this.userUid?'h5player-barrage-item-self':'';
-				var barrageHtml = '<div style="tmpstyle" class="h5player-barrage-item '+itemselfCls+'">'+barrage.content+'</div>';
+				var barrageHtml = '<div style="tmpstyle" class="h5player-barrage-item '+itemselfCls+'"></div>';
 				callback({
-					barrageHtml:barrageHtml,
+					bulletDom:$(barrageHtml),
 					isBusy:true,
 					content:barrage.content
 				});

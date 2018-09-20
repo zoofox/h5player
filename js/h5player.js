@@ -14,8 +14,8 @@ function h5player(params){
     this.DEFAULT_BARRAGE_FULLSCREEN_INPUT_SWITCH = 1;//弹幕全屏输入开关 0关 1开
     this.DEFAULT_BARRAGE_OPACITY = 0;//弹幕透明度 0无 1低 2中 3高
     this.DEFAULT_BARRAGE_POSITION = 0; //弹幕位置 0全屏 1顶端 2底端
-    this.SINGLE_TUNNEL_HEIGHT = 40; //弹幕轨道高度
-    this.BARRAGE_FLY_SPEED = 100; // 弹幕运行速度50px/s
+    this.SINGLE_TUNNEL_HEIGHT = 36; //弹幕轨道高度
+    this.BARRAGE_FLY_SPEED = 150; // 弹幕运行速度px/s
     this.logDebugSwitch = false; //日志调试开关
 	window.h5playerLogLevel = 0;
 	this.playerInit();

@@ -28,7 +28,7 @@ h5playerBarrage.prototype = {
 		this.tunnelManagerInit(function(){
 			self.bulletManagerInit(function(){
 				h5playerLog('barrage tunnel and bullet init finish',2);
-				self.sendTimer = setInterval(self.check.bind(self),2000);
+				self.sendTimer = setInterval(self.check.bind(self),30);
 				self.callback(self);
 			})
 		})
@@ -62,24 +62,24 @@ h5playerBarrage.prototype = {
 				var tunnelReadyCount = this.hasTunnelReady();
 				if(tunnelReadyCount!=0){
 					var barrageReadyBuffer = h5playerBarrage.buffer.slice(0,tunnelReadyCount);
-					this.distribution(barrageReadyBuffer,0);
+					this.distribute(barrageReadyBuffer,0);
 					//clearInterval ?
 				}else{
-					this.firing = false;
+					// this.firing = false;
 				}
 			}
 		}
-		
 	},
 	//分配弹道和弹幕
-	distribution:function(barrageReadyBuffer,index){
+	distribute:function(barrageReadyBuffer,index){
 		var self = this;
 		if(index != barrageReadyBuffer.length){
 			this.bulletManager.produce(barrageReadyBuffer[index],function(bullet){
 				self.tunnelManager.getTunnel(index,function(tunnel){
 					if(tunnel){
 						self.fly(bullet,tunnel,function(){
-							self.distribution(barrageReadyBuffer,++index);
+							console.log('1')
+							self.distribute(barrageReadyBuffer,++index);
 						});
 					}else{
 						//get tunnel failed
@@ -89,34 +89,32 @@ h5playerBarrage.prototype = {
 			});
 		}else{
 			console.log('barrage load end.....');
-			// this.firing = false;
+			this.firing = false;
 		}
 	},
 	fly:function(bullet, tunnel, callback){
 		var self = this;
 		var videoWidth = $('#'+this.videoId).width();
-		var textWidth = this.getBarrageContentLen(bullet.content)*24.3;
-		var allwidth = videoWidth+textWidth;
+		var textWidth = Math.floor(this.getBarrageContentLen(bullet.content)*13.5);
+		
+		var allwidth = Math.floor(videoWidth+textWidth);
 		var time = (allwidth / this.barrageFlySpeed).toFixed(2);
-		console.log(allwidth,time);
-	
-
-
+		
 		var top = tunnel.id*this.singleTunnelHeight;
-
-
-		var trans = 'will-change:transform;left:'+videoWidth+'px;transform: translateX(-'+allwidth+'px) translateY(0px) translateZ(0px);transition:transform '+time+'s linear 0s;';
-
-		var style = 'top:'+top+'px;'+trans;
-
-
-
-
-
-
-		bullet.barrageHtml = bullet.barrageHtml.replace('tmpstyle',style); //how to reuse ??
+		bullet.bulletDom.css({
+			'top':top+'px',
+			'left':videoWidth,
+			'transition':'transform '+time+'s linear 0s'
+		}).text(bullet.content);
+	
 		bullet.isBusy = true;
-		$('.live-h5player-barrage').append(bullet.barrageHtml);
+		$('.live-h5player-barrage').append(bullet.bulletDom);
+		setTimeout(function(){
+			bullet.bulletDom.css({
+				'transform':'translateX(-'+allwidth+'px)'
+			})
+		},0)
+
 		//update tunnel status
 		this.tunnelManager.setTunnelStatus(tunnel.id,false);
 		setTimeout(function(){
@@ -126,7 +124,7 @@ h5playerBarrage.prototype = {
 		setTimeout(function(){
 			self.tunnelManager.setTunnelStatus(tunnel.id,true);
 		},releaseTunnelTime*1000);
-		this.bulletManager.bullets.push(bullet);
+		this.bulletManager.bullets.push(bullet); //?
 		callback();
 	}
 	,
@@ -174,72 +172,72 @@ h5playerBarrage.prototype = {
 
 h5playerBarrage.buffer = [
 {
-	content:'创造快乐生活',
+	content:'11111111创造快乐生活',
 	type:1,
 	uid:1201
 },
 {
-	content:'有你有我',
+	content:'2有你有我',
 	type:1,
 	uid:1001
 },
 {
-	content:'创造快乐创造快乐生活创造快乐生活创造快乐生活创造快乐生活创造快乐生活生活',
+	content:'3创造快乐创造快乐生活创造快乐生活创造快乐生活创造快乐生活创造快乐生活生活',
 	type:1,
 	uid:1201
 },
 {
-	content:'创造快乐创造快乐生活创造快乐生活生活',
+	content:'4创造快乐创造快乐生活创造快乐生活生活',
 	type:1,
 	uid:1201
 },
 {
-	content:'创造快创造快乐生活乐生活',
+	content:'5创造快创造快乐生活乐生活',
 	type:1,
 	uid:1201
 },
 {
-	content:'创造快乐生活',
+	content:'6133123123123创造快乐生活',
 	type:1,
 	uid:1201
 },
 {
-	content:'创造快乐创造快乐生活创造快乐生活创造快乐生活创造快乐生活创造快乐生活生活',
+	content:'7创造快乐创造快乐生活创造快乐生活创造快乐生活创造快乐生活创造快乐生活生活',
 	type:1,
 	uid:1201
 },
 {
-	content:'创造快乐生活',
+	content:'8创造4快乐生活8创造4快乐生活',
 	type:1,
 	uid:1201
 },
 {
-	content:'创造快乐生活',
+	content:'9创',
 	type:1,
 	uid:1201
 },
 {
-	content:'创造快乐生活',
+	content:'102333333333333333',
 	type:1,
 	uid:1201
 },
 {
-	content:'创造快乐生活',
+	content:'11创活',
 	type:1,
 	uid:1201
 },
 {
-	content:'创造快乐生活',
+	content:'12创造快乐生活',
 	type:1,
 	uid:1201
 },
 {
-	content:'创造快乐生活',
+	content:'13创造快乐生活',
 	type:1,
 	uid:1201
 },
 {
-	content:'创造快乐生活',
+	content:'14创造快乐生活',
 	type:1,
 	uid:1201
 },
