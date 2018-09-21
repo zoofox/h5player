@@ -7,6 +7,7 @@ function h5playerBarrage(params,callback){
 	this.userUid = params.userUid;
 	this.singleTunnelHeight = params.singleTunnelHeight;
 	this.barrageFlySpeed = params.barrageFlySpeed;
+	this.barrageCheckTime = params.barrageCheckTime;
 	this.firing = false;
 	this.callback = callback;
 	this.barrageInit(params);
@@ -29,7 +30,7 @@ h5playerBarrage.prototype = {
 			self.bulletManagerInit(function(){
 				h5playerLog('barrage tunnel and bullet init finish',2);
 				console.log('===================================================================')
-				self.sendTimer = setInterval(self.check.bind(self),10);
+				self.sendTimer = setInterval(self.check.bind(self),self.barrageCheckTime);
 				self.callback(self);
 			})
 		})
@@ -173,82 +174,32 @@ h5playerBarrage.prototype = {
 
 h5playerBarrage.buffer = [
 {
-	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
+	content:'666666666666',
 	type:1,
 	uid:1201
 },
 {
-	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
+	content:'222222创造快乐生活12创造快乐生活1',
 	type:1,
 	uid:1201
 },
 {
-	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
+	content:'3333创造快乐生活12创造快乐生活12创造快乐生活',
 	type:1,
 	uid:1201
 },
 {
-	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
+	content:'4创造',
 	type:1,
 	uid:1201
 },
 {
-	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
+	content:'555创造快乐生活12创造',
 	type:1,
 	uid:1201
 },
 {
-	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
-	type:1,
-	uid:1201
-},
-{
-	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
-	type:1,
-	uid:1201
-},
-{
-	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
-	type:1,
-	uid:1201
-},
-{
-	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
-	type:1,
-	uid:1201
-},
-{
-	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
-	type:1,
-	uid:1201
-},
-{
-	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
-	type:1,
-	uid:1201
-},
-{
-	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
-	type:1,
-	uid:1201
-},
-{
-	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
-	type:1,
-	uid:1201
-},
-{
-	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
-	type:1,
-	uid:1201
-},
-{
-	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
-	type:1,
-	uid:1201
-},
-{
-	content:'12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活12创造快乐生活',
+	content:'666666',
 	type:1,
 	uid:1201
 }

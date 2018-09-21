@@ -14,8 +14,13 @@ function h5player(params){
     this.DEFAULT_BARRAGE_FULLSCREEN_INPUT_SWITCH = 1;//弹幕全屏输入开关 0关 1开
     this.DEFAULT_BARRAGE_OPACITY = 0;//弹幕透明度 0无 1低 2中 3高
     this.DEFAULT_BARRAGE_POSITION = 0; //弹幕位置 0全屏 1顶端 2底端
-    this.SINGLE_TUNNEL_HEIGHT = 36; //弹幕轨道高度
+    this.SINGLE_TUNNEL_HEIGHT = 36; //弹幕轨道高度，弹幕高度30px
     this.BARRAGE_FLY_SPEED = 150; // 弹幕运行速度px/s
+    /*
+    弹幕定时器间隔时间ms，根据弹幕运行速度BARRAGE_FLY_SPEED调节最优，谨慎修改
+    BARRAGE_FLY_SPEED:BARRAGE_CHECK_TIME(150:500)
+     */
+    this.BARRAGE_CHECK_TIME = 500; 
     this.logDebugSwitch = false; //日志调试开关
 	window.h5playerLogLevel = 0;
 	this.playerInit();
@@ -82,6 +87,7 @@ h5player.prototype = {
 			cookieExpireDays:this.COOKIE_EXPIRE_DAYS,
 			singleTunnelHeight:this.SINGLE_TUNNEL_HEIGHT,
 			barrageFlySpeed:this.BARRAGE_FLY_SPEED,
+			barrageCheckTime:this.BARRAGE_CHECK_TIME,
 			userUid:this.userUid
 		};
 		new h5playerBarrage(params,function(barrage){

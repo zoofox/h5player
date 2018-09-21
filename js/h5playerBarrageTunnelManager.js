@@ -39,6 +39,6 @@ h5playerBarrageTunnelManager.prototype = {
 	},
 	setTunnelStatus:function(tunnelid,status){
 		this.tunnels[tunnelid].ready = status;
-		console.log('set tunnel '+tunnelid+' ready state:'+status)
+		// console.log('set tunnel '+tunnelid+' ready state:'+status)
 	}
 }
