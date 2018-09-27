@@ -8,6 +8,7 @@ function h5playerBarrage(params,callback){
 	this.singleTunnelHeight = params.singleTunnelHeight;
 	this.barrageFlySpeed = params.barrageFlySpeed;
 	this.barrageCheckTime = params.barrageCheckTime;
+	this.SINGLE_TEXT_WIDTH = 13.5; //单个字宽度 修改弹幕文字大小后需要同步修改
 	this.firing = false;
 	this.callback = callback;
 	this.barrageInit(params);
@@ -26,13 +27,21 @@ h5playerBarrage.prototype = {
 			barrageOpacity:bo===''?params.barrageOpacity:bo,//弹幕透明度 0无 1低 2中 3高
 			barragePosition:bp===''?params.barragePosition:bp//弹幕位置 0全屏 1顶端 2底端
 		}
-		this.tunnelManagerInit(function(){
-			self.bulletManagerInit(function(){
-				h5playerLog('barrage tunnel and bullet init finish',2);
-				console.log('===================================================================')
-				self.sendTimer = setInterval(self.check.bind(self),self.barrageCheckTime);
-				self.callback(self);
+		this.queueInit(function(){
+			self.tunnelManagerInit(function(){
+				self.bulletManagerInit(function(){
+					h5playerLog('barrage tunnel and bullet init finish',2);
+					self.sendTimer = setInterval(self.check.bind(self),self.barrageCheckTime);
+					self.callback(self);
+				})
 			})
+		})
+	},
+	queueInit:function(callback){
+		var self = this;
+		new h5playerBarrageQueue(function(queue){
+			self.queue = queue;
+			callback();
 		})
 	},
 	tunnelManagerInit:function(callback){
@@ -53,19 +62,16 @@ h5playerBarrage.prototype = {
 			self.bulletManager = bulletManager;
 			callback();
 		});
-	}
-	,
+	},
 	//检查当前是否有等待发送的弹幕
 	check:function(){
-
-		if(!this.firing && h5playerBarrage.buffer.length!=0){
+		if(!this.firing && !this.queue.isEmpty()){
 			var self = this;
 			this.firing = true;
 			this.getTunnelReady(function(obj){
 				var tunnelReadyCount = obj.count;
-				console.log('ready tunnel count---------------->:'+tunnelReadyCount)
 				if(tunnelReadyCount != 0){
-					var barrageReadyBuffer = h5playerBarrage.buffer.slice(0,tunnelReadyCount);
+					var barrageReadyBuffer = self.queue.buffer.slice(0,tunnelReadyCount);
 					self.distribute(barrageReadyBuffer,obj.tunnels,0);
 					//clearInterval ?
 				}else{
@@ -74,25 +80,34 @@ h5playerBarrage.prototype = {
 			});
 		}
 	},
-	//分配弹道和弹幕
+	/*
+	分配弹道和弹幕
+	同步执行保证弹道检测正常，异步执行可能导致tunnel冲突但效率更高
+	which one ?
+	弹幕量大 异步更有优势么？
+	 */
 	distribute:function(barrageReadyBuffer,tunnels,index){
 		var self = this;
 		if(index != barrageReadyBuffer.length){
-			// temp produce
 			this.bulletManager.produce(barrageReadyBuffer[index],function(bullet){
-						self.fly(bullet,tunnels[index],function(){
-							self.distribute(barrageReadyBuffer,tunnels,++index);
-						});
+				self.fly(bullet,tunnels[index],function(){
+					self.distribute(barrageReadyBuffer,tunnels,++index);
+				});
 			});
 		}else{
-			console.log('barrage load end.....');
+			//this time barrage load end...
 			this.firing = false;
 		}
 	},
+	//异步 需要先获取到bullets tunnels
+	asyncDistribute:function(){
+
+	}
+	,
 	fly:function(bullet, tunnel, callback){
 		var self = this;
 		var videoWidth = $('#'+this.videoId).width();
-		var textWidth = Math.floor(this.getBarrageContentLen(bullet.content)*13.5);
+		var textWidth = Math.floor(this.getBarrageContentLen(bullet.content)*this.SINGLE_TEXT_WIDTH);
 		
 		var allwidth = videoWidth+textWidth;
 		var time = (allwidth / this.barrageFlySpeed).toFixed(2);
@@ -123,8 +138,7 @@ h5playerBarrage.prototype = {
 		},releaseTunnelTime*1000);
 		this.bulletManager.bullets.push(bullet); //?
 		callback();
-	}
-	,
+	},
 	//查看是否有弹道可用 返回可用数
 	getTunnelReady:function(callback){
 		if(this.tunnelManager){
@@ -135,6 +149,19 @@ h5playerBarrage.prototype = {
 			callback({
 				count:0,
 				tunnels:[]
+			});
+		}
+	},
+	//查看是否有子弹可用 返回可用数
+	getBulletsReady:function(callback){
+		if(this.bulletManager){
+			this.bulletManager.getStoreReadyBullets(function(obj){
+				callback(obj);
+			});
+		}else{
+			callback({
+				count:0,
+				bullets:[]
 			});
 		}
 	}
@@ -171,40 +198,6 @@ h5playerBarrage.prototype = {
         return len;
     }
 };
-
-h5playerBarrage.buffer = [
-{
-	content:'666666666666',
-	type:1,
-	uid:1201
-},
-{
-	content:'222222创造快乐生活12创造快乐生活1',
-	type:1,
-	uid:1201
-},
-{
-	content:'3333创造快乐生活12创造快乐生活12创造快乐生活',
-	type:1,
-	uid:1201
-},
-{
-	content:'4创造',
-	type:1,
-	uid:1201
-},
-{
-	content:'555创造快乐生活12创造',
-	type:1,
-	uid:1201
-},
-{
-	content:'666666',
-	type:1,
-	uid:1201
-}
-
-];
 
 
 
