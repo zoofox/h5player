@@ -253,14 +253,20 @@ h5playerControlBar.prototype = {
 		})
 		//弹幕位置
 		$('.barrage-position-choice').click(function(){
-			var value = $(this).data('value');
-			$(this).addClass('active').siblings('.barrage-position-choice').removeClass('active');
-			self.setBarrageParam('barragePosition',value);
+			if(!$(this).hasClass('active')){
+				var value = $(this).data('value');
+				$(this).addClass('active').siblings('.barrage-position-choice').removeClass('active');
+				self.barrage.changePosition(value,function(){
+					self.setBarrageParam('barragePosition',value);
+				});
+			}
 		})
 		//控制栏显示
 		$('.live-h5player-container').hover(function(){
+			console.log('1')
 			$('.live-h5player-controlbar').slideDown();
 		},function(){
+			console.log('2')
 			$('.live-h5player-controlbar').slideUp();
 		})
 		$('.live-h5player-container').click(function(){

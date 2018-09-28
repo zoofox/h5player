@@ -52,6 +52,20 @@ h5playerBarrage.prototype = {
     	this.queue.clearBuffer();
     	this.bulletManager.clearStore();
     },
+    changePosition:function(value,callback){
+    	var self = this;
+    	if(this.barrageConfig.barrageSwitch==1){
+    		if(this.sendTimer){
+	    		clearInterval(this.sendTimer);
+	    	}
+	    	$('.live-h5player-barrage').html('');
+	    	this.bulletManager.clearStore();
+	    	this.tunnelManager.tunnelPositionChange(value,function(){
+		    	self.open();
+		    	callback();
+	    	})
+    	}
+    },
     queueInit: function(callback) {
         var self = this;
         new h5playerBarrageQueue(function(queue) {
@@ -63,7 +77,8 @@ h5playerBarrage.prototype = {
         var self = this;
         new h5playerBarrageTunnelManager({
             videoId: this.videoId,
-            singleTunnelHeight: this.singleTunnelHeight
+            singleTunnelHeight: this.singleTunnelHeight,
+            barragePosition:this.barrageConfig.barragePosition
         }, function(tunnelManager) {
             self.tunnelManager = tunnelManager;
             callback();
@@ -84,6 +99,7 @@ h5playerBarrage.prototype = {
             var self = this;
             this.firing = true;
             this.getTunnelReady(function(obj) {
+            	// console.log(obj)
                 var tunnelReadyCount = obj.count;
                 if (tunnelReadyCount != 0) {
                     var barrageReadyBuffer = self.queue.buffer.slice(0, tunnelReadyCount);
@@ -147,7 +163,7 @@ h5playerBarrage.prototype = {
     },
     fly: function(bullet, tunnel, callback) {
         var self = this;
-        var opacity = 1 - 0.15*this.barrageConfig.barrageOpacity;
+        var opacity = 1 - 0.2*this.barrageConfig.barrageOpacity;
 
         var videoWidth = $('#' + this.videoId).width();
         var textWidth = Math.floor(this.getBarrageContentLen(bullet.content) * this.SINGLE_TEXT_WIDTH);
@@ -166,7 +182,7 @@ h5playerBarrage.prototype = {
         }).text(bullet.content);
 
         bullet.isBusy = true;
-        if ($('.live-h5player-barrage').find(bullet.bulletDom).length > 0) {} else {
+        if ($('.live-h5player-barrage').find(bullet.bulletDom).length == 0){
             $('.live-h5player-barrage').append(bullet.bulletDom);
         }
         setTimeout(function() {
@@ -174,7 +190,7 @@ h5playerBarrage.prototype = {
                 'transform': 'translateX(-' + allwidth + 'px)',
                 'transition': 'transform ' + time + 's linear 0s'
             })
-        }, 0)
+        }, 50)
 
         this.tunnelManager.setTunnelStatus(tunnel.id, false);
         setTimeout(function() {
