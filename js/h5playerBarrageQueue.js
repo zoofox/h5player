@@ -30,8 +30,7 @@ h5playerBarrageQueue.prototype = {
 		}
 	},
 	fatedata:function(){
-
-		this.buffer = [
+		var a =  [
 		{
 			content:'666666666666',
 			type:1,
@@ -40,7 +39,7 @@ h5playerBarrageQueue.prototype = {
 		{
 			content:'222222创造快乐生活12创造快乐生活1',
 			type:1,
-			uid:1201
+			uid:1001
 		},
 		{
 			content:'3333创造快乐生活12创造快乐生活12创造快乐生活',
@@ -64,5 +63,36 @@ h5playerBarrageQueue.prototype = {
 		}
 
 		];
+		this.buffer = [
+		{
+			content:'666666666666',
+			type:1,
+			uid:1201
+		},
+		{
+			content:'222222创造快乐生活12创造快乐生活1',
+			type:1,
+			uid:1001
+		},
+		{
+			content:'3333创造快乐生活12创造快乐生活12创造快乐生活',
+			type:1,
+			uid:1201
+		},
+		{
+			content:'4创造',
+			type:1,
+			uid:1201
+		}];
+		var self = this;
+		setInterval(function(){
+			var s = Math.floor(Math.random()*a.length);
+			console.log(s)
+			var m = a.slice(0,s);
+			console.log(m)
+			self.buffer = self.buffer.concat(m);
+			console.log(self.buffer)
+		},800)
+
 	}
 }
