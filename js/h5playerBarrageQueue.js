@@ -12,6 +12,9 @@ h5playerBarrageQueue.prototype = {
 	},
 	isEmpty:function(){
 		return this.buffer.length == 0?true:false;
+	},
+	clearBuffer:function(){
+		this.buffer = [];
 	}
 	,
 	getBufferLen:function(){
@@ -86,12 +89,14 @@ h5playerBarrageQueue.prototype = {
 		}];
 		var self = this;
 		setInterval(function(){
-			var s = Math.floor(Math.random()*a.length);
-			console.log(s)
-			var m = a.slice(0,s);
-			console.log(m)
-			self.buffer = self.buffer.concat(m);
-			console.log(self.buffer)
+			if(self.buffer.length ==0){
+				var s = Math.floor(Math.random()*a.length);
+				console.log(s)
+				var m = a.slice(0,s);
+				console.log(m)
+				self.buffer = self.buffer.concat(m);
+				console.log(self.buffer)
+			}
 		},800)
 
 	}

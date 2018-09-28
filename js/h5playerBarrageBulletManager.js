@@ -15,6 +15,10 @@ h5playerBarrageBulletManager.prototype = {
     inStore: function(bullet) {
         this.store.push(bullet);
     },
+    clearStore:function(){
+    	this.store = [];
+    }
+    ,
     //检查仓库是否有可用bullet，不够则生产新的
     getBullets: function(barrages, callback) {
     	var self = this;

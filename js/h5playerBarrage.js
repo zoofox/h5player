@@ -31,11 +31,26 @@ h5playerBarrage.prototype = {
             self.tunnelManagerInit(function() {
                 self.bulletManagerInit(function() {
                     h5playerLog('barrage tunnel and bullet init finish', 2);
-                    self.sendTimer = setInterval(self.check.bind(self), self.barrageCheckTime);
+                    if(self.barrageConfig.barrageSwitch==1){
+	                    self.open();
+                    }
                     self.callback(self);
                 })
             })
         })
+    },
+    open:function(){
+    	var self = this;
+    	this.sendTimer = setInterval(self.check.bind(self), self.barrageCheckTime);
+    },
+    close:function(){
+    	//应该有个全局变量通知barrage.js不再更新buffer
+    	if(this.sendTimer){
+    		clearInterval(this.sendTimer);
+    	}
+    	$('.live-h5player-barrage').html('');
+    	this.queue.clearBuffer();
+    	this.bulletManager.clearStore();
     },
     queueInit: function(callback) {
         var self = this;
@@ -132,6 +147,8 @@ h5playerBarrage.prototype = {
     },
     fly: function(bullet, tunnel, callback) {
         var self = this;
+        var opacity = 1 - 0.15*this.barrageConfig.barrageOpacity;
+
         var videoWidth = $('#' + this.videoId).width();
         var textWidth = Math.floor(this.getBarrageContentLen(bullet.content) * this.SINGLE_TEXT_WIDTH);
 
@@ -142,6 +159,7 @@ h5playerBarrage.prototype = {
         bullet.bulletDom.css({
             'top': top + 'px',
             'left': videoWidth + 'px',
+            'opacity':opacity,
             'visibility':'visible',
             'transform': 'translateX(0)'
 

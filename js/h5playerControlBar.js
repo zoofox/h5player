@@ -227,8 +227,10 @@ h5playerControlBar.prototype = {
 				self.barrageSwitch = status;
 				if(status == 0){
 					$(this).find('.controlbar-tip').text('关闭弹幕');
+					self.barrage.open();
 				}else{
 					$(this).find('.controlbar-tip').text('开启弹幕');
+					self.barrage.close();
 				}
 				status = 1 - status;
 				$(this).attr('data-status',status);
