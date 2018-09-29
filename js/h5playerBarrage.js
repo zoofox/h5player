@@ -171,7 +171,7 @@ h5playerBarrage.prototype = {
         var allwidth = videoWidth + textWidth;
         var time = (allwidth / this.barrageFlySpeed).toFixed(2);
 
-        var top = tunnel.id * this.singleTunnelHeight;
+        var top = tunnel.index * this.singleTunnelHeight;
         bullet.bulletDom.css({
             'top': top + 'px',
             'left': videoWidth + 'px',
@@ -192,7 +192,7 @@ h5playerBarrage.prototype = {
             })
         }, 50)
 
-        this.tunnelManager.setTunnelStatus(tunnel.id, false);
+        this.tunnelManager.setTunnelStatus(tunnel.index,tunnel.sign,false);
         setTimeout(function() {
             bullet.isBusy = false;
             bullet.bulletDom.css({
@@ -202,7 +202,7 @@ h5playerBarrage.prototype = {
         }, time * 1000);
         var releaseTunnelTime = (textWidth / this.barrageFlySpeed).toFixed(2);
         setTimeout(function() {
-            self.tunnelManager.setTunnelStatus(tunnel.id, true);
+            self.tunnelManager.setTunnelStatus(tunnel.index,tunnel.sign,true);
         }, releaseTunnelTime * 1000);
         callback();
     },

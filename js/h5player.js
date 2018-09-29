@@ -15,12 +15,12 @@ function h5player(params){
     this.DEFAULT_BARRAGE_OPACITY = 0;//弹幕透明度 0无 1低 2中 3高
     this.DEFAULT_BARRAGE_POSITION = 0; //弹幕位置 0全屏 1顶端 2底端
     this.SINGLE_TUNNEL_HEIGHT = 36; //弹幕轨道高度，弹幕高度30px
-    this.BARRAGE_FLY_SPEED = 100; // 弹幕运行速度px/s
+    this.BARRAGE_FLY_SPEED = 120; // 弹幕运行速度px/s
     /*
     弹幕定时器间隔时间ms，根据弹幕运行速度BARRAGE_FLY_SPEED调节最优，谨慎修改
     BARRAGE_FLY_SPEED:BARRAGE_CHECK_TIME(150:500)
      */
-    this.BARRAGE_CHECK_TIME = 200; 
+    this.BARRAGE_CHECK_TIME = 300; 
     this.logDebugSwitch = false; //日志调试开关
 	window.h5playerLogLevel = 0;
 	this.playerInit();
