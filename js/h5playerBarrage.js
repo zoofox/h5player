@@ -8,6 +8,9 @@ function h5playerBarrage(params, callback) {
     this.singleTunnelHeight = params.singleTunnelHeight;
     this.barrageFlySpeed = params.barrageFlySpeed;
     this.barrageCheckTime = params.barrageCheckTime;
+    this.barrageSpeedMode = params.barrageSpeedMode;
+    this.barrageMaxSpeed = params.barrageMaxSpeed;
+    this.longBarrageNeedTime = params.longBarrageNeedTime;
     this.SINGLE_TEXT_WIDTH = 13.5; //单个字宽度 修改弹幕文字大小后需要同步修改
     this.firing = false;
     this.callback = callback;
@@ -54,17 +57,18 @@ h5playerBarrage.prototype = {
     },
     changePosition:function(value,callback){
     	var self = this;
-    	if(this.barrageConfig.barrageSwitch==1){
     		if(this.sendTimer){
 	    		clearInterval(this.sendTimer);
 	    	}
 	    	$('.live-h5player-barrage').html('');
 	    	this.bulletManager.clearStore();
 	    	this.tunnelManager.tunnelPositionChange(value,function(){
-		    	self.open();
+                if(self.barrageConfig.barrageSwitch==1){
+                    self.open();
+                }
 		    	callback();
 	    	})
-    	}
+    	
     },
     queueInit: function(callback) {
         var self = this;
@@ -99,7 +103,6 @@ h5playerBarrage.prototype = {
             var self = this;
             this.firing = true;
             this.getTunnelReady(function(obj) {
-            	// console.log(obj)
                 var tunnelReadyCount = obj.count;
                 if (tunnelReadyCount != 0) {
                     var barrageReadyBuffer = self.queue.buffer.slice(0, tunnelReadyCount);
@@ -136,7 +139,7 @@ h5playerBarrage.prototype = {
             });
         } else {
             //this time barrage load end...
-            this.queue.outQueue(len);
+            // this.queue.outQueue(len);
             this.firing = false;
         }
     },
@@ -164,14 +167,50 @@ h5playerBarrage.prototype = {
     fly: function(bullet, tunnel, callback) {
         var self = this;
         var opacity = 1 - 0.2*this.barrageConfig.barrageOpacity;
-
-        var videoWidth = $('#' + this.videoId).width();
+        var barragePosition = this.barrageConfig.barragePosition;
+        var videoWidth = $('#live-h5player-container').width();
         var textWidth = Math.floor(this.getBarrageContentLen(bullet.content) * this.SINGLE_TEXT_WIDTH);
-
         var allwidth = videoWidth + textWidth;
-        var time = (allwidth / this.barrageFlySpeed).toFixed(2);
+        var top = this.tunnelManager.tunnelBlankHeight + tunnel.index * this.singleTunnelHeight;
+        /*
+        变速思路：
+        1. 弹幕越长，速度越快。弹幕速度 = 屏幕宽度/弹幕默认速度 - 弹幕宽度/弹幕默认速度,如果弹幕宽度比屏宽大，则取默认时长（3秒）。计算得弹幕速度
+        2. 该弹道没有上一条弹幕记录，则 时长 = （屏幕宽度+弹幕宽度）/ 弹幕速度
+        3. 该弹幕有上一条弹幕记录，则计算上一条是否已走完，已走完，则 时长 = （屏幕宽度+弹幕宽度）/ 弹幕速度
+        4. 上一条未走完，则比较该弹幕速度走完屏幕的时间t1与上一条弹幕剩余时间t2
+        5. t1>t2，时长 = 弹幕宽度/ 弹幕速度 + t1
+        6. t2>t1, 时长 = （屏幕宽度+弹幕宽度）/ (屏幕宽度/t2)
+         */
+        if(this.barrageSpeedMode == 0){ //变速
+            var lastDuration = tunnel.lastDuration;
+            var lastTimeStamp = tunnel.lastTimeStamp;
+            if(lastDuration == 0){
+                var time = (allwidth / this.barrageFlySpeed).toFixed(2);
+                var releaseTunnelTime = (textWidth / this.barrageFlySpeed).toFixed(2);
+            }else{
+                var originVideoTime = (videoWidth / this.barrageFlySpeed).toFixed(2);
+                var tempTime = (videoWidth > textWidth)?(originVideoTime - (textWidth / (this.barrageFlySpeed))).toFixed(2):this.longBarrageNeedTime;//超长弹幕默认时间
+                var nowTime = Date.now();
+                var lastBarrageConsumed = nowTime - lastTimeStamp;
+                if(lastBarrageConsumed/1000 < lastDuration){
+                     var lastBarrageLeftTime = (lastDuration - lastBarrageConsumed / 1000).toFixed(2); //上一条弹幕走完剩余时间
+                    if(tempTime - lastBarrageLeftTime < 0){ //该速度会追上上一条弹幕则取上一条剩余时间
+                        var time = (allwidth*lastBarrageLeftTime/videoWidth).toFixed(2);
+                        var releaseTunnelTime = (textWidth*lastBarrageLeftTime/videoWidth).toFixed(2);
+                    }else{//不会追赶上则使用该速度
+                        var time = (parseFloat(textWidth*tempTime/videoWidth)+parseFloat(tempTime)).toFixed(2);
+                        var releaseTunnelTime = (textWidth*tempTime/videoWidth).toFixed(2);
+                    }
+                }else{
+                    var time = (parseFloat(textWidth*tempTime/videoWidth)+parseFloat(tempTime)).toFixed(2);
+                    var releaseTunnelTime = (textWidth*tempTime/videoWidth).toFixed(2);
+                }
+            }
+        }else{//匀速
+            var time = (allwidth / this.barrageFlySpeed).toFixed(2);
+            var releaseTunnelTime = (textWidth / this.barrageFlySpeed).toFixed(2);
+        }
 
-        var top = tunnel.index * this.singleTunnelHeight;
         bullet.bulletDom.css({
             'top': top + 'px',
             'left': videoWidth + 'px',
@@ -190,9 +229,12 @@ h5playerBarrage.prototype = {
                 'transform': 'translateX(-' + allwidth + 'px)',
                 'transition': 'transform ' + time + 's linear 0s'
             })
+            tunnel.lastDuration = time;
+            tunnel.lastTimeStamp =  Date.now();;
         }, 50)
 
         this.tunnelManager.setTunnelStatus(tunnel.index,tunnel.sign,false);
+        // tunnel.ready = false;
         setTimeout(function() {
             bullet.isBusy = false;
             bullet.bulletDom.css({
@@ -200,8 +242,9 @@ h5playerBarrage.prototype = {
                 'visibility':'hidden'
             })
         }, time * 1000);
-        var releaseTunnelTime = (textWidth / this.barrageFlySpeed).toFixed(2);
+        
         setTimeout(function() {
+             // tunnel.ready = true;
             self.tunnelManager.setTunnelStatus(tunnel.index,tunnel.sign,true);
         }, releaseTunnelTime * 1000);
         callback();

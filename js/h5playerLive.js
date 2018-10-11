@@ -22,6 +22,18 @@ h5playerLive.prototype = {
 	        self.player = flvjs.createPlayer(obj);
 	        self.player.attachMediaElement(video);
 	        self.player.load();
+	        self.player.on(flvjs.Events.LOADING_COMPLETE,function(){
+				//断流后做的
+				alert('LOADING_COMPLETE')		
+			})
+			self.player.on(flvjs.Events.RECOVERED_EARLY_EOF,function(){
+				
+				alert('RECOVERED_EARLY_EOF')		
+			})
+			self.player.on(flvjs.Events.ERROR,function(e){
+				alert(JSON.stringify(e));
+				h5playerLog(JSON.stringify(e),4);	
+			})
 	        if(typeof callback === 'function'){
 	        	callback();
 	        }
@@ -142,7 +154,7 @@ h5playerLive.prototype = {
 		var prefixurl = url.split('?')[0];
 		var lastIndex = prefixurl.lastIndexOf('.');
 		var format = prefixurl.slice(lastIndex+1);
-		var supportFormat = ["mp4","flv","mov","m3u8"];
+		var supportFormat = ["mp4","flv","mov"];
 
 		if(supportFormat.indexOf(format)>-1) {
                 return {
@@ -150,7 +162,8 @@ h5playerLive.prototype = {
                 	url:url,
                 	isLive:true,
                 	hasAudio:true,
-                	hasVideo:true
+                	hasVideo:true,
+                	cors:true
                 };
         }else{
         	return null;

@@ -24,14 +24,13 @@ h5playerBarrageQueue.prototype = {
 		this.buffer.push(barrages);
 	},
 	outQueue:function(length){
-		// var bufferLength = this.getBufferLen();
-		// console.log(length,bufferLength);
-		// if(length <= bufferLength){
-		// 	this.buffer.splice(0,length);
-		// }else{
-		// 	this.buffer = [];
-		// 	h5playerLog('barrage buffer length less than delete length!',3);
-		// }
+		var bufferLength = this.getBufferLen();
+		if(length <= bufferLength){
+			this.buffer.splice(0,length);
+		}else{
+			this.buffer = [];
+			h5playerLog('barrage buffer length less than delete length!',3);
+		}
 	},
 	fatedata:function(){
 		var a =  [
@@ -55,11 +54,19 @@ h5playerBarrageQueue.prototype = {
 			type:1,
 			uid:1201
 		},
+		
+
 		{
-			content:'555创造快乐生活12创造',
+			content:'3333创造快乐生活12创造快乐生活12创造快乐生活',
 			type:1,
 			uid:1201
 		},
+		{
+			content:'4创造',
+			type:1,
+			uid:1201
+		},
+	
 		{
 			content:'666666',
 			type:1,
@@ -84,12 +91,12 @@ h5playerBarrageQueue.prototype = {
 		];
 		this.buffer = [
 		{
-			content:'666666666666',
+			content:'66666666',
 			type:1,
 			uid:1201
 		},
 		{
-			content:'222222创造快乐生活12创造快乐生活1',
+			content:'222222创造快乐生',
 			type:1,
 			uid:1001
 		},
@@ -156,13 +163,10 @@ h5playerBarrageQueue.prototype = {
 		];
 		var self = this;
 		setInterval(function(){
-			if(self.buffer.length  < 10){
+			if(self.buffer.length  < 30){
 				var s = Math.floor(Math.random()*a.length);
-				console.log(s)
 				var m = a.slice(0,s);
-				console.log(m)
 				self.buffer = self.buffer.concat(m);
-				console.log(self.buffer)
 			}
 		},800)
 

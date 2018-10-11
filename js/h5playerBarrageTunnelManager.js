@@ -8,6 +8,7 @@ function h5playerBarrageTunnelManager(params,callback){
 	this.tunnelCount = 0;
 	this.BARRAGE_POSITION_NOTFULL_SCREEN = 0.3;//弹幕非全屏时显示比例
 	this.callback = callback;
+	this.tunnels = [];
 	this.init();
 }
 
@@ -21,21 +22,31 @@ h5playerBarrageTunnelManager.prototype = {
 	calculateTunnelCount:function(position,callback){
 		var videoIdHeight = $('#'+this.videoId).height();
 		var tunnelHeight = videoIdHeight;
+		var currentTunnelsLength = this.tunnels.length;
 		if(position != 0){
 			tunnelHeight = tunnelHeight * this.BARRAGE_POSITION_NOTFULL_SCREEN;
 		}
 		this.tunnelCount  = Math.floor(tunnelHeight / this.singleTunnelHeight);
-		this.tunnels = [];
-		var tunnelSign = Date.now();
-		console.log(tunnelSign)
-		for(var i=0;i<this.tunnelCount;i++){
-			this.tunnels.push({
-				index:i,
-				sign:tunnelSign,//每次生成tunnel都有新的sign 用以区别不同阶段tunnel 防止误操作
-				ready:true, //是否可用
-				lastDuration:0, //上一条弹幕走完全屏时长
-				lastTimeStamp:0 //上一条弹幕出发的时间戳
-			})
+		// this.tunnelCount = 3;
+		if(position == 2){
+			this.tunnelBlankHeight =  $('#'+this.videoId).height() - this.tunnelCount * this.singleTunnelHeight; //用于计算底部弹幕上方空白距离
+		}else{
+			this.tunnelBlankHeight = 0;
+		}
+		if(this.tunnelCount < currentTunnelsLength){
+			this.tunnels.splice(0,this.tunnelCount);
+		}else if(this.tunnelCount > currentTunnelsLength){
+			var newTunnelsCount = this.tunnelCount - currentTunnelsLength;
+			var tunnelSign = Date.now();
+			for(var i=0;i<newTunnelsCount;i++){
+				this.tunnels.push({
+					index:i,
+					sign:tunnelSign,//每次生成tunnel都有新的sign 用以区别不同阶段tunnel 防止误操作
+					ready:true, //是否可用
+					lastDuration:0, //上一条弹幕走完全屏时长
+					lastTimeStamp:0, //上一条弹幕出发的时间戳
+				})
+			}
 		}
 		if('function' == typeof callback){
 			callback();
@@ -59,13 +70,12 @@ h5playerBarrageTunnelManager.prototype = {
 	},
 	setTunnelStatus:function(index,sign,status){
 		try{
-			if(this.tunnels.length > 0){
+			if(this.tunnels.length > index){
 				if(sign == this.tunnels[0].sign){
 					this.tunnels[index].ready = status;
 				}
 			}
-			// this.tunnels[tunnelid].ready = status;
-			console.log('set tunnel '+index+' ready state:'+status)
+			// console.log('set tunnel '+index+' ready state:'+status)
 		}catch(e){
 			console.log(e)
 		}

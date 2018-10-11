@@ -139,9 +139,9 @@ h5playerStreamManager.prototype.parseData = function (resObj) {
                 this._callback();
             }
         } else if(405 == resObj.code) {     // 主播下线
-
+            alert('已下播')
         } else {    // 没有开播
-
+             alert('未开播')
         }
 
     } else {

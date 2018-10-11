@@ -42,7 +42,6 @@ h5playerBarrageBulletManager.prototype = {
         	 //仓库不够，需要新生产
         	this.reformBullets(readyBullets, barrages.slice(0,readyBulletsLength), function(bullets) {
                 var produceLength = barragesLength - readyBulletsLength;
-                console.log('need new '+produceLength)
 	            var barragesProduce = barrages.slice(readyBulletsLength);
 	            var produceBullets = [];
 	            for (var i = 0; i < produceLength; i++) {
