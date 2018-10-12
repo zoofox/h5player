@@ -22,13 +22,13 @@ body{
 		}
 	}
 	.live-h5player-controlbar{
-		display: none;
 		position: absolute;
 		bottom:0;
 		left:0;
 		height: 45px;
 		width:100%;
 		background: rgba(0,0,0,.8);
+		transition: bottom 0.5s linear 0s;
 		.controlbar-left,.controlbar-right{
 			cursor:pointer;
 			width: 25px;
@@ -503,6 +503,9 @@ body{
 			background: url('../imgs/h5player/barrage_off.png') no-repeat;
 			background-size: 34px 20px;
 		}
+	}
+	.controlbar-bottom{
+		bottom:-45px;
 	}
 	.live-h5player-barrage{
 		width: 100%;

@@ -24,19 +24,30 @@ h5playerLive.prototype = {
 	        self.player.load();
 	        self.player.on(flvjs.Events.LOADING_COMPLETE,function(){
 				//断流后做的
-				alert('LOADING_COMPLETE')		
+				alert('下播...')		
+			})
+			self.player.on(flvjs.Events.METADATA_ARRIVED,function(e){
+				alert('METADATA_ARRIVED')
 			})
 			self.player.on(flvjs.Events.RECOVERED_EARLY_EOF,function(){
-				
 				alert('RECOVERED_EARLY_EOF')		
+			})
+			self.player.on(flvjs.Events.SCRIPTDATA_ARRIVED,function(){
+				alert('SCRIPTDATA_ARRIVED')		
+			})
+			self.player.on(flvjs.Events.STATISTICS_INFO,function(){
+			})
+			self.player.on(flvjs.Events.MEDIA_INFO,function(){
+				 console.log(self.player.mediaInfo);
+				 if(typeof callback === 'function'){
+		        	callback(self.player.mediaInfo);
+		        }
 			})
 			self.player.on(flvjs.Events.ERROR,function(e){
 				alert(JSON.stringify(e));
 				h5playerLog(JSON.stringify(e),4);	
 			})
-	        if(typeof callback === 'function'){
-	        	callback();
-	        }
+	        
 		});
 	},
 	//回收播放器
@@ -129,19 +140,23 @@ h5playerLive.prototype = {
 			host:this.host
 		}
 		this.stream = new h5playerStreamManager(params,function(){
-			if(self.callback){
-				self.callback(self);
-			}
-			 self.setPlayUrl(self.stream.getCurrentStreamUrl());
+			 self.setPlayUrl(self.stream.getCurrentStreamUrl(),function(mediaInfo){
+			 	if(self.callback){
+					self.callback(self,mediaInfo);
+				}
+			 });
 		});
 	},
 	//配置flv.js参数
-	setPlayUrl:function(url){
+	setPlayUrl:function(url,callback){
 		var self = this;
 		var flvjsobj = this.generateFlvObject(url);
 		if(flvjsobj){
-			this.flvjsPlayerLoad(flvjsobj,function(){
+			this.flvjsPlayerLoad(flvjsobj,function(mediaInfo){
 				self.initPlayerSound();
+				if(callback&&'function'==typeof callback){
+					callback(mediaInfo);
+				}
 				setTimeout(function(){
 					self.play();
 				},100)

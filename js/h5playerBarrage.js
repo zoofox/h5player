@@ -40,15 +40,6 @@ h5playerBarrage.prototype = {
                 })
             })
         })
-        $('#live-h5player-container').resize(function() {
-            if(self.tunnelManager){
-                self.tunnelManager.initTunnels(function(){
-                    self.tunnelManager.calculateTunnelCount(self.barrageConfig.barragePosition,function(){
-
-                    })
-                });
-            }
-        })
     },
     open: function() {
         var self = this;

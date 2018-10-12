@@ -19,13 +19,13 @@ body {
       width: 100%;
       height: 100%; }
   .live-h5player-container .live-h5player-controlbar {
-    display: none;
     position: absolute;
     bottom: 0;
     left: 0;
     height: 45px;
     width: 100%;
-    background: rgba(0, 0, 0, 0.8); }
+    background: rgba(0, 0, 0, 0.8);
+    transition: bottom 0.5s linear 0s; }
     .live-h5player-container .live-h5player-controlbar .controlbar-left, .live-h5player-container .live-h5player-controlbar .controlbar-right {
       cursor: pointer;
       width: 25px;
@@ -407,6 +407,8 @@ body {
     .live-h5player-container .live-h5player-controlbar .h5player-barrage-off {
       background: url("../imgs/h5player/barrage_off.png") no-repeat;
       background-size: 34px 20px; }
+  .live-h5player-container .controlbar-bottom {
+    bottom: -45px; }
   .live-h5player-container .live-h5player-barrage {
     width: 100%;
     height: 100%;

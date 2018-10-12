@@ -39,6 +39,7 @@ h5player.prototype = {
 					});
 				})
 			});
+			self.bind();
 		}else{
 			alert('浏览器不支持播放');
 		}
@@ -54,8 +55,10 @@ h5player.prototype = {
 			defaultVolume:this.DEFAULT_VOLUME
 		};
 		var self = this;
-		new h5playerLive(params,function(player){
+		new h5playerLive(params,function(player,mediaInfo){
 			self.player = player;
+			self.mediaInfo = mediaInfo;
+			self.setPlayerSize(mediaInfo.width,mediaInfo.height);
 			callback();
 		});
 	},
@@ -96,6 +99,11 @@ h5player.prototype = {
 			self.barrage = barrage;
 			callback();
 		});
+	},
+	setPlayerSize:function(videoWidth,videoHeight){
+		var playerWidth = $('#live-h5player-container').width();
+		var playerHeight = videoHeight*playerWidth/videoWidth;
+		$('#live-h5player-container').css('height',playerHeight);
 	}
 	,
 	switchBack:function(){
@@ -134,5 +142,18 @@ h5player.prototype = {
 		  var r = window.location.search.substr(1).match(reg);
 		  if (r != null) return decodeURI(r[2]);
 		  return null;
+	},
+	bind:function(){
+		var self = this;
+		$(window).resize(function() {
+			self.setPlayerSize(self.mediaInfo.width,self.mediaInfo.height);
+            // if(self.tunnelManager){
+            //     self.tunnelManager.initTunnels(function(){
+            //         self.tunnelManager.calculateTunnelCount(self.barrageConfig.barragePosition,function(){
+
+            //         })
+            //     });
+            // }
+        })
 	}
 };

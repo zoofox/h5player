@@ -263,9 +263,13 @@ h5playerControlBar.prototype = {
 		})
 		//控制栏显示
 		$('.live-h5player-container').hover(function(){
-			$('.live-h5player-controlbar').slideDown();
+			if($('.live-h5player-controlbar').hasClass('controlbar-bottom')){
+				$('.live-h5player-controlbar').removeClass('controlbar-bottom');
+			}
 		},function(){
-			$('.live-h5player-controlbar').slideUp();
+			if(!$('.live-h5player-controlbar').hasClass('controlbar-bottom')){
+				$('.live-h5player-controlbar').addClass('controlbar-bottom');
+			}
 		})
 		$('.live-h5player-container').click(function(){
 			$('.live-h5player-rightmenu').hide();

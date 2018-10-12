@@ -62,7 +62,7 @@ h5playerBarrageTunnelManager.prototype = {
         		this.activeTunnels = this.tunnels.slice(0, this.tunnelActiveCount);
         	}
         } else{
-            var newTunnelsCount = this.tunnelCount - currentTunnelsLength;
+            var newTunnelsCount = this.tunnelActiveCount - currentTunnelsLength;
             var tunnelSign = Date.now();
             for (var i = 0; i < newTunnelsCount; i++) {
                 this.tunnels.push({
