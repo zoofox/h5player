@@ -15,7 +15,6 @@ function h5playerBarrage(params, callback) {
     this.firing = false;
     this.callback = callback;
     this.barrageInit(params);
-
 }
 h5playerBarrage.prototype = {
     barrageInit: function(params) {
@@ -34,41 +33,43 @@ h5playerBarrage.prototype = {
             self.tunnelManagerInit(function() {
                 self.bulletManagerInit(function() {
                     h5playerLog('barrage tunnel and bullet init finish', 2);
-                    if(self.barrageConfig.barrageSwitch==1){
-	                    self.open();
+                    if (self.barrageConfig.barrageSwitch == 1) {
+                        self.open();
                     }
                     self.callback(self);
                 })
             })
         })
+        $('#live-h5player-container').resize(function() {
+            if(self.tunnelManager){
+                self.tunnelManager.initTunnels(function(){
+                    self.tunnelManager.calculateTunnelCount(self.barrageConfig.barragePosition,function(){
+
+                    })
+                });
+            }
+        })
     },
-    open:function(){
-    	var self = this;
-    	this.sendTimer = setInterval(self.check.bind(self), self.barrageCheckTime);
+    open: function() {
+        var self = this;
+        this.tunnelManager.calculateTunnelCount(this.barrageConfig.barragePosition, function() {
+            self.sendTimer = setInterval(self.check.bind(self), self.barrageCheckTime);
+        });
     },
-    close:function(){
-    	//应该有个全局变量通知barrage.js不再更新buffer
-    	if(this.sendTimer){
-    		clearInterval(this.sendTimer);
-    	}
-    	$('.live-h5player-barrage').html('');
-    	this.queue.clearBuffer();
-    	this.bulletManager.clearStore();
+    close: function() {
+        //应该有个全局变量通知barrage.js不再更新buffer
+        if (this.sendTimer) {
+            clearInterval(this.sendTimer);
+        }
+        $('.live-h5player-barrage').html('');
+        this.queue.clearBuffer();
+        this.bulletManager.clearStore();
     },
-    changePosition:function(value,callback){
-    	var self = this;
-    		if(this.sendTimer){
-	    		clearInterval(this.sendTimer);
-	    	}
-	    	$('.live-h5player-barrage').html('');
-	    	this.bulletManager.clearStore();
-	    	this.tunnelManager.tunnelPositionChange(value,function(){
-                if(self.barrageConfig.barrageSwitch==1){
-                    self.open();
-                }
-		    	callback();
-	    	})
-    	
+    changePosition: function(value, callback) {
+        var self = this;
+        this.tunnelManager.tunnelPositionChange(value, function() {
+            callback();
+        })
     },
     queueInit: function(callback) {
         var self = this;
@@ -82,7 +83,7 @@ h5playerBarrage.prototype = {
         new h5playerBarrageTunnelManager({
             videoId: this.videoId,
             singleTunnelHeight: this.singleTunnelHeight,
-            barragePosition:this.barrageConfig.barragePosition
+            barragePosition: this.barrageConfig.barragePosition
         }, function(tunnelManager) {
             self.tunnelManager = tunnelManager;
             callback();
@@ -109,9 +110,9 @@ h5playerBarrage.prototype = {
                     self.getBullets(barrageReadyBuffer, function(bulletObj) {
                         if (bulletObj.count != 0) {
                             // self.distribute(bulletObj.bullets, obj.tunnels, 0);
-                            self.asyncDistribute(bulletObj.bullets,obj.tunnels,function(){
-                            	self.queue.outQueue(bulletObj.count);
-                            	self.firing = false;
+                            self.asyncDistribute(bulletObj.bullets, obj.tunnels, function() {
+                                self.queue.outQueue(bulletObj.count);
+                                self.firing = false;
                             });
                         } else {
                             self.firing = false;
@@ -166,7 +167,7 @@ h5playerBarrage.prototype = {
     },
     fly: function(bullet, tunnel, callback) {
         var self = this;
-        var opacity = 1 - 0.2*this.barrageConfig.barrageOpacity;
+        var opacity = 1 - 0.2 * this.barrageConfig.barrageOpacity;
         var barragePosition = this.barrageConfig.barragePosition;
         var videoWidth = $('#live-h5player-container').width();
         var textWidth = Math.floor(this.getBarrageContentLen(bullet.content) * this.SINGLE_TEXT_WIDTH);
@@ -181,32 +182,32 @@ h5playerBarrage.prototype = {
         5. t1>t2，时长 = 弹幕宽度/ 弹幕速度 + t1
         6. t2>t1, 时长 = （屏幕宽度+弹幕宽度）/ (屏幕宽度/t2)
          */
-        if(this.barrageSpeedMode == 0){ //变速
+        if (this.barrageSpeedMode == 0) { //变速
             var lastDuration = tunnel.lastDuration;
             var lastTimeStamp = tunnel.lastTimeStamp;
-            if(lastDuration == 0){
+            if (lastDuration == 0) {
                 var time = (allwidth / this.barrageFlySpeed).toFixed(2);
                 var releaseTunnelTime = (textWidth / this.barrageFlySpeed).toFixed(2);
-            }else{
+            } else {
                 var originVideoTime = (videoWidth / this.barrageFlySpeed).toFixed(2);
-                var tempTime = (videoWidth > textWidth)?(originVideoTime - (textWidth / (this.barrageFlySpeed))).toFixed(2):this.longBarrageNeedTime;//超长弹幕默认时间
+                var tempTime = (videoWidth > textWidth) ? (originVideoTime - (textWidth / (this.barrageFlySpeed))).toFixed(2) : this.longBarrageNeedTime; //超长弹幕默认时间
                 var nowTime = Date.now();
                 var lastBarrageConsumed = nowTime - lastTimeStamp;
-                if(lastBarrageConsumed/1000 < lastDuration){
-                     var lastBarrageLeftTime = (lastDuration - lastBarrageConsumed / 1000).toFixed(2); //上一条弹幕走完剩余时间
-                    if(tempTime - lastBarrageLeftTime < 0){ //该速度会追上上一条弹幕则取上一条剩余时间
-                        var time = (allwidth*lastBarrageLeftTime/videoWidth).toFixed(2);
-                        var releaseTunnelTime = (textWidth*lastBarrageLeftTime/videoWidth).toFixed(2);
-                    }else{//不会追赶上则使用该速度
-                        var time = (parseFloat(textWidth*tempTime/videoWidth)+parseFloat(tempTime)).toFixed(2);
-                        var releaseTunnelTime = (textWidth*tempTime/videoWidth).toFixed(2);
+                if (lastBarrageConsumed / 1000 < lastDuration) {
+                    var lastBarrageLeftTime = (lastDuration - lastBarrageConsumed / 1000).toFixed(2); //上一条弹幕走完剩余时间
+                    if (tempTime - lastBarrageLeftTime < 0) { //该速度会追上上一条弹幕则取上一条剩余时间
+                        var time = (allwidth * lastBarrageLeftTime / videoWidth).toFixed(2);
+                        var releaseTunnelTime = (textWidth * lastBarrageLeftTime / videoWidth).toFixed(2);
+                    } else { //不会追赶上则使用该速度
+                        var time = (parseFloat(textWidth * tempTime / videoWidth) + parseFloat(tempTime)).toFixed(2);
+                        var releaseTunnelTime = (textWidth * tempTime / videoWidth).toFixed(2);
                     }
-                }else{
-                    var time = (parseFloat(textWidth*tempTime/videoWidth)+parseFloat(tempTime)).toFixed(2);
-                    var releaseTunnelTime = (textWidth*tempTime/videoWidth).toFixed(2);
+                } else {
+                    var time = (parseFloat(textWidth * tempTime / videoWidth) + parseFloat(tempTime)).toFixed(2);
+                    var releaseTunnelTime = (textWidth * tempTime / videoWidth).toFixed(2);
                 }
             }
-        }else{//匀速
+        } else { //匀速
             var time = (allwidth / this.barrageFlySpeed).toFixed(2);
             var releaseTunnelTime = (textWidth / this.barrageFlySpeed).toFixed(2);
         }
@@ -214,14 +215,14 @@ h5playerBarrage.prototype = {
         bullet.bulletDom.css({
             'top': top + 'px',
             'left': videoWidth + 'px',
-            'opacity':opacity,
-            'visibility':'visible',
+            'opacity': opacity,
+            'visibility': 'visible',
             'transform': 'translateX(0)'
 
         }).text(bullet.content);
 
         bullet.isBusy = true;
-        if ($('.live-h5player-barrage').find(bullet.bulletDom).length == 0){
+        if ($('.live-h5player-barrage').find(bullet.bulletDom).length == 0) {
             $('.live-h5player-barrage').append(bullet.bulletDom);
         }
         setTimeout(function() {
@@ -230,22 +231,22 @@ h5playerBarrage.prototype = {
                 'transition': 'transform ' + time + 's linear 0s'
             })
             tunnel.lastDuration = time;
-            tunnel.lastTimeStamp =  Date.now();;
+            tunnel.lastTimeStamp = Date.now();;
         }, 50)
 
-        this.tunnelManager.setTunnelStatus(tunnel.index,tunnel.sign,false);
+        this.tunnelManager.setTunnelStatus(tunnel.index, tunnel.sign, false);
         // tunnel.ready = false;
         setTimeout(function() {
             bullet.isBusy = false;
             bullet.bulletDom.css({
                 'transition': 'none',
-                'visibility':'hidden'
+                'visibility': 'hidden'
             })
         }, time * 1000);
-        
+
         setTimeout(function() {
-             // tunnel.ready = true;
-            self.tunnelManager.setTunnelStatus(tunnel.index,tunnel.sign,true);
+            // tunnel.ready = true;
+            self.tunnelManager.setTunnelStatus(tunnel.index, tunnel.sign, true);
         }, releaseTunnelTime * 1000);
         callback();
     },

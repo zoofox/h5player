@@ -1,7 +1,8 @@
 body{
-	width:800px;height: 450px;
+	width:100%;
 }
 .live-h5player-container{
+	overflow: hidden;
 	p{
 		padding:0;
 		margin:0;

@@ -54,8 +54,17 @@ h5playerBarrageQueue.prototype = {
 			type:1,
 			uid:1201
 		},
-		
-
+		{
+			content:'3333创造快乐生活12创造快乐生活12创造快乐生活',
+			type:1,
+			uid:1201
+		}
+		,
+		{
+			content:'222222创造快乐生活12创造快乐生活1',
+			type:1,
+			uid:1001
+		},
 		{
 			content:'3333创造快乐生活12创造快乐生活12创造快乐生活',
 			type:1,
@@ -66,21 +75,47 @@ h5playerBarrageQueue.prototype = {
 			type:1,
 			uid:1201
 		},
-	
 		{
-			content:'666666',
+			content:'3333创造快乐生活12创造快乐生活12创造快乐生活',
 			type:1,
 			uid:1201
-		},
-		{
-			content:'666666666666',
-			type:1,
-			uid:1201
-		},
+		}
+		,
 		{
 			content:'222222创造快乐生活12创造快乐生活1',
 			type:1,
 			uid:1001
+		},
+		{
+			content:'3333创造快乐生活12创造快乐生活12创造快乐生活',
+			type:1,
+			uid:1201
+		},
+		{
+			content:'4创造',
+			type:1,
+			uid:1201
+		},
+		{
+			content:'3333创造快乐生活12创造快乐生活12创造快乐生活',
+			type:1,
+			uid:1201
+		}
+		,
+		{
+			content:'222222创造快乐生活12创造快乐生活1',
+			type:1,
+			uid:1001
+		},
+		{
+			content:'3333创造快乐生活12创造快乐生活12创造快乐生活',
+			type:1,
+			uid:1201
+		},
+		{
+			content:'4创造',
+			type:1,
+			uid:1201
 		},
 		{
 			content:'3333创造快乐生活12创造快乐生活12创造快乐生活',

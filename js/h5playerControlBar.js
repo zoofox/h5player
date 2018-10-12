@@ -263,10 +263,8 @@ h5playerControlBar.prototype = {
 		})
 		//控制栏显示
 		$('.live-h5player-container').hover(function(){
-			console.log('hover in')
 			$('.live-h5player-controlbar').slideDown();
 		},function(){
-			console.log('hover out')
 			$('.live-h5player-controlbar').slideUp();
 		})
 		$('.live-h5player-container').click(function(){
