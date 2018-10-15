@@ -10,6 +10,7 @@ function h5playerLive(params,callback){
     this.COOKIE_NAME = params.cookieName; //cookie名
     this.COOKIE_EXPIRE_DAYS = params.cookieExpireDays; //cookie过期天数
     this.DEFAULT_VOLUME = params.defaultVolume; // 默认音量
+    this.main = params.main;
     this.getLiveStreamUrl();
 }
 h5playerLive.prototype = {
@@ -23,7 +24,6 @@ h5playerLive.prototype = {
 	        self.player.attachMediaElement(video);
 	        self.player.load();
 	        self.player.on(flvjs.Events.LOADING_COMPLETE,function(){
-				//断流后做的
 				alert('下播...')		
 			})
 			self.player.on(flvjs.Events.METADATA_ARRIVED,function(e){
@@ -38,16 +38,15 @@ h5playerLive.prototype = {
 			self.player.on(flvjs.Events.STATISTICS_INFO,function(){
 			})
 			self.player.on(flvjs.Events.MEDIA_INFO,function(){
-				 console.log(self.player.mediaInfo);
-				 if(typeof callback === 'function'){
-		        	callback(self.player.mediaInfo);
-		        }
+				self.main.onGetMideaInfo(self.player.mediaInfo);
 			})
 			self.player.on(flvjs.Events.ERROR,function(e){
 				alert(JSON.stringify(e));
 				h5playerLog(JSON.stringify(e),4);	
 			})
-	        
+	        if(typeof callback === 'function'){
+		        	callback(self.player.mediaInfo);
+		    }
 		});
 	},
 	//回收播放器

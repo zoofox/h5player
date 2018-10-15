@@ -13,6 +13,7 @@ function h5playerBarrage(params, callback) {
     this.longBarrageNeedTime = params.longBarrageNeedTime;
     this.SINGLE_TEXT_WIDTH = 13.5; //单个字宽度 修改弹幕文字大小后需要同步修改
     this.firing = false;
+    this.isAysnc = 0;//0同步 1异步
     this.callback = callback;
     this.barrageInit(params);
 }
@@ -91,7 +92,7 @@ h5playerBarrage.prototype = {
     },
     //检查当前是否有等待发送的弹幕
     check: function() {
-        if (!this.firing && !this.queue.isEmpty()) {
+        if (!this.firing && !this.queue.isEmpty() && !this.tunnelManager.calculating) {
             var self = this;
             this.firing = true;
             this.getTunnelReady(function(obj) {
@@ -100,11 +101,14 @@ h5playerBarrage.prototype = {
                     var barrageReadyBuffer = self.queue.buffer.slice(0, tunnelReadyCount);
                     self.getBullets(barrageReadyBuffer, function(bulletObj) {
                         if (bulletObj.count != 0) {
-                            // self.distribute(bulletObj.bullets, obj.tunnels, 0);
-                            self.asyncDistribute(bulletObj.bullets, obj.tunnels, function() {
-                                self.queue.outQueue(bulletObj.count);
-                                self.firing = false;
-                            });
+                            if(self.isAysnc){
+                                self.distribute(bulletObj.bullets, obj.tunnels, 0);
+                            }else{
+                                self.asyncDistribute(bulletObj.bullets, obj.tunnels, function() {
+                                    self.queue.outQueue(bulletObj.count);
+                                    self.firing = false;
+                                });
+                            }
                         } else {
                             self.firing = false;
                         }
@@ -226,7 +230,6 @@ h5playerBarrage.prototype = {
         }, 50)
 
         this.tunnelManager.setTunnelStatus(tunnel.index, tunnel.sign, false);
-        // tunnel.ready = false;
         setTimeout(function() {
             bullet.isBusy = false;
             bullet.bulletDom.css({
@@ -236,7 +239,6 @@ h5playerBarrage.prototype = {
         }, time * 1000);
 
         setTimeout(function() {
-            // tunnel.ready = true;
             self.tunnelManager.setTunnelStatus(tunnel.index, tunnel.sign, true);
         }, releaseTunnelTime * 1000);
         callback();

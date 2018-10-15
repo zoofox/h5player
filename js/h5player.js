@@ -21,6 +21,10 @@ function h5player(params){
     this.BARRAGE_SPEED_MODE = 0; //弹幕速度 0变速 1匀速
     this.BARRAGE_MAX_SPEED = 200; //弹幕最大速度
     this.LONG_BARRAGE_NEED_TIME = 3;//弹幕长度超过屏幕宽度时的默认时长 秒
+    this.mediaInfo = {
+    	width:1280,
+    	height:720
+    };
 	window.h5playerLogLevel = 0;
 	this.playerInit();
 }
@@ -52,13 +56,16 @@ h5player.prototype = {
 			videoId:this.videoId,
 			cookieName:this.COOKIE_NAME,
 			cookieExpireDays:this.COOKIE_EXPIRE_DAYS,
-			defaultVolume:this.DEFAULT_VOLUME
+			defaultVolume:this.DEFAULT_VOLUME,
+			main:this
 		};
 		var self = this;
 		new h5playerLive(params,function(player,mediaInfo){
 			self.player = player;
-			self.mediaInfo = mediaInfo;
-			self.setPlayerSize(mediaInfo.width,mediaInfo.height);
+			if(mediaInfo && mediaInfo.width){
+				self.mediaInfo = mediaInfo;
+			}
+			self.setPlayerSize(self.mediaInfo.width,self.mediaInfo.height);
 			callback();
 		});
 	},
@@ -143,17 +150,21 @@ h5player.prototype = {
 		  if (r != null) return decodeURI(r[2]);
 		  return null;
 	},
+	onGetMideaInfo:function(mediaInfo){
+		console.log('mediaInfo----->>>>>')
+		this.mediaInfo = mediaInfo;
+		this.setPlayerSize(mediaInfo.width,mediaInfo.height);
+	}
+	,
 	bind:function(){
 		var self = this;
 		$(window).resize(function() {
 			self.setPlayerSize(self.mediaInfo.width,self.mediaInfo.height);
-            // if(self.tunnelManager){
-            //     self.tunnelManager.initTunnels(function(){
-            //         self.tunnelManager.calculateTunnelCount(self.barrageConfig.barragePosition,function(){
+            if(self.barrage && self.barrage.tunnelManager){
+            		 self.barrage.tunnelManager.calculateTunnelCount(self.barrage.barrageConfig.barragePosition,function(){
 
-            //         })
-            //     });
-            // }
+                	})
+            }
         })
 	}
 };
