@@ -161,8 +161,14 @@ h5player.prototype = {
 		$(window).resize(function() {
 			self.setPlayerSize(self.mediaInfo.width,self.mediaInfo.height);
             if(self.barrage && self.barrage.tunnelManager){
-            		 self.barrage.tunnelManager.calculateTunnelCount(self.barrage.barrageConfig.barragePosition,function(){
-
+            		//重新计算弹幕轨道区域大小
+            		 self.barrage.tunnelManager.calculateTunnelCount(self.barrage.barrageConfig.barragePosition,function(activeTunnels,nowActiveCount,lastActiveCount){
+            		 	//缩小则隐藏多余弹幕
+            		 	if(lastActiveCount > nowActiveCount || self.barrage.barrageConfig.barragePosition==2){
+            		 		var startIndex = activeTunnels[activeTunnels.length-1].index+1;
+            		 		self.barrage.bulletManager.hide(startIndex,-1,function(){
+            		 		})
+            		 	}
                 	})
             }
         })

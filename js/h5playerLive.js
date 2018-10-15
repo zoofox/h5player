@@ -20,6 +20,7 @@ h5playerLive.prototype = {
 		this.playerDestroy(function(){
 			var video = document.getElementById(self.videoId);
 			self.video = video;
+			console.log(obj.url)
 	        self.player = flvjs.createPlayer(obj);
 	        self.player.attachMediaElement(video);
 	        self.player.load();

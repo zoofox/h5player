@@ -215,8 +215,8 @@ h5playerBarrage.prototype = {
             'transform': 'translateX(0)'
 
         }).text(bullet.content);
-
         bullet.isBusy = true;
+        bullet.tunnel = tunnel.index;
         if ($('.live-h5player-barrage').find(bullet.bulletDom).length == 0) {
             $('.live-h5player-barrage').append(bullet.bulletDom);
         }
@@ -237,7 +237,6 @@ h5playerBarrage.prototype = {
                 'visibility': 'hidden'
             })
         }, time * 1000);
-
         setTimeout(function() {
             self.tunnelManager.setTunnelStatus(tunnel.index, tunnel.sign, true);
         }, releaseTunnelTime * 1000);

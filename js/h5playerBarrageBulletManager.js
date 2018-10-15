@@ -69,6 +69,7 @@ h5playerBarrageBulletManager.prototype = {
                 dom.removeClass('h5player-barrage-item-self');
             }
         }
+        dom.css('display','block');
         bullet.content = barrage.content;
         callback(bullet);
     },
@@ -102,11 +103,36 @@ h5playerBarrageBulletManager.prototype = {
                 var bullet = {
                     bulletDom: $(barrageHtml),
                     isBusy: true,
-                    content: barrage.content
+                    content: barrage.content,
+                    tunnel: -1
                 };
                 self.inStore(bullet);
                 callback(bullet);
                 break;
+        }
+    },
+    //tunnelIndexEnd为-1则隐藏大于start的所有弹幕
+    hide:function(tunnelIndexStart,tunnelIndexEnd,callback){
+        if(this.store.length == 0 || (tunnelIndexEnd!=-1 && tunnelIndexEnd <=tunnelIndexStart)){
+            if(callback && typeof callback == 'function'){
+                callback();
+            }
+        }else{
+            for(var i = 0,len=this.store.length;i< len;i++){
+                var tunnelIndex = this.store[i].tunnel;
+                if(tunnelIndex >= tunnelIndexStart){
+                    if(tunnelIndexEnd==-1 || tunnelIndex < tunnelIndexEnd){
+                        try{
+                             this.store[i].bulletDom.css('display','none');
+                        }catch(e){
+                            h5playerLog('bullet hide exception, '+e, 3);
+                        }
+                    }
+                }
+            }
+            if(callback && typeof callback == 'function'){
+                callback();
+            }
         }
     }
 }
