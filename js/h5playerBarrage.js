@@ -165,9 +165,11 @@ h5playerBarrage.prototype = {
         var opacity = 1 - 0.2 * this.barrageConfig.barrageOpacity;
         var barragePosition = this.barrageConfig.barragePosition;
         var videoWidth = $('#live-h5player-container').width();
-        var textWidth = Math.floor(this.getBarrageContentLen(bullet.content) * this.SINGLE_TEXT_WIDTH);
+        var textWidth = Math.floor(this.getBarrageContentLen(bullet.barrage.content.contentFate) * this.SINGLE_TEXT_WIDTH);
         var allwidth = videoWidth + textWidth;
         var top = this.tunnelManager.tunnelBlankHeight + tunnel.index * this.singleTunnelHeight;
+        var fontColor = bullet.barrage.content.fontColor;
+        var color = fontColor == ''?'#fff':fontColor;
         /*
         变速思路：
         1. 弹幕越长，速度越快。弹幕速度 = 屏幕宽度/弹幕默认速度 - 弹幕宽度/弹幕默认速度,如果弹幕宽度比屏宽大，则取默认时长（3秒）。计算得弹幕速度
@@ -212,9 +214,9 @@ h5playerBarrage.prototype = {
             'left': videoWidth + 'px',
             'opacity': opacity,
             'visibility': 'visible',
-            'transform': 'translateX(0)'
-
-        }).text(bullet.content);
+            'transform': 'translateX(0)',
+            'color':color
+        }).html(bullet.barrage.content.content);
         bullet.isBusy = true;
         bullet.tunnel = tunnel.index;
         if ($('.live-h5player-barrage').find(bullet.bulletDom).length == 0) {

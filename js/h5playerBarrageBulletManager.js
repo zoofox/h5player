@@ -70,7 +70,7 @@ h5playerBarrageBulletManager.prototype = {
             }
         }
         dom.css('display','block');
-        bullet.content = barrage.content;
+        bullet.barrage = barrage;
         callback(bullet);
     },
     reformBullets: function(bullets, barrages, callback) {
@@ -103,7 +103,7 @@ h5playerBarrageBulletManager.prototype = {
                 var bullet = {
                     bulletDom: $(barrageHtml),
                     isBusy: true,
-                    content: barrage.content,
+                    barrage: barrage,
                     tunnel: -1
                 };
                 self.inStore(bullet);

@@ -1,0 +1,1 @@
+var MAIN_PIC_PREFIX_PATH = 'https://kascdn.kascend.com/jellyfish/uiupload';
