@@ -3,12 +3,21 @@
  */
 function h5playerBarrageQueue(callback){
 	this.buffer = [];
+	this.comboAnimationRunning = false;
+	this.comboBuffer = [];
 	this.init(callback);
 }
 h5playerBarrageQueue.prototype = {
 	init:function(callback){
+		this.initGiftcomboAnimation();
 		this.fatedata();
 		callback(this);
+	},
+	initGiftcomboAnimation:function(){
+		var self = this;
+		new initGiftcomboAnimation(function(giftcombo){
+			self.giftcombo = giftcombo;
+		});
 	},
 	isEmpty:function(){
 		return this.buffer.length == 0?true:false;
@@ -32,18 +41,16 @@ h5playerBarrageQueue.prototype = {
 			h5playerLog('barrage buffer length less than delete length!',3);
 		}
 	},
-	//1聊天 2系统 3礼物
+	//1聊天 2喇叭/连击动画 3礼物 4进场关注等系统消息
 	receiveMessages:function(messages){
-		console.log(messages)
 		var messagesLength = messages.length;
 		var tempBuffer = [];
 		for(var i=0;i<messagesLength;i++){
 			var type = messages[i].type;
-			var barrageContent = this.takeOffContentShell(type, messages[i].content);
-			var transContent = this.translateEmoji(barrageContent);
-			
 			switch(type){
 				case 1:
+					var barrageContent = this.takeOffContentShell(messages[i].content);
+					var transContent = this.translateEmoji(barrageContent);
 					tempBuffer.push({
 						content:transContent,
 						uid:messages[i].uid,
@@ -51,6 +58,13 @@ h5playerBarrageQueue.prototype = {
 					});
 					break;
 				case 2:
+					if(messages[i].metaInfo && messages[i].metaInfo.animation==5){
+					//连击动画
+						this.comboAnimation(messages[i].metaInfo);
+					}else{
+					//喇叭
+						this.systemMsg(messages[i].content);
+					}
 					break;
 				case 3:
 					break;
@@ -59,10 +73,9 @@ h5playerBarrageQueue.prototype = {
 			}
 		}
 		this.buffer = this.buffer.concat(tempBuffer);
-		console.log(this.buffer)
 
 	},
-	takeOffContentShell:function(type,content){
+	takeOffContentShell:function(content){
 		if(content.indexOf('<![JSON[') == 0 && content.indexOf(']]>' > -1)){
 			return  JSON.parse(content.slice(8,-3));
 		};
@@ -94,6 +107,32 @@ h5playerBarrageQueue.prototype = {
 			return str;
 		}
 		return str;
+	},
+	//连击动画
+	/*
+	additionType: 2
+	animation: 5
+	animationBg: "https://kascdn.kascend.com/jellyfish/gift/v4/gift_combo_animation_bg_v2.png"
+	animationIcon: "https://kascdn.kascend.com/jellyfish/gift/v4/231_animation.gif"
+	animationPriority: 20
+	animationSwfName: "WishCrystalGift"
+	animationText: "<![JSON[{"fontSizeLevel":4,"type":1,"content":" 清の酒 ","fontColor":"#ffe345"}]]><![JSON[{"fontSizeLevel":4,"type":1,"content":"送给","fontColor":"#ffffff"}]]><![JSON[{"fontSizeLevel":4,"type":1,"content":" 包子包子包肉肉 ","fontColor":"#ffe345"}]]><![JSON[{"fontSizeLevel":4,"type":1,"content":"许愿水晶 30连击，","fontColor":"#ffffff"}]]><![JSON[{"fontSizeLevel":4,"type":1,"content":"触海欧气爆棚，祝你心想事成！","fontColor":"#ffffff"}]]>"
+	 */
+	comboAnimation:function(metaInfo){
+		if(this.comboAnimationRunning){
+			this.comboBuffer.push(metaInfo);
+		}else{
+			this.comboAnimationRunning = true;
+			if(this.giftcombo){
+				var animationIcon = metaInfo.animationIcon;
+				var giftid = animationIcon.match(/v4\/(\S*)_/)[1];
+				var config = this.giftcombo.getConfig(giftid);
+			}
+		}
+	},
+	//系统消息
+	systemMsg:function(content){
+
 	}
 	,
 	fatedata:function(){
@@ -136,6 +175,100 @@ recOnly: 0
 roomId: 1023
 type: 1
 user: {uid: 169,…}
+系统消息：
+{id: 2213, roomId: -41, type: 2, user: {uid: -1, avatar: "", gender: "", nickname: "‎"},…}
+content: "<![JSON[{"image":"https://kascdn.kascend.com/jellyfish/chat_icon_alarm_v4.png","type":2}]]><![JSON[{"image":"https://kascdn.kascend.com/jellyfish/chat/chat_icon_gift_v1.png","type":2}]]><![JSON[{"fontSizeLevel":2,"style":1,"type":1,"content":" 白起的宝贝石头 ","fontColor":"#228FBD"}]]><![JSON[{"type":1,"content":"送给","fontColor":"#228FBD"}]]><![JSON[{"fontSizeLevel":2,"style":1,"type":1,"content":" 梵叶 ","fontColor":"#228FBD"}]]><![JSON[{"type":1,"content":"海星","fontColor":"#228FBD"}]]><![JSON[{"fontSizeLevel":2,"style":1,"type":1,"content":" 666 ","fontColor":"#228FBD"}]]><![JSON[{"type":1,"content":"连击，","fontColor":"#228FBD"}]]><![JSON[{"type":1,"content":"对主播的钦佩犹如滔滔江水连绵不绝。","fontColor":"#228FBD"}]]>"
+createdTime: 1539686777065
+id: 2213
+medalList: []
+metaInfo: {filter: true, broadcastExtraMetaInfo: {roomId: 16079005, extraMetaInfo: {,…}}, additionType: 2}
+additionType: 2
+broadcastExtraMetaInfo: {roomId: 16079005, extraMetaInfo: {,…}}
+extraMetaInfo: {,…}
+animation: 5
+animationBg: "https://kascdn.kascend.com/jellyfish/gift/v4/gift_combo_animation_bg_v2.png"
+animationIcon: "https://kascdn.kascend.com/jellyfish/gift/v4/5_animation.gif"
+animationPriority: 20
+animationSwfName: "Starfish"
+animationText: "<![JSON[{"fontSizeLevel":4,"type":1,"content":" 白起的宝贝石头 ","fontColor":"#ffe345"}]]><![JSON[{"fontSizeLevel":4,"type":1,"content":"送给","fontColor":"#ffffff"}]]><![JSON[{"fontSizeLevel":4,"type":1,"content":" 梵叶 ","fontColor":"#ffe345"}]]><![JSON[{"fontSizeLevel":4,"type":1,"content":"海星 666连击，","fontColor":"#ffffff"}]]><![JSON[{"fontSizeLevel":4,"type":1,"content":"对主播的钦佩犹如滔滔江水连绵不绝。","fontColor":"#ffffff"}]]>"
+roomId: 16079005
+filter: true
+recOnly: 0
+roomId: -41
+type: 2
+user: {uid: -1, avatar: "", gender: "", nickname: "‎"}
+
+ {id: 2218, roomId: -41, type: 2, user: {uid: -1, avatar: "", gender: "", nickname: "‎"},…}
+content: "<![JSON[{"image":"https://kascdn.kascend.com/jellyfish/chat_icon_alarm_v4.png","type":2}]]><![JSON[{"image":"https://kascdn.kascend.com/jellyfish/chat/chat_icon_gift_v1.png","type":2}]]><![JSON[{"fontSizeLevel":2,"style":1,"type":1,"content":" 仙女不生氣 ","fontColor":"#228FBD"}]]><![JSON[{"type":1,"content":"送给","fontColor":"#228FBD"}]]><![JSON[{"fontSizeLevel":2,"style":1,"type":1,"content":" 一哲欧巴！ ","fontColor":"#228FBD"}]]><![JSON[{"type":1,"content":"许愿水晶","fontColor":"#228FBD"}]]><![JSON[{"fontSizeLevel":2,"style":1,"type":1,"content":" 30 ","fontColor":"#228FBD"}]]><![JSON[{"type":1,"content":"连击，","fontColor":"#228FBD"}]]><![JSON[{"type":1,"content":"触海欧气爆棚，祝你心想事成！","fontColor":"#228FBD"}]]>"
+createdTime: 1539686964923
+id: 2218
+medalList: []
+metaInfo: {,…}
+additionType: 2
+animation: 5
+animationBg: "https://kascdn.kascend.com/jellyfish/gift/v4/gift_combo_animation_bg_v2.png"
+animationIcon: "https://kascdn.kascend.com/jellyfish/gift/v4/231_animation.gif"
+animationPriority: 20
+animationSwfName: "WishCrystalGift"
+animationText: "<![JSON[{"fontSizeLevel":4,"type":1,"content":" 仙女不生氣 ","fontColor":"#ffe345"}]]><![JSON[{"fontSizeLevel":4,"type":1,"content":"送给","fontColor":"#ffffff"}]]><![JSON[{"fontSizeLevel":4,"type":1,"content":" 一哲欧巴！ ","fontColor":"#ffe345"}]]><![JSON[{"fontSizeLevel":4,"type":1,"content":"许愿水晶 30连击，","fontColor":"#ffffff"}]]><![JSON[{"fontSizeLevel":4,"type":1,"content":"触海欧气爆棚，祝你心想事成！","fontColor":"#ffffff"}]]>"
+filter: true
+recOnly: 0
+roomId: -41
+type: 2
+user: {uid: -1, avatar: "", gender: "", nickname: "‎"}
+avatar: ""
+gender: ""
+nickname: "‎"
+uid: -1
+
+
+喇叭
+content: "<![JSON[{"image":"https://kascdn.kascend.com/jellyfish/chat_icon_alarm_v4.png","type":2}]]><![JSON[{"type":1,"content":"主播 ","fontColor":"#ff5959"}]]><![JSON[{"style":1,"type":1,"content":"聪明萌 ","fontColor":"#ffbd00"}]]><![JSON[{"type":1,"content":"的直播间充盈着","fontColor":"#ff5959"}]]><![JSON[{"style":1,"type":1,"content":" 擎天水柱","fontColor":"#ffbd00"}]]><![JSON[{"type":1,"content":"，60秒后自动吐泡，点击快去蹭泡吧 ~","fontColor":"#ff5959"}]]><![JSON[{"image":"https://cdn.kascend.com/jellyfish/icon/bang/level_5.5_n_c.png","type":2}]]>"
+createdTime: 1539687577766
+id: 2224
+medalList: []
+metaInfo: {nav: {type: 1, targetKey: "24506808"}, liveType: 1}
+liveType: 1
+nav: {type: 1, targetKey: "24506808"}
+targetKey: "24506808"
+type: 1
+recOnly: 0
+roomId: -41
+type: 2
+user: {uid: -1, avatar: "", gender: "", nickname: "‎"}
+
+连击动画
+{id: 2231, roomId: -41, type: 2, user: {uid: -1, avatar: "", gender: "", nickname: "‎"},…}
+content: "<![JSON[{"image":"https://kascdn.kascend.com/jellyfish/chat_icon_alarm_v4.png","type":2}]]><![JSON[{"image":"https://kascdn.kascend.com/jellyfish/chat/chat_icon_gift_v1.png","type":2}]]><![JSON[{"fontSizeLevel":2,"style":1,"type":1,"content":" 清の酒 ","fontColor":"#228FBD"}]]><![JSON[{"type":1,"content":"送给","fontColor":"#228FBD"}]]><![JSON[{"fontSizeLevel":2,"style":1,"type":1,"content":" 包子包子包肉肉 ","fontColor":"#228FBD"}]]><![JSON[{"type":1,"content":"许愿水晶","fontColor":"#228FBD"}]]><![JSON[{"fontSizeLevel":2,"style":1,"type":1,"content":" 30 ","fontColor":"#228FBD"}]]><![JSON[{"type":1,"content":"连击，","fontColor":"#228FBD"}]]><![JSON[{"type":1,"content":"触海欧气爆棚，祝你心想事成！","fontColor":"#228FBD"}]]>"
+createdTime: 1539687826527
+id: 2231
+medalList: []
+metaInfo: {,…}
+additionType: 2
+animation: 5
+animationBg: "https://kascdn.kascend.com/jellyfish/gift/v4/gift_combo_animation_bg_v2.png"
+animationIcon: "https://kascdn.kascend.com/jellyfish/gift/v4/231_animation.gif"
+animationPriority: 20
+animationSwfName: "WishCrystalGift"
+animationText: "<![JSON[{"fontSizeLevel":4,"type":1,"content":" 清の酒 ","fontColor":"#ffe345"}]]><![JSON[{"fontSizeLevel":4,"type":1,"content":"送给","fontColor":"#ffffff"}]]><![JSON[{"fontSizeLevel":4,"type":1,"content":" 包子包子包肉肉 ","fontColor":"#ffe345"}]]><![JSON[{"fontSizeLevel":4,"type":1,"content":"许愿水晶 30连击，","fontColor":"#ffffff"}]]><![JSON[{"fontSizeLevel":4,"type":1,"content":"触海欧气爆棚，祝你心想事成！","fontColor":"#ffffff"}]]>"
+filter: true
+recOnly: 0
+roomId: -41
+type: 2
+user: {uid: -1, avatar: "", gender: "", nickname: "‎"}
+
+
+
+入场欢迎：
+{id: 4815, roomId: 2002590, type: 4, user: {uid: -1, avatar: "", gender: "", nickname: "‎"},…}
+content: "<![JSON[{"image":"https://kascdn.kascend.com/jellyfish/chat_icon_entrance_announce_novice.png","type":2}]]><![JSON[{"type":1,"content":"欢迎新宝宝 ","fontColor":"#1c2229"}]]><![JSON[{"style":1,"type":1,"content":"nrrdr8","fontColor":"#1c2229"}]]>"
+createdTime: 1539686968206
+id: 4815
+medalList: []
+recOnly: 0
+roomId: 2002590
+type: 4
+user: {uid: -1, avatar: "", gender: "", nickname: "‎"}
 **/
 // <![JSON[{"type":1,"content":"1","fontColor":"#ff4242"}]]>
 
