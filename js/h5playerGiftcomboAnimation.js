@@ -64,15 +64,28 @@ h5playerGiftcomboAnimation.prototype = {
     	this.comboAnimationRunning = true;
         var videoWidth = $('#live-h5player-container').width();
         var config = this.getConfig(params.giftId);
-        $('.giftcombo-animation .giftcombo-img').attr('src', params.icon);
         var textWidth = Math.floor(this.queue.barrage.getBarrageContentLen(params.combotext.pureStr) * this.SINGLE_TEXT_WIDTH);
         var middleBarWidth = textWidth - 30 - 20; //20（leftbar）30 (rightbar)
         textWidth -= 20;
+        $('.giftcombo-animation .giftcombo-img').attr('src', params.icon);
+        $('.giftcombo-animation .left-bar').css({
+        	'background':'url('+config.barImgs.textBarImg0+') no-repeat',
+        	'backgroundSize':'50px 28px'
+        })
+        $('.giftcombo-animation .middle-bar').css({
+        	'background':'url('+config.barImgs.textBarImg1+') repeat',
+        	'backgroundSize':middleBarWidth+'px 28px'
+        })
+        $('.giftcombo-animation .right-bar').css({
+        	'background':'url('+config.barImgs.textBarImg2+') no-repeat',
+        	'background-size':'50px 28px'
+        })
         $('.giftcombo-animation .middle-bar').css('width', middleBarWidth + 'px');
         $('.giftcombo-animation .giftcombo-text').html(params.combotext.str).css('width', textWidth + 'px');
         var comboleft = videoWidth + 30;
         var comboWidth = textWidth + 30 + 20 + 30;
         $('.giftcombo-animation').css({
+        	'display':'block',
             'width': comboWidth + 'px',
             'left': comboleft + 'px',
             'transform': 'translateX(0)'
@@ -93,7 +106,6 @@ h5playerGiftcomboAnimation.prototype = {
             $('.giftcombo-animation').css({
                 'transition': 'none'
             })
-            console.log(self.buffer);
             self.comboAnimationRunning = false;
             if(self.buffer.length!=0){
             	var params = self.buffer.shift();

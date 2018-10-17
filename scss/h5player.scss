@@ -528,6 +528,8 @@ body{
 			pointer-events: none;
 			perspective: 500px;
 			will-change:transform;
+			font-weight: bold;
+			text-shadow: rgb(0, 0, 0) 1px 0px 1px, rgb(0, 0, 0) 0px 1px 1px, rgb(0, 0, 0) 0px -1px 1px, rgb(0, 0, 0) -1px 0px 1px;
 			img{
 				width: auto;
 				height: 22px;
@@ -545,12 +547,8 @@ body{
 		position: absolute;
 		top:0;
 		left:0;
-		.system-wrap{
-			width: 100%;height: 100%;
-			position: relative;
-			top:0;
-			left:0;
 			.giftcombo-animation{
+				display: none;
 				height: 28px;
 				position: absolute;
 				top:100px;
@@ -591,7 +589,7 @@ body{
 					float: left;
 				}
 			}
-		}
+		
 		
 	}
 	.live-h5player-rightmenu{

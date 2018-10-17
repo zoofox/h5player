@@ -20,8 +20,11 @@ h5playerLive.prototype = {
 		this.playerDestroy(function(){
 			var video = document.getElementById(self.videoId);
 			self.video = video;
-			console.log(obj.url)
-	        self.player = flvjs.createPlayer(obj);
+			self.videoEvent();
+	        self.player = flvjs.createPlayer(obj,{
+	        	enableStashBuffer: false,
+	        	isLive: true
+	        });
 	        self.player.attachMediaElement(video);
 	        self.player.load();
 	        self.player.on(flvjs.Events.LOADING_COMPLETE,function(){
@@ -50,6 +53,27 @@ h5playerLive.prototype = {
 		    }
 		});
 	},
+	videoEvent:function(){
+		this.video.onloadstart=function(){
+			console.log('on load start')
+		};
+		this.video.onloadeddata=function(){
+			console.log('loading');
+		};
+		this.video.onprogress=function(){
+			console.log('onprogress');
+		};
+		this.video.oncanplay=function(){
+			console.log('oncanplay');
+		};
+		this.video.oncanplaythrough=function(){
+			console.log('oncanplaythrough');
+		};
+		this.video.onwaiting=function(){
+			console.log('waiting');
+		};
+	}
+	,
 	//回收播放器
 	playerDestroy:function(callback){
 		if(this.player) {
@@ -130,6 +154,18 @@ h5playerLive.prototype = {
 		 	this.video.volume = volume;
 		 }
 		this.setCookie('mute',false);
+	},
+	getCurrentTime:function(callback){
+		if(this.player.buffered.length > 0){
+			callback(this.player.buffered.end(0))
+		}else{
+			callback(null);
+		}
+	},
+	seekTo:function(currentTime){
+		if(currentTime){
+			this.player.currentTime = parseFloat(currentTime)-1;
+		}
 	}
 	,
 	//获取直播流地址
@@ -159,7 +195,7 @@ h5playerLive.prototype = {
 				}
 				setTimeout(function(){
 					self.play();
-				},100)
+				},100);
 			});
 		}else{
 			window.console&&console.log('格式错误');
@@ -169,7 +205,7 @@ h5playerLive.prototype = {
 		var prefixurl = url.split('?')[0];
 		var lastIndex = prefixurl.lastIndexOf('.');
 		var format = prefixurl.slice(lastIndex+1);
-		var supportFormat = ["mp4","flv","mov"];
+		var supportFormat = ["flv"];
 
 		if(supportFormat.indexOf(format)>-1) {
                 return {

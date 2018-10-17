@@ -76,7 +76,11 @@ h5playerControlBar.prototype = {
 				self.player.pause();
 			}else{
 				var text = '暂停';
-				self.player.play();
+				self.player.getCurrentTime(function(currentTime){
+					console.log(currentTime);
+					self.player.seekTo(currentTime);
+					self.player.play();
+				})
 			}
 			status = 1 - status;
 			$(this).toggleClass('h5player-pauseplay-switch').attr('data-status',status)

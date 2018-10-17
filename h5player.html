@@ -1,173 +1,174 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title>h5 video test page</title>
-	<meta charset="utf-8" />
-	<link rel="stylesheet" type="text/css" href="./css/h5player.css">
+    <title>h5 video test page</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="./css/h5player.css">
 </head>
+
 <body>
-	<div class="live-h5player-container" id="live-h5player-container">
-		<div class="live-h5player-video-box">
-			<video class="live-h5player-video" id='video'></video>
-		</div>
-		<div class="live-h5player-barrage">
-		</div>
-		<div class="live-h5player-system">
-			<div class="system-wrap">
-				<div class="giftcombo-animation">
-					<div class="left-bar"></div>
-					<div class="middle-bar">
-						<img src="./imgs/h5player/combo/0/gift.gif" alt="" class="giftcombo-img">
-						<p class="giftcombo-text"><span>用户昵称</span> 送给主播 <span>1314个海马</span></p>
-					</div>
-					<div class="right-bar"></div>
-					<div class="clear"></div>
-				</div>
-			</div>
-			
-		</div>
-		<div class="live-h5player-controlbar controlbar-bottom">
-				<div class="controlbar-left h5player-pauseplay" data-status='1'>
-					<p class="controlbar-tip">暂停</p>
-				</div>
-				<div class="controlbar-left h5player-reload">
-					<p class="controlbar-tip controlbar-tip-long">重新载入</p>
-				</div>
-				<div class="controlbar-right h5player-fullscreen">
-					<p class="controlbar-tip controlbar-tip-long">窗口全屏</p>
-				</div>
-				<div class="controlbar-right h5player-pagescreen">
-					<p class="controlbar-tip controlbar-tip-long">网页全屏</p>
-				</div>
-				<div class="controlbar-right h5player-definition">
-						<p class="definition-text definition-sd"></p>
-						<div class="definition-items">
-						</div>
-				</div>
-				<div class="controlbar-right h5player-volume">
-					<div class="volume-setbox">
-						<div class="volume-line">
-							<p class="volume-line-gray"></p>
-						</div>
-						<p class="volume-ball"></p>
-						<p class="volume-percent">10%</p>
-					</div>
-				</div>
-				<div class="controlbar-right h5player-rotate">
-					<p class="controlbar-tip controlbar-tip-long">屏幕旋转</p>
-				</div>
-				<div class="controlbar-right h5player-barrage" data-status="1">
-					<div class="barrage-setbox">
-						<div class="barrage-set-column">
-							<p class="barrage-set-info">全屏弹幕输入</p>
-							<div class="barrage-fullscreen-input">
-								<div class="barrage-fullscreen-input-switch barrage-fullscreen-input-off" data-value='0'>关</div>
-								<div class="barrage-fullscreen-input-switch barrage-fullscreen-input-on active" data-value='1'>开</div>
-							</div>
-						</div>
-						<div class="barrage-set-column">
-							<p class="barrage-set-info">透明度</p>
-							<div class="barrage-opacity">
-								<p class="barrage-opacity-choice barrage-opacity-choice3"  data-value="3">高</p>
-								<p class="barrage-opacity-choice barrage-opacity-choice2"  data-value="2">中</p>
-								<p class="barrage-opacity-choice barrage-opacity-choice1"  data-value="1">低</p>
-								<p class="barrage-opacity-choice barrage-opacity-choice0 active" data-value="0">无</p>
-							</div>
-						</div>
-						<div class="barrage-set-column barrage-set-column-position">
-							<p class="barrage-set-info">弹幕位置</p>
-							<div class="barrage-position">
-								<div class="barrage-position-choice barrage-position-choice2" data-value="2">
-									<i class="barrage-position-img barrage-position-bottomscreen"></i>
-									<p class="barrage-position-text">底端</p>
-								</div>
-								<div class="barrage-position-choice barrage-position-choice1" data-value="1">
-									<i class="barrage-position-img barrage-position-topscreen"></i>
-									<p class="barrage-position-text">顶端</p>
-								</div>
-								<div class="barrage-position-choice barrage-position-choice0 active" data-value="0">
-									<i class="barrage-position-img barrage-position-fullscreen"></i>
-									<p class="barrage-position-text">全屏</p>
-								</div>
-							</div>
-						</div>
-						<div class="barrage-tip-box">
-							<p class="controlbar-tip controlbar-tip-long">关闭弹幕</p>
-						</div>
-					</div>
-				</div>
-		</div>
-		<div class="live-h5player-rightmenu">
-			<p class="h5player-rightmenu-item"></p>
-			<p class="h5player-rightmenu-item h5plyaer-switch-flash">切换到Flash播放器</p>
-		</div>
-	</div>
-	<style>
-	
-		.test-btn{
-			width: 80px;
-			height: 40px;
-			line-height: 40px;
-			text-align:center;
-			border:1px solid rgba(0,0,0,.8);
-			border-radius: 10px;
-			float: left;
-			margin-top: 20px;
-			cursor:pointer;
-			margin-left: 20px;
-		}
-		.test-input{
-			width: 100px;
-			height: 40px;
-			line-height: 40px;
-			padding-left: 20px;
-			border:1px solid rgba(0,0,0,.8);
-			border-radius: 10px;
-			outline: none;
-			float: left;
-			margin-top: 20px;
+    <div class="live-h5player-container" id="live-h5player-container">
+        <div class="live-h5player-video-box">
+            <video class="live-h5player-video" id='video'></video>
+        </div>
+        <div class="live-h5player-barrage">
+        </div>
+        <div class="live-h5player-system">
+        	<div class="system-message">
+        		
+        	</div>
+            <div class="giftcombo-animation">
+                <div class="left-bar"></div>
+                <div class="middle-bar">
+                    <img src="./imgs/h5player/combo/0/gift.gif" alt="" class="giftcombo-img">
+                    <p class="giftcombo-text"><span>用户昵称</span> 送给主播 <span>1314个海马</span></p>
+                </div>
+                <div class="right-bar"></div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="live-h5player-controlbar controlbar-bottom">
+            <div class="controlbar-left h5player-pauseplay" data-status='1'>
+                <p class="controlbar-tip">暂停</p>
+            </div>
+            <div class="controlbar-left h5player-reload">
+                <p class="controlbar-tip controlbar-tip-long">重新载入</p>
+            </div>
+            <div class="controlbar-right h5player-fullscreen">
+                <p class="controlbar-tip controlbar-tip-long">窗口全屏</p>
+            </div>
+            <div class="controlbar-right h5player-pagescreen">
+                <p class="controlbar-tip controlbar-tip-long">网页全屏</p>
+            </div>
+            <div class="controlbar-right h5player-definition">
+                <p class="definition-text definition-sd"></p>
+                <div class="definition-items">
+                </div>
+            </div>
+            <div class="controlbar-right h5player-volume">
+                <div class="volume-setbox">
+                    <div class="volume-line">
+                        <p class="volume-line-gray"></p>
+                    </div>
+                    <p class="volume-ball"></p>
+                    <p class="volume-percent">10%</p>
+                </div>
+            </div>
+            <div class="controlbar-right h5player-rotate">
+                <p class="controlbar-tip controlbar-tip-long">屏幕旋转</p>
+            </div>
+            <div class="controlbar-right h5player-barrage" data-status="1">
+                <div class="barrage-setbox">
+                    <div class="barrage-set-column">
+                        <p class="barrage-set-info">全屏弹幕输入</p>
+                        <div class="barrage-fullscreen-input">
+                            <div class="barrage-fullscreen-input-switch barrage-fullscreen-input-off" data-value='0'>关</div>
+                            <div class="barrage-fullscreen-input-switch barrage-fullscreen-input-on active" data-value='1'>开</div>
+                        </div>
+                    </div>
+                    <div class="barrage-set-column">
+                        <p class="barrage-set-info">透明度</p>
+                        <div class="barrage-opacity">
+                            <p class="barrage-opacity-choice barrage-opacity-choice3" data-value="3">高</p>
+                            <p class="barrage-opacity-choice barrage-opacity-choice2" data-value="2">中</p>
+                            <p class="barrage-opacity-choice barrage-opacity-choice1" data-value="1">低</p>
+                            <p class="barrage-opacity-choice barrage-opacity-choice0 active" data-value="0">无</p>
+                        </div>
+                    </div>
+                    <div class="barrage-set-column barrage-set-column-position">
+                        <p class="barrage-set-info">弹幕位置</p>
+                        <div class="barrage-position">
+                            <div class="barrage-position-choice barrage-position-choice2" data-value="2">
+                                <i class="barrage-position-img barrage-position-bottomscreen"></i>
+                                <p class="barrage-position-text">底端</p>
+                            </div>
+                            <div class="barrage-position-choice barrage-position-choice1" data-value="1">
+                                <i class="barrage-position-img barrage-position-topscreen"></i>
+                                <p class="barrage-position-text">顶端</p>
+                            </div>
+                            <div class="barrage-position-choice barrage-position-choice0 active" data-value="0">
+                                <i class="barrage-position-img barrage-position-fullscreen"></i>
+                                <p class="barrage-position-text">全屏</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="barrage-tip-box">
+                        <p class="controlbar-tip controlbar-tip-long">关闭弹幕</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="live-h5player-rightmenu">
+            <p class="h5player-rightmenu-item"></p>
+            <p class="h5player-rightmenu-item h5plyaer-switch-flash">切换到Flash播放器</p>
+        </div>
+    </div>
+    <style>
+    .test-btn {
+        width: 80px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        border: 1px solid rgba(0, 0, 0, .8);
+        border-radius: 10px;
+        float: left;
+        margin-top: 20px;
+        cursor: pointer;
+        margin-left: 20px;
+    }
 
-		}
-	</style>
-	<input type="text" placeholder="输入房间号" class="test-input">
-	<div class="test-btn start-btn">开始</div>
-	<!-- <div class="test-btn play-btn">切回h5</div> -->
-	<script type="text/javascript" src="https://cdn.kascend.com/jellyfish/sysv730/js/lib/jquery/jquery-1.10.2.min.js"></script>
-	<script type="text/javascript" src="./js/util/config.js"></script>
-	<script type="text/javascript" src="./js/util/chushou_emoji.js"></script>
-	<script type="text/javascript" src="./js/flv.min.js"></script>
-	<script type="text/javascript" src="./js/h5playerStreamManager.js"></script>
-	<script type="text/javascript" src="./js/h5playerGiftcomboAnimation.js"></script>
-	<script type="text/javascript" src="./js/h5playerBarrageQueue.js"></script>
-	<script type="text/javascript" src="./js/h5playerBarrageTunnelManager.js"></script>
-	<script type="text/javascript" src="./js/h5playerBarrageBulletManager.js"></script>
-	<script type="text/javascript" src="./js/h5playerBarrage.js"></script>
-	<script type="text/javascript" src="./js/h5playerLive.js"></script>
-	<script type="text/javascript" src="./js/h5playerControlBar.js"></script>
-	<script type="text/javascript" src="./js/h5player.js"></script>
-	<script type="text/javascript">
-		var h5player2 = null;
-		h5player2 = new h5player({
-			roomId:20185,
-			host:'',
-			videoId:'video',
-			userUid:1001
-		});
-		$('.start-btn').click(function(){
-			h5player2 = null;
-				var roomId = $('.test-input').val();
-				h5player2 = new h5player({
-					roomId:roomId,
-					host:'',
-					videoId:'video',
-					userUid:1001
-				});
-		})
-		
-		$('.play-btn').click(function(){
-			h5player2.switchBack();
-		})
+    .test-input {
+        width: 100px;
+        height: 40px;
+        line-height: 40px;
+        padding-left: 20px;
+        border: 1px solid rgba(0, 0, 0, .8);
+        border-radius: 10px;
+        outline: none;
+        float: left;
+        margin-top: 20px;
+    }
+    </style>
+    <input type="text" placeholder="输入房间号" class="test-input">
+    <div class="test-btn start-btn">开始</div>
+    <!-- <div class="test-btn play-btn">切回h5</div> -->
+    <script type="text/javascript" src="https://cdn.kascend.com/jellyfish/sysv730/js/lib/jquery/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="./js/util/config.js"></script>
+    <script type="text/javascript" src="./js/util/chushou_emoji.js"></script>
+    <script type="text/javascript" src="./js/flv.min.js"></script>
+    <script type="text/javascript" src="./js/h5playerStreamManager.js"></script>
+    <script type="text/javascript" src="./js/h5playerGiftcomboAnimation.js"></script>
+    <script type="text/javascript" src="./js/h5playerBarrageQueue.js"></script>
+    <script type="text/javascript" src="./js/h5playerBarrageTunnelManager.js"></script>
+    <script type="text/javascript" src="./js/h5playerBarrageBulletManager.js"></script>
+    <script type="text/javascript" src="./js/h5playerBarrage.js"></script>
+    <script type="text/javascript" src="./js/h5playerLive.js"></script>
+    <script type="text/javascript" src="./js/h5playerControlBar.js"></script>
+    <script type="text/javascript" src="./js/h5player.js"></script>
+    <script type="text/javascript">
+    var h5player2 = null;
+    h5player2 = new h5player({
+        roomId: 54001,
+        host: '',
+        videoId: 'video',
+        userUid: 1001
+    });
+    $('.start-btn').click(function() {
+        h5player2 = null;
+        var roomId = $('.test-input').val();
+        h5player2 = new h5player({
+            roomId: roomId,
+            host: '',
+            videoId: 'video',
+            userUid: 1001
+        });
+    })
 
-	</script>
+    $('.play-btn').click(function() {
+        h5player2.switchBack();
+    })
+    </script>
 </body>
+
 </html>
