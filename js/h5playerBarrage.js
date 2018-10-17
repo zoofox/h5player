@@ -65,7 +65,10 @@ h5playerBarrage.prototype = {
     },
     queueInit: function(callback) {
         var self = this;
-        new h5playerBarrageQueue(function(queue) {
+        new h5playerBarrageQueue({
+            barrage:this,
+            barrageFlySpeed:this.barrageFlySpeed
+        },function(queue) {
             self.queue = queue;
             callback();
         })

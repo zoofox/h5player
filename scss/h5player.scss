@@ -540,6 +540,60 @@ body{
 		}
 		
 	}
+	.live-h5player-system{
+		width: 100%;height: 100%;
+		position: absolute;
+		top:0;
+		left:0;
+		.system-wrap{
+			width: 100%;height: 100%;
+			position: relative;
+			top:0;
+			left:0;
+			.giftcombo-animation{
+				height: 28px;
+				position: absolute;
+				top:100px;
+				left:100px;
+				.left-bar{
+					width: 50px;height: 28px;
+					background: url('../imgs/h5player/combo/0/bar0.png') no-repeat;
+					background-size: 50px 28px;
+					float: left;
+				}
+				.middle-bar{
+					width: 300px;height: 28px;
+					background: url('../imgs/h5player/combo/0/bar1.png') repeat;
+					background-size: 300px 28px;
+					float: left;
+					font-size: 14px;
+					line-height: 28px;
+					z-index: 2;
+	   				position: relative;
+	   				 white-space: nowrap; 
+					.giftcombo-img{
+						width: 60px;height: 60px;
+						display: block;
+						float: left;
+						margin-top:-16px;
+						margin-left:-80px;
+					}
+					.giftcombo-text{
+						float: left;
+						margin-left:-20px;
+						color:#fff;
+					}
+				}
+				.right-bar{
+					width: 50px;height: 28px;
+					background: url('../imgs/h5player/combo/0/bar2.png') no-repeat;
+					background-size: 50px 28px;
+					float: left;
+				}
+			}
+		}
+		
+	}
 	.live-h5player-rightmenu{
 		display: none;
 		width: 200px;
@@ -570,4 +624,7 @@ body{
 			
 		}
 	}
+}
+.clear{
+	clear:both;
 }
