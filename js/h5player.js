@@ -16,6 +16,8 @@ function h5player(params){
     this.DEFAULT_BARRAGE_POSITION = 0; //弹幕位置 0全屏 1顶端 2底端
     this.SINGLE_TUNNEL_HEIGHT = 36; //弹幕轨道高度，弹幕高度30px
     this.BARRAGE_FLY_SPEED = 120; // 弹幕运行速度px/s
+    this.SYSTEM_MESSAGE_FLY_SPEED = 100; // 喇叭速度px/s
+    this.GIFTCOMBO_ANIMATION_FLY_SPEED = 100; // 连击动画飘屏速度px/s
     this.BARRAGE_CHECK_TIME = 300;  //弹幕计时器间隔时长 ms
     this.logDebugSwitch = false; //日志调试开关
     this.BARRAGE_SPEED_MODE = 0; //弹幕速度 0变速 1匀速
@@ -100,6 +102,8 @@ h5player.prototype = {
 			barrageSpeedMode:this.BARRAGE_SPEED_MODE,
 			barrageMaxSpeed:this.BARRAGE_MAX_SPEED,
 			longBarrageNeedTime:this.LONG_BARRAGE_NEED_TIME,
+			systemMessageSpeed:this.SYSTEM_MESSAGE_FLY_SPEED,
+			giftcomboAnimationSpeed:this.GIFTCOMBO_ANIMATION_FLY_SPEED,
 			userUid:this.userUid
 		};
 		new h5playerBarrage(params,function(barrage){

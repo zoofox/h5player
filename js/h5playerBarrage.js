@@ -11,6 +11,8 @@ function h5playerBarrage(params, callback) {
     this.barrageSpeedMode = params.barrageSpeedMode;
     this.barrageMaxSpeed = params.barrageMaxSpeed;
     this.longBarrageNeedTime = params.longBarrageNeedTime;
+    this.giftcomboAnimationSpeed = params.giftcomboAnimationSpeed;
+    this.systemMessageSpeed = params.systemMessageSpeed;
     this.SINGLE_TEXT_WIDTH = 13.5; //单个字宽度 修改弹幕文字大小后需要同步修改
     this.firing = false;
     this.isAysnc = 0;//0同步 1异步
@@ -67,7 +69,9 @@ h5playerBarrage.prototype = {
         var self = this;
         new h5playerBarrageQueue({
             barrage:this,
-            barrageFlySpeed:this.barrageFlySpeed
+            barrageFlySpeed:this.barrageFlySpeed,
+            giftcomboAnimationSpeed:this.giftcomboAnimationSpeed,
+            systemMessageSpeed:this.systemMessageSpeed
         },function(queue) {
             self.queue = queue;
             callback();

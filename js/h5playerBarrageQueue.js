@@ -6,6 +6,8 @@ function h5playerBarrageQueue(params, callback) {
     this.buffer = [];
     this.barrage = params.barrage;
     this.barrageFlySpeed = params.barrageFlySpeed;
+    this.systemMessageSpeed = params.systemMessageSpeed;
+    this.giftcomboAnimationSpeed = params.giftcomboAnimationSpeed;
     this.comboBuffer = [];
     this.init(callback);
 }

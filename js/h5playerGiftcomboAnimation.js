@@ -4,7 +4,7 @@
 function h5playerGiftcomboAnimation(queue, callback) {
     this.queue = queue;
     this.SINGLE_TEXT_WIDTH = 7;
-    this.barrageFlySpeed = queue.barrageFlySpeed;
+    this.giftcomboAnimationSpeed = queue.giftcomboAnimationSpeed;
     this.comboAnimationRunning = false;
     this.buffer = [];
     this.init(callback);
@@ -90,7 +90,7 @@ h5playerGiftcomboAnimation.prototype = {
             'transform': 'translateX(0)'
         });
         var allWidth = $('#giftcombo-animation').width() + comboleft;
-        var time = (allWidth / 100).toFixed(2);
+        var time = (allWidth / this.giftcomboAnimationSpeed).toFixed(2);
         this.run(allWidth, time);
     },
     run: function(allWidth, time) {
