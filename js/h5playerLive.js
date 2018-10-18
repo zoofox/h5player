@@ -28,7 +28,7 @@ h5playerLive.prototype = {
 	        self.player.attachMediaElement(video);
 	        self.player.load();
 	        self.player.on(flvjs.Events.LOADING_COMPLETE,function(){
-				alert('下播...')		
+				console.log('下播...')		
 			})
 			self.player.on(flvjs.Events.METADATA_ARRIVED,function(e){
 				alert('METADATA_ARRIVED')
@@ -45,31 +45,36 @@ h5playerLive.prototype = {
 				self.main.onGetMideaInfo(self.player.mediaInfo);
 			})
 			self.player.on(flvjs.Events.ERROR,function(e){
-				alert(JSON.stringify(e));
-				h5playerLog(JSON.stringify(e),4);	
+				h5playerLog(e,4);
 			})
 	        if(typeof callback === 'function'){
-		        	callback(self.player.mediaInfo);
+		        callback(self.player.mediaInfo);
 		    }
 		});
 	},
 	videoEvent:function(){
+		var self = this;
 		this.video.onloadstart=function(){
+			$('.live-opening').show();
 			console.log('on load start')
 		};
 		this.video.onloadeddata=function(){
 			console.log('loading');
 		};
-		this.video.onprogress=function(){
+		this.video.onprogress=function(e){
 			console.log('onprogress');
 		};
 		this.video.oncanplay=function(){
+			$('.live-opening').hide();
 			console.log('oncanplay');
 		};
 		this.video.oncanplaythrough=function(){
-			console.log('oncanplaythrough');
+			console.log('oncanplaythrough')
+			$('.live-loading').hide();
 		};
 		this.video.onwaiting=function(){
+			$('.live-opening').hide();
+			$('.live-loading').show();
 			console.log('waiting');
 		};
 	}

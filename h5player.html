@@ -9,6 +9,14 @@
 
 <body>
     <div class="live-h5player-container" id="live-h5player-container">
+    	<div class="live-h5player-status">
+            <img src="./imgs/h5player/slogan.png" alt="" class="live-opening">
+            <div class="live-loading">
+        		<img src="./imgs/h5player/loading.png" alt="" class="live-loading-icon">
+                <p class="live-loading-text">缓冲中</p>
+            </div>
+            <p class="live-time"><span class="red-ball"></span>&nbsp;<span>已开播时间：3小时22分钟</span></p>
+        </div>
         <div class="live-h5player-video-box">
             <video class="live-h5player-video" id='video'></video>
         </div>
@@ -22,7 +30,7 @@
                 <div class="left-bar"></div>
                 <div class="middle-bar">
                     <img src="./imgs/h5player/combo/0/gift.gif" alt="" class="giftcombo-img">
-                    <p class="giftcombo-text"><span>用户昵称</span> 送给主播 <span>1314个海马</span></p>
+                    <p class="giftcombo-text"></p>
                 </div>
                 <div class="right-bar"></div>
                 <div class="clear"></div>
@@ -149,7 +157,7 @@
     <script type="text/javascript">
     var h5player2 = null;
     h5player2 = new h5player({
-        roomId: 54001,
+        roomId: 18648324,
         host: '',
         videoId: 'video',
         userUid: 1001
