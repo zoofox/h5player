@@ -53,7 +53,6 @@ h5playerGiftcomboAnimation.prototype = {
         return config;
     },
     handOver: function(params) {
-        var self = this;
         if (this.comboAnimationRunning) {
         	this.buffer.push(params);
         } else {
@@ -67,43 +66,43 @@ h5playerGiftcomboAnimation.prototype = {
         var textWidth = Math.floor(this.queue.barrage.getBarrageContentLen(params.combotext.pureStr) * this.SINGLE_TEXT_WIDTH);
         var middleBarWidth = textWidth - 30 - 20; //20（leftbar）30 (rightbar)
         textWidth -= 20;
-        $('.giftcombo-animation .giftcombo-img').attr('src', params.icon);
-        $('.giftcombo-animation .left-bar').css({
+        $('#giftcombo-animation .giftcombo-img').attr('src', params.icon);
+        $('#giftcombo-animation .left-bar').css({
         	'background':'url('+config.barImgs.textBarImg0+') no-repeat',
         	'backgroundSize':'50px 28px'
         })
-        $('.giftcombo-animation .middle-bar').css({
+        $('#giftcombo-animation .middle-bar').css({
         	'background':'url('+config.barImgs.textBarImg1+') repeat',
         	'backgroundSize':middleBarWidth+'px 28px'
         })
-        $('.giftcombo-animation .right-bar').css({
+        $('#giftcombo-animation .right-bar').css({
         	'background':'url('+config.barImgs.textBarImg2+') no-repeat',
         	'background-size':'50px 28px'
         })
-        $('.giftcombo-animation .middle-bar').css('width', middleBarWidth + 'px');
-        $('.giftcombo-animation .giftcombo-text').html(params.combotext.str).css('width', textWidth + 'px');
+        $('#giftcombo-animation .middle-bar').css('width', middleBarWidth + 'px');
+        $('#giftcombo-animation .giftcombo-text').html(params.combotext.str).css('width', textWidth + 'px');
         var comboleft = videoWidth + 30;
         var comboWidth = textWidth + 30 + 20 + 30;
-        $('.giftcombo-animation').css({
+        $('#giftcombo-animation').css({
         	'display':'block',
             'width': comboWidth + 'px',
             'left': comboleft + 'px',
             'transform': 'translateX(0)'
         });
-        var allWidth = $('.giftcombo-animation').width() + comboleft;
-        var time = (allWidth / this.barrageFlySpeed).toFixed(2);
+        var allWidth = $('#giftcombo-animation').width() + comboleft;
+        var time = (allWidth / 100).toFixed(2);
         this.run(allWidth, time);
     },
     run: function(allWidth, time) {
         var self = this;
         setTimeout(function() {
-            $('.giftcombo-animation').css({
+            $('#giftcombo-animation').css({
                 'transform': 'translateX(-' + allWidth + 'px)',
                 'transition': 'transform ' + time + 's linear 0s'
             })
         }, 50)
         setTimeout(function() {
-            $('.giftcombo-animation').css({
+            $('#giftcombo-animation').css({
                 'transition': 'none'
             })
             self.comboAnimationRunning = false;

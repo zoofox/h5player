@@ -165,7 +165,7 @@ h5playerBarrage.prototype = {
     },
     fly: function(bullet, tunnel, callback) {
         var self = this;
-        var opacity = 1 - 0.2 * this.barrageConfig.barrageOpacity;
+        var opacity = 1 - 0.2 * this.barrageConfig.barrageOpacity - 0.1;
         var barragePosition = this.barrageConfig.barragePosition;
         var videoWidth = $('#live-h5player-container').width();
         var textWidth = Math.floor(this.getBarrageContentLen(bullet.barrage.content.contentFate) * this.SINGLE_TEXT_WIDTH);

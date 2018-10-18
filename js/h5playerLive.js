@@ -62,7 +62,7 @@ h5playerLive.prototype = {
 			console.log('loading');
 		};
 		this.video.onprogress=function(e){
-			console.log('onprogress');
+			// console.log('onprogress');
 		};
 		this.video.oncanplay=function(){
 			$('.live-opening').hide();

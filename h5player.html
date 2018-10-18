@@ -23,10 +23,17 @@
         <div class="live-h5player-barrage">
         </div>
         <div class="live-h5player-system">
-        	<div class="system-message">
-        		
+            <!-- 喇叭 -->
+        	<div class="system-message" id="system-message">
+        		<div class="left-bar"></div>
+                <div class="middle-bar">
+                    <p class="message-content">系统喇叭啦啦啦啦啦阿拉</p>
+                </div>
+                <div class="right-bar"></div>
+                <div class="clear"></div>
         	</div>
-            <div class="giftcombo-animation">
+            <!-- 连击动画飘屏 -->
+            <div class="giftcombo-animation" id="giftcombo-animation">
                 <div class="left-bar"></div>
                 <div class="middle-bar">
                     <img src="./imgs/h5player/combo/0/gift.gif" alt="" class="giftcombo-img">
@@ -147,6 +154,7 @@
     <script type="text/javascript" src="./js/flv.min.js"></script>
     <script type="text/javascript" src="./js/h5playerStreamManager.js"></script>
     <script type="text/javascript" src="./js/h5playerGiftcomboAnimation.js"></script>
+    <script type="text/javascript" src="./js/h5playerSystemMessage.js"></script>
     <script type="text/javascript" src="./js/h5playerBarrageQueue.js"></script>
     <script type="text/javascript" src="./js/h5playerBarrageTunnelManager.js"></script>
     <script type="text/javascript" src="./js/h5playerBarrageBulletManager.js"></script>
@@ -157,7 +165,7 @@
     <script type="text/javascript">
     var h5player2 = null;
     h5player2 = new h5player({
-        roomId: 18648324,
+        roomId: 20185,
         host: '',
         videoId: 'video',
         userUid: 1001

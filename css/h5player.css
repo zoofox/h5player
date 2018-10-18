@@ -516,7 +516,7 @@ body {
       perspective: 500px;
       will-change: transform;
       font-weight: bold;
-      text-shadow: black 1px 0px 1px, black 0px 1px 1px, black 0px -1px 1px, black -1px 0px 1px; }
+      text-shadow: rgba(0, 0, 0, 0.8) 1px 0px 1px, rgba(0, 0, 0, 0.8) 0px 1px 1px, rgba(0, 0, 0, 0.8) 0px -1px 1px, rgba(0, 0, 0, 0.8) -1px 0px 1px; }
       .live-h5player-container .live-h5player-barrage .h5player-barrage-item img {
         width: auto;
         height: 22px;
@@ -530,12 +530,48 @@ body {
     position: absolute;
     top: 0;
     left: 0; }
+    .live-h5player-container .live-h5player-system .system-message {
+      display: none;
+      height: 24px;
+      position: absolute;
+      top: 5px; }
+      .live-h5player-container .live-h5player-system .system-message .left-bar {
+        width: 40px;
+        height: 24px;
+        background: url("../imgs/h5player/sys_0.png") no-repeat;
+        background-size: 40px 24px;
+        float: left; }
+      .live-h5player-container .live-h5player-system .system-message .middle-bar {
+        height: 24px;
+        background: url("../imgs/h5player/sys_1.png") no-repeat;
+        background-size: 118px 24px;
+        float: left;
+        font-size: 14px;
+        line-height: 24px;
+        z-index: 2;
+        position: relative;
+        white-space: nowrap;
+        color: #fff; }
+        .live-h5player-container .live-h5player-system .system-message .middle-bar .message-content {
+          width: 60px;
+          height: 24px;
+          margin-left: -28px; }
+          .live-h5player-container .live-h5player-system .system-message .middle-bar .message-content img {
+            vertical-align: middle;
+            height: 20px;
+            position: relative;
+            top: -2px; }
+      .live-h5player-container .live-h5player-system .system-message .right-bar {
+        width: 40px;
+        height: 24px;
+        background: url("../imgs/h5player/sys_2.png") no-repeat;
+        background-size: 40px 24px;
+        float: left; }
     .live-h5player-container .live-h5player-system .giftcombo-animation {
       display: none;
       height: 28px;
       position: absolute;
-      top: 100px;
-      left: 100px; }
+      top: 100px; }
       .live-h5player-container .live-h5player-system .giftcombo-animation .left-bar {
         width: 50px;
         height: 28px;
