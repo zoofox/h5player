@@ -60,13 +60,17 @@ body {
       top: 10px;
       right: 10px;
       border-radius: 20px;
-      background: rgba(0, 0, 0, 0.6); }
+      background: rgba(0, 0, 0, 0.6);
+      transition: top 0.3s linear 0s;
+      z-index: 2; }
       .live-h5player-container .live-h5player-status .live-time .red-ball {
         width: 6px;
         height: 6px;
         display: inline-block;
         border-radius: 6px;
         background-color: #ff5959; }
+    .live-h5player-container .live-h5player-status .live-time-hidden {
+      top: -27px; }
 
 @keyframes cameraRotate {
   0% {
@@ -104,7 +108,7 @@ body {
     height: 45px;
     width: 100%;
     background: rgba(0, 0, 0, 0.8);
-    transition: bottom 0.5s linear 0s; }
+    transition: bottom 0.3s linear 0s; }
     .live-h5player-container .live-h5player-controlbar .controlbar-left,
     .live-h5player-container .live-h5player-controlbar .controlbar-right {
       cursor: pointer;

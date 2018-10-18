@@ -66,6 +66,8 @@ body {
         	right: 10px;
         	border-radius: 20px;
         	background: rgba(0,0,0,.6);
+        	transition: top 0.3s linear 0s;
+        	z-index: 2;
         	.red-ball{
         		width: 6px;height: 6px;
         		display: inline-block;
@@ -73,7 +75,9 @@ body {
         		background-color: #ff5959;
         	}
         }
-
+		.live-time-hidden{
+			top:-27px;
+		}
         @keyframes cameraRotate {
             0% {
                 transform: rotate(0deg);
@@ -116,7 +120,7 @@ body {
         height: 45px;
         width: 100%;
         background: rgba(0, 0, 0, .8);
-        transition: bottom 0.5s linear 0s;
+        transition: bottom 0.3s linear 0s;
         .controlbar-left,
         .controlbar-right {
             cursor: pointer;

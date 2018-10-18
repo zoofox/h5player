@@ -270,9 +270,15 @@ h5playerControlBar.prototype = {
 			if($('.live-h5player-controlbar').hasClass('controlbar-bottom')){
 				$('.live-h5player-controlbar').removeClass('controlbar-bottom');
 			}
+			if($('#live-h5player-container .live-time').hasClass('live-time-hidden')){
+				$('#live-h5player-container .live-time').removeClass('live-time-hidden');
+			}
 		},function(){
 			if(!$('.live-h5player-controlbar').hasClass('controlbar-bottom')){
 				$('.live-h5player-controlbar').addClass('controlbar-bottom');
+			}
+			if(!$('#live-h5player-container .live-time').hasClass('live-time-hidden')){
+				$('#live-h5player-container .live-time').addClass('live-time-hidden');
 			}
 		})
 		$('.live-h5player-container').click(function(){
