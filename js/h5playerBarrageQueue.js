@@ -124,9 +124,9 @@ h5playerBarrageQueue.prototype = {
             var giftId = animationIcon.match(/v4\/(\S*)_/)[1];
             var combotext = this.reformContent(metaInfo.animationText);
             this.giftCombo.handOver({
-            	giftId:giftId,
             	combotext:combotext,
-            	icon:animationIcon
+            	icon:animationIcon,
+            	bgUrl:metaInfo.animationBg
             }); //queue只负责分发，不负责具体动画业务
         }
     },

@@ -34,13 +34,15 @@
         	</div>
             <!-- 连击动画飘屏 -->
             <div class="giftcombo-animation" id="giftcombo-animation">
-                <canvas width="0" height="0" id="giftcombo-canvas"></canvas>
-                <div class="left-bar"></div>
+                <canvas class="left-bar" id="left-bar" width='50' height='28'></canvas>
                 <div class="middle-bar">
-                    <img src="./imgs/h5player/combo/0/gift.gif" alt="" class="giftcombo-img">
-                    <p class="giftcombo-text"></p>
+                    <canvas class="" id="middle-bar" height='28'></canvas>
+                    <div class="giftcombo-content">
+                         <img src="./imgs/h5player/combo/0/gift.gif" alt="" class="giftcombo-img">
+                         <p class="giftcombo-text"></p>
+                    </div>
                 </div>
-                <div class="right-bar"></div>
+                <canvas class="right-bar" id="right-bar" width='50' height='28'></canvas>
                 <div class="clear"></div>
             </div>
         </div>

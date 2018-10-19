@@ -534,8 +534,6 @@ body {
     position: absolute;
     top: 0;
     left: 0; }
-    .live-h5player-container .live-h5player-system canvas {
-      display: none; }
     .live-h5player-container .live-h5player-system .system-message {
       display: none;
       height: 24px;
@@ -581,6 +579,7 @@ body {
       position: absolute;
       top: 100px; }
       .live-h5player-container .live-h5player-system .giftcombo-animation .left-bar {
+        display: block;
         width: 50px;
         height: 28px;
         background: url("../imgs/h5player/combo/0/bar0.png") no-repeat;
@@ -597,18 +596,30 @@ body {
         z-index: 2;
         position: relative;
         white-space: nowrap; }
-        .live-h5player-container .live-h5player-system .giftcombo-animation .middle-bar .giftcombo-img {
-          width: 60px;
-          height: 60px;
+        .live-h5player-container .live-h5player-system .giftcombo-animation .middle-bar canvas {
           display: block;
-          float: left;
-          margin-top: -16px;
-          margin-left: -80px; }
-        .live-h5player-container .live-h5player-system .giftcombo-animation .middle-bar .giftcombo-text {
-          float: left;
-          margin-left: -20px;
-          color: #fff; }
+          position: absolute;
+          top: 0;
+          left: 0; }
+        .live-h5player-container .live-h5player-system .giftcombo-animation .middle-bar .giftcombo-content {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%; }
+          .live-h5player-container .live-h5player-system .giftcombo-animation .middle-bar .giftcombo-content .giftcombo-img {
+            width: 60px;
+            height: 60px;
+            display: block;
+            float: left;
+            margin-top: -16px;
+            margin-left: -80px; }
+          .live-h5player-container .live-h5player-system .giftcombo-animation .middle-bar .giftcombo-content .giftcombo-text {
+            float: left;
+            margin-left: -20px;
+            color: #fff; }
       .live-h5player-container .live-h5player-system .giftcombo-animation .right-bar {
+        display: block;
         width: 50px;
         height: 28px;
         background: url("../imgs/h5player/combo/0/bar2.png") no-repeat;
