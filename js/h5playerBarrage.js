@@ -108,7 +108,7 @@ h5playerBarrage.prototype = {
                     var barrageReadyBuffer = self.queue.buffer.slice(0, tunnelReadyCount);
                     self.getBullets(barrageReadyBuffer, function(bulletObj) {
                         if (bulletObj.count != 0) {
-                            if(self.isAysnc){
+                            if(self.isAysnc == 0){
                                 self.distribute(bulletObj.bullets, obj.tunnels, 0);
                             }else{
                                 self.asyncDistribute(bulletObj.bullets, obj.tunnels, function() {
@@ -142,7 +142,7 @@ h5playerBarrage.prototype = {
             });
         } else {
             //this time barrage load end...
-            // this.queue.outQueue(len);
+            this.queue.outQueue(len);
             this.firing = false;
         }
     },

@@ -534,6 +534,8 @@ body {
     position: absolute;
     top: 0;
     left: 0; }
+    .live-h5player-container .live-h5player-system canvas {
+      display: none; }
     .live-h5player-container .live-h5player-system .system-message {
       display: none;
       height: 24px;
@@ -560,6 +562,8 @@ body {
           width: 60px;
           height: 24px;
           margin-left: -28px; }
+          .live-h5player-container .live-h5player-system .system-message .middle-bar .message-content span {
+            color: #fd9d2c !important; }
           .live-h5player-container .live-h5player-system .system-message .middle-bar .message-content img {
             vertical-align: middle;
             height: 20px;
