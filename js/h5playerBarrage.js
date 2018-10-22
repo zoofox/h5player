@@ -1,7 +1,7 @@
 /*
 h5播放器弹幕入口
  */
-function h5playerBarrage(params, callback) {
+function H5playerBarrage(params, callback) {
     this.player = params.player;
     this.videoId = params.videoId;
     this.userUid = params.userUid;
@@ -19,7 +19,7 @@ function h5playerBarrage(params, callback) {
     this.callback = callback;
     this.barrageInit(params);
 }
-h5playerBarrage.prototype = {
+H5playerBarrage.prototype = {
     barrageInit: function(params) {
         var self = this;
         var bs = this.getBarrageParam('barrageSwitch');
@@ -67,7 +67,7 @@ h5playerBarrage.prototype = {
     },
     queueInit: function(callback) {
         var self = this;
-        new h5playerBarrageQueue({
+        new H5playerBarrageQueue({
             barrage:this,
             barrageFlySpeed:this.barrageFlySpeed,
             giftcomboAnimationSpeed:this.giftcomboAnimationSpeed,
@@ -79,7 +79,7 @@ h5playerBarrage.prototype = {
     },
     tunnelManagerInit: function(callback) {
         var self = this;
-        new h5playerBarrageTunnelManager({
+        new H5playerBarrageTunnelManager({
             videoId: this.videoId,
             singleTunnelHeight: this.singleTunnelHeight,
             barragePosition: this.barrageConfig.barragePosition
@@ -90,7 +90,7 @@ h5playerBarrage.prototype = {
     },
     bulletManagerInit: function(callback) {
         var self = this;
-        new h5playerBarrageBulletManager({
+        new H5playerBarrageBulletManager({
             userUid: this.userUid
         }, function(bulletManager) {
             self.bulletManager = bulletManager;

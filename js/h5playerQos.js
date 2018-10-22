@@ -1,4 +1,4 @@
-function h5playerQos(roomid, playerType) {
+function H5playerQos(roomid, playerType) {
     this._roomId = roomid;
     this._playerType = playerType;
     this._url = "https://stat.chushou.tv/h5/qos/live.htm";
@@ -6,7 +6,7 @@ function h5playerQos(roomid, playerType) {
     this._system = this.getSystemName();
     this._browser = this.getBrowserName();
 }
-h5playerQos.prototype = {
+H5playerQos.prototype = {
     destroy: function() {
         this.stopTimer();
     },

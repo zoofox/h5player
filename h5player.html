@@ -174,7 +174,7 @@
     <script type="text/javascript" src="./js/h5player.js"></script>
     <script type="text/javascript">
     var h5player2 = null;
-    h5player2 = new h5player({
+    h5player2 = new H5player({
         roomId: 13763,
         host: '',
         videoId: 'video',
@@ -183,7 +183,7 @@
     $('.start-btn').click(function() {
         h5player2 = null;
         var roomId = $('.test-input').val();
-        h5player2 = new h5player({
+        h5player2 = new H5player({
             roomId: roomId,
             host: '',
             videoId: 'video',

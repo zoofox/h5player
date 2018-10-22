@@ -1,7 +1,7 @@
 /*
 系统消息 喇叭
  */
-function h5playerSystemMessage(queue, callback) {
+function H5playerSystemMessage(queue, callback) {
     this.queue = queue;
     this.SINGLE_TEXT_WIDTH = 7;
     this.systemMessageSpeed = queue.systemMessageSpeed;
@@ -9,7 +9,7 @@ function h5playerSystemMessage(queue, callback) {
     this.buffer = [];
     this.init(callback);
 }
-h5playerSystemMessage.prototype = {
+H5playerSystemMessage.prototype = {
     init: function(callback) {
         callback(this);
     },

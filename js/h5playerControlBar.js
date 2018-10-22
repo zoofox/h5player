@@ -1,7 +1,7 @@
 /*
 h5播放器控制栏
  */
-function h5playerControlBar(params, callback) {
+function H5playerControlBar(params, callback) {
     this.player = params.player;
     this.barrage = params.barrage;
     this.videoId = params.videoId;
@@ -10,7 +10,7 @@ function h5playerControlBar(params, callback) {
     this.callback = callback;
     this.init();
 }
-h5playerControlBar.prototype = {
+H5playerControlBar.prototype = {
     init: function() {
         this.controBarStatusInit();
         this.operate();

@@ -1,7 +1,7 @@
 /*
 礼物连击动画
  */
-function h5playerGiftcomboAnimation(queue, callback) {
+function H5playerGiftcomboAnimation(queue, callback) {
     this.queue = queue;
     this.SINGLE_TEXT_WIDTH = 7;
     this.giftcomboAnimationSpeed = queue.giftcomboAnimationSpeed;
@@ -9,7 +9,7 @@ function h5playerGiftcomboAnimation(queue, callback) {
     this.buffer = [];
     this.init(callback);
 }
-h5playerGiftcomboAnimation.prototype = {
+H5playerGiftcomboAnimation.prototype = {
     init: function(callback) {
         callback(this);
     },
@@ -41,7 +41,7 @@ h5playerGiftcomboAnimation.prototype = {
 
         $('#giftcombo-animation .middle-bar').css('width', middleBarWidth + 'px');
         $('#giftcombo-animation .giftcombo-text').html(params.combotext.str).css('width', textWidth + 'px');
-        var leftW = h5player.isThisBrowser('safari')?81:0;//解决safari层级问题
+        var leftW = H5player.isThisBrowser('safari')?81:0;//解决safari层级问题
         var comboleft = videoWidth + 30 - leftW;
         var comboWidth = textWidth + 30 + 20 + 30;
         $('#giftcombo-animation').css({

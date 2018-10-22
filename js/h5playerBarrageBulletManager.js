@@ -1,13 +1,13 @@
 /*
 h5播放器弹幕条目
  */
-function h5playerBarrageBulletManager(params, callback) {
+function H5playerBarrageBulletManager(params, callback) {
     this.userUid = params.userUid || '';
     this.store = []; //仓库
     this.callback = callback;
     this.init();
 }
-h5playerBarrageBulletManager.prototype = {
+H5playerBarrageBulletManager.prototype = {
     init: function() {
         this.bullets = [];
         this.callback(this);

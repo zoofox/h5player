@@ -1,7 +1,7 @@
 /*
 h5播放器入口
  */
-function h5player(params) {
+function H5player(params) {
     this.h5playerVersion = '0.0.1'; //h5player版本
     this.roomId = params.roomId || '';
     this.videoId = params.videoId || '';
@@ -30,7 +30,7 @@ function h5player(params) {
     window.h5playerLogLevel = 0;
     this.playerInit();
 }
-h5player.prototype = {
+H5player.prototype = {
     playerInit: function() {
         if (flvjs.isSupported()) {
             var self = this;
@@ -62,7 +62,7 @@ h5player.prototype = {
             main: this
         };
         var self = this;
-        new h5playerLive(params, function(player, mediaInfo) {
+        new H5playerLive(params, function(player, mediaInfo) {
             self.player = player;
             if (mediaInfo && mediaInfo.width) {
                 self.mediaInfo = mediaInfo;
@@ -79,7 +79,7 @@ h5player.prototype = {
             barrage: this.barrage
         };
         var self = this;
-        new h5playerControlBar(params, function(controlBar) {
+        new H5playerControlBar(params, function(controlBar) {
             self.controlBar = controlBar;
             callback();
         });
@@ -106,7 +106,7 @@ h5player.prototype = {
             giftcomboAnimationSpeed: this.GIFTCOMBO_ANIMATION_FLY_SPEED,
             userUid: this.userUid
         };
-        new h5playerBarrage(params, function(barrage) {
+        new H5playerBarrage(params, function(barrage) {
             self.barrage = barrage;
             callback();
         });
@@ -174,10 +174,7 @@ h5player.prototype = {
         })
     }
 };
-h5player.isLiving = function(){
-	
-}
-h5player.isThisBrowser = function(name) {
+H5player.isThisBrowser = function(name) {
     var ua = navigator.userAgent.toLowerCase();
     var reg = {
         'ie': /msie\s([\d.]+)/,

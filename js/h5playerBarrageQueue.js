@@ -2,7 +2,7 @@
  * 直播弹幕队列
  * 分发处理弹幕消息（普通弹幕，连击动画，喇叭）
  */
-function h5playerBarrageQueue(params, callback) {
+function H5playerBarrageQueue(params, callback) {
     this.buffer = [];
     this.barrage = params.barrage;
     this.barrageFlySpeed = params.barrageFlySpeed;
@@ -11,7 +11,7 @@ function h5playerBarrageQueue(params, callback) {
     this.comboBuffer = [];
     this.init(callback);
 }
-h5playerBarrageQueue.prototype = {
+H5playerBarrageQueue.prototype = {
     init: function(callback) {
         this.initSystemMessage();
         this.initGiftcomboAnimation();
@@ -20,13 +20,13 @@ h5playerBarrageQueue.prototype = {
     },
     initGiftcomboAnimation: function() {
         var self = this;
-        new h5playerGiftcomboAnimation(this, function(giftCombo) {
+        new H5playerGiftcomboAnimation(this, function(giftCombo) {
             self.giftCombo = giftCombo;
         });
     },
     initSystemMessage: function() {
         var self = this;
-        new h5playerSystemMessage(this, function(systeMessage) {
+        new H5playerSystemMessage(this, function(systeMessage) {
             self.systeMessage = systeMessage;
         });
     },

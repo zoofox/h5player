@@ -1,7 +1,7 @@
 /*
 h5播放器弹幕弹道
  */
-function h5playerBarrageTunnelManager(params, callback) {
+function H5playerBarrageTunnelManager(params, callback) {
     this.videoId = params.videoId;
     this.singleTunnelHeight = params.singleTunnelHeight; //弹幕轨道高度
     this.barragePosition = params.barragePosition;
@@ -14,7 +14,7 @@ function h5playerBarrageTunnelManager(params, callback) {
     this.init();
 }
 
-h5playerBarrageTunnelManager.prototype = {
+H5playerBarrageTunnelManager.prototype = {
     init: function() {
         this.initTunnels();
         if (this.callback) {

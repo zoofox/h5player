@@ -1,7 +1,7 @@
 /*
 h5播放器播放业务
  */
-function h5playerLive(params, callback) {
+function H5playerLive(params, callback) {
     this.roomId = params.roomId;
     this.host = params.host;
     this.videoId = params.videoId;
@@ -14,7 +14,7 @@ function h5playerLive(params, callback) {
     this.isLiving = false;
     this.getLiveStreamUrl();
 }
-h5playerLive.prototype = {
+H5playerLive.prototype = {
     //load播放器
     flvjsPlayerLoad: function(obj, callback) {
         var self = this;
@@ -198,7 +198,7 @@ h5playerLive.prototype = {
             roomId: this.roomId,
             host: this.host
         }
-        this.stream = new h5playerStreamManager(params, function() {
+        this.stream = new H5playerStreamManager(params, function() {
             self.setPlayUrl(self.stream.getCurrentStreamUrl(), function(mediaInfo) {
                 if (self.callback) {
                     self.callback(self, mediaInfo);
