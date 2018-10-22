@@ -67,7 +67,6 @@ h5playerLive.prototype = {
         this.video.oncanplay = function() {
             $('.live-opening').hide();
             self.isLiving = true;
-            self.getLiveTime();
             console.log('oncanplay');
         };
         this.video.oncanplaythrough = function() {
@@ -91,11 +90,28 @@ h5playerLive.prototype = {
             callback();
         }
     },
+    checkAutoPlay:function(callback){
+    	var promise = document.querySelector('video').play();
+		if (promise !== undefined) {  
+		    promise.then(function(){
+		    	callback();
+		    }).catch(function(error){
+		    	$('.h5player-unsupport-autoplay').show();
+		    })
+		}
+    },
     //播放
     play: function() {
-        if (this.player) {
-            this.player.play();
-        }
+    	var self = this;
+    	this.checkAutoPlay(function(){
+    		if (self.player) {
+	        	try{
+	            	self.player.play();
+	        	}catch(e){
+	        		window.console&&console.log(e);
+	        	}
+	        }
+    	});
     },
     //暂停
     pause: function() {
@@ -246,39 +262,6 @@ h5playerLive.prototype = {
                 this.setPlayUrl(this.stream.getCurrentStreamUrl());
                 callback();
             }
-        }
-    },
-    //直播时长
-    getLiveTime: function() {
-        if (this.isLiving && this.roomId) {
-            var self = this;
-            var opts = {
-                url: this.host + "/room/get-online-count.htm?roomId=" + this.roomId,
-                type: 'get',
-                cache: false,
-                dataType: 'json',
-                success: function(res) {
-                    var liveTime = res.data.liveTime;
-                    if (liveTime) {
-                        var str = '';
-                        var sec = Math.floor(liveTime / 1000);
-                        if (liveTime < 1000) {
-                            str = '刚刚开播';
-                        } else if (liveTime > 1000 && liveTime < 60 * 60 * 1000) {
-                            var min = Math.floor(sec / 60);
-                            str = ' 已开播：' + min + '分钟';
-                        } else {
-                            var hour = Math.floor(sec / 3600);
-                            var min = Math.floor((sec - hour * 3600) / 60);
-                            $('.live-time-now').text('已开播时间：' + hour + '小时' + min + '分钟');
-                        }
-                    }
-                },
-                error: function(xhr) {
-                    window.console && console.log("h5playerstreammanager jsonp error:" + JSON.stringify(xhr));
-                }
-            };
-            $.ajax(opts);
         }
     },
     setCookie: function(name, value) {
