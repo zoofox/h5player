@@ -637,10 +637,7 @@ body {
         position: relative;
         white-space: nowrap; }
         .live-h5player-container .live-h5player-system .giftcombo-animation .middle-bar canvas {
-          display: block;
-          /*position: absolute;*/
-          /*top:0;*/
-          /*left:0;*/ }
+          display: block; }
         .live-h5player-container .live-h5player-system .giftcombo-animation .middle-bar .giftcombo-content {
           position: absolute;
           top: 0;

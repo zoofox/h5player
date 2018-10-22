@@ -59,15 +59,17 @@ h5playerLive.prototype = {
             console.log('on load start')
         };
         this.video.onloadeddata = function() {
-            console.log('loading');
+            console.log('on loaded data');
         };
         this.video.onprogress = function(e) {
-            // console.log('onprogress');
         };
         this.video.oncanplay = function() {
             $('.live-opening').hide();
-            self.isLiving = true;
             console.log('oncanplay');
+            //兼容firefox不触发oncanplaythrough的问题
+            if(self.video.readyState >=3){
+            	 $('.live-loading').hide();
+            }
         };
         this.video.oncanplaythrough = function() {
             console.log('oncanplaythrough')
@@ -106,6 +108,7 @@ h5playerLive.prototype = {
     	this.checkAutoPlay(function(){
     		if (self.player) {
 	        	try{
+                    self.isLiving = true;
 	            	self.player.play();
 	        	}catch(e){
 	        		window.console&&console.log(e);
@@ -116,6 +119,7 @@ h5playerLive.prototype = {
     //暂停
     pause: function() {
         if (this.player) {
+             self.isLiving = false;
             this.player.pause();
         }
     },

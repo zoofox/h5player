@@ -41,7 +41,7 @@ h5playerGiftcomboAnimation.prototype = {
 
         $('#giftcombo-animation .middle-bar').css('width', middleBarWidth + 'px');
         $('#giftcombo-animation .giftcombo-text').html(params.combotext.str).css('width', textWidth + 'px');
-        var leftW = this.isSafari()?81:0;//解决safari层级问题
+        var leftW = h5player.isThisBrowser('safari')?81:0;//解决safari层级问题
         var comboleft = videoWidth + 30 - leftW;
         var comboWidth = textWidth + 30 + 20 + 30;
         $('#giftcombo-animation').css({
