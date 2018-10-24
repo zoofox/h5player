@@ -178,6 +178,14 @@ H5player.prototype = {
                 })
             }
         })
+    },
+    //for heartbeat
+    isLiving:function(){
+    	if(this.player){
+    		return this.player.isLiving;
+    	}else{
+    		return false;
+    	}
     }
 };
 H5player.isThisBrowser = function(name) {

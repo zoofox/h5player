@@ -13,6 +13,7 @@ function H5playerLive(params, callback) {
     this.main = params.main;
     this.isLiving = false;
     this.getLiveStreamUrl(callback);
+    this.waitingTime = null;
 }
 H5playerLive.prototype = {
     //load播放器
@@ -62,6 +63,7 @@ H5playerLive.prototype = {
         this.video.oncanplay = function() {
             $('.live-opening').hide();
             console.log('oncanplay');
+            clearInterval(self.waitingTime);
             //兼容firefox不触发oncanplaythrough的问题
             if (self.video.readyState >= 3) {
                 $('.live-loading').hide();
@@ -75,11 +77,26 @@ H5playerLive.prototype = {
             $('.live-opening').hide();
             $('.live-loading').show();
             console.log('waiting');
+            self.waitingHandler();
         };
+    },
+    //缓冲超过5秒则重新载入
+    waitingHandler:function(){
+        var self = this;
+        clearInterval(this.waitingTime);
+        this.waitingTimeStart = Date.now();
+        this.waitingTime = setInterval(function(){
+            var nowdata = Date.now();
+            if(nowdata - self.waitingTimeStart > 5000){
+                clearInterval(self.waitingTime);
+                self.refresh();
+            }
+        },1000)
     },
     //回收播放器
     playerDestroy: function(callback) {
         if (this.player) {
+            this.isLiving = false;
             this.player.pause();
             this.player.destroy();
             this.player = null;
@@ -195,11 +212,7 @@ H5playerLive.prototype = {
             host: this.host
         }
         if (this.stream) {
-            this.setPlayUrl(this.stream.getCurrentStreamUrl(), function(mediaInfo) {
-                if (callback) {
-                    callback(self, mediaInfo);
-                }
-            });
+            this.refresh();
         } else {
             this.stream = new H5playerStreamManager(params, function() {
                 self.setPlayUrl(self.stream.getCurrentStreamUrl(), function(mediaInfo) {
