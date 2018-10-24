@@ -179,7 +179,7 @@
     $('.html5-btn').click(function(){
         if(!h5player){
              h5player = new H5player({
-                roomId: 2463083,
+                roomId: 1180232,
                 host: '',
                 videoId: 'video',
                 userUid: 1001
@@ -191,7 +191,7 @@
     })
      $('.flash-btn').click(function() {
         if(h5player){
-             $('.h5plyaer-switch-flash').trigger('click');
+            h5player.destroy();
         }else{
             console.log('no h5player still..');
         }

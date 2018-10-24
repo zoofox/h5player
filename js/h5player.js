@@ -160,7 +160,6 @@ H5player.prototype = {
         return null;
     },
     onGetMideaInfo: function(mediaInfo) {
-        console.log('mediaInfo----->>>>>')
         this.mediaInfo = mediaInfo;
         this.setPlayerSize(mediaInfo.width, mediaInfo.height);
     },
@@ -195,4 +194,7 @@ H5player.isThisBrowser = function(name) {
         return true;
     }
     return false;
+}
+H5player.isSupported = function(name) {
+    return flvjs.isSupported();
 }
