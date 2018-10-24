@@ -13,6 +13,9 @@ H5playerSystemMessage.prototype = {
     init: function(callback) {
         callback(this);
     },
+    clearBuffer:function(){
+    	this.buffer = [];
+    },
     handOver: function(msg) {
         if (this.systemMessageRunning) {
             this.buffer.push(msg);

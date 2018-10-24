@@ -5,6 +5,7 @@ function H5playerControlBar(params, callback) {
     this.player = params.player;
     this.barrage = params.barrage;
     this.videoId = params.videoId;
+    this.main = params.main;
     this.videoRotateDeg = 0; //屏幕旋转角度
     this.isFullScreen = false; //是否全屏
     this.callback = callback;
@@ -287,7 +288,7 @@ H5playerControlBar.prototype = {
         })
         //切换到Flash播放器
         $('.h5plyaer-switch-flash').click(function() {
-            self.player.playerDestroy();
+            self.main.destroy();
             $('.live-h5player-rightmenu').hide();
         })
         $('.unsupport-autoplay-btn').click(function() {

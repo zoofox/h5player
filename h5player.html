@@ -85,13 +85,13 @@
             </div>
             <div class="controlbar-right h5player-barrage" data-status="1">
                 <div class="barrage-setbox">
-                    <div class="barrage-set-column">
+                   <!--  <div class="barrage-set-column">
                         <p class="barrage-set-info">全屏弹幕输入</p>
                         <div class="barrage-fullscreen-input">
                             <div class="barrage-fullscreen-input-switch barrage-fullscreen-input-off" data-value='0'>关</div>
                             <div class="barrage-fullscreen-input-switch barrage-fullscreen-input-on active" data-value='1'>开</div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="barrage-set-column">
                         <p class="barrage-set-info">透明度</p>
                         <div class="barrage-opacity">
@@ -131,8 +131,7 @@
     </div>
     <style>
     .test-btn {
-        width: 80px;
-        height: 40px;
+        padding:5px 10px; 
         line-height: 40px;
         text-align: center;
         border: 1px solid rgba(0, 0, 0, .8);
@@ -153,10 +152,13 @@
         outline: none;
         float: left;
         margin-top: 20px;
+        margin-left: 20px;
     }
     </style>
-    <input type="text" placeholder="输入房间号" class="test-input">
-    <div class="test-btn start-btn">开始</div>
+    <div class="test-btn html5-btn">flash->html5</div>
+    <div class="test-btn flash-btn">html5->flash</div>
+    <!-- <input type="text" placeholder="输入房间号" class="test-input"> -->
+    <!-- <div class="test-btn start-btn">开始</div> -->
     <!-- <div class="test-btn play-btn">切回h5</div> -->
     <script type="text/javascript" src="https://cdn.kascend.com/jellyfish/sysv730/js/lib/jquery/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="./js/util/config.js"></script>
@@ -173,17 +175,32 @@
     <script type="text/javascript" src="./js/h5playerControlBar.js"></script>
     <script type="text/javascript" src="./js/h5player.js"></script>
     <script type="text/javascript">
-    var h5player2 = null;
-    h5player2 = new H5player({
-        roomId: 13763,
-        host: '',
-        videoId: 'video',
-        userUid: 1001
-    });
+    var h5player = null;
+    $('.html5-btn').click(function(){
+        if(!h5player){
+             h5player = new H5player({
+                roomId: 2463083,
+                host: '',
+                videoId: 'video',
+                userUid: 1001
+            });
+        }else{
+            console.log('back')
+             h5player.switchBack();
+        }
+    })
+     $('.flash-btn').click(function() {
+        if(h5player){
+             $('.h5plyaer-switch-flash').trigger('click');
+        }else{
+            console.log('no h5player still..');
+        }
+    })
+    
     $('.start-btn').click(function() {
-        h5player2 = null;
+        h5player = null;
         var roomId = $('.test-input').val();
-        h5player2 = new H5player({
+        h5player = new H5player({
             roomId: roomId,
             host: '',
             videoId: 'video',
@@ -192,7 +209,7 @@
     })
 
     $('.play-btn').click(function() {
-        h5player2.switchBack();
+        h5player.switchBack();
     })
     </script>
 </body>

@@ -9,6 +9,8 @@ function H5playerBarrageQueue(params, callback) {
     this.systemMessageSpeed = params.systemMessageSpeed;
     this.giftcomboAnimationSpeed = params.giftcomboAnimationSpeed;
     this.comboBuffer = [];
+    this.barrageStatus = 1; //0关闭 1开启
+    this.animationStatus = 1;//飘屏和喇叭显示
     this.init(callback);
 }
 H5playerBarrageQueue.prototype = {
@@ -26,8 +28,8 @@ H5playerBarrageQueue.prototype = {
     },
     initSystemMessage: function() {
         var self = this;
-        new H5playerSystemMessage(this, function(systeMessage) {
-            self.systeMessage = systeMessage;
+        new H5playerSystemMessage(this, function(systemMessage) {
+            self.systemMessage = systemMessage;
         });
     },
     isEmpty: function() {
@@ -51,6 +53,21 @@ H5playerBarrageQueue.prototype = {
             h5playerLog('barrage buffer length less than delete length!', 3);
         }
     },
+    setBarrageStatus:function(status){
+    	this.barrageStatus = status;
+    	this.buffer = [];
+    	return this;
+    },
+    setAnimationStatus:function(status){
+    	this.animationStatus = status;
+    	return this;
+    },
+    clearAnimationBuffer:function(){
+    	this.setAnimationStatus(0);
+    	this.giftCombo.clearBuffer();
+    	this.systemMessage.clearBuffer();
+    	return this;
+    },
     //1聊天 2喇叭/连击动画 3礼物 4进场关注等系统消息
     receiveMessages: function(messages) {
         var messagesLength = messages.length;
@@ -59,22 +76,26 @@ H5playerBarrageQueue.prototype = {
             var type = messages[i].type;
             switch (type) {
                 case 1:
-                    var barrageContent = this.takeOffContentShell(messages[i].content);
-                    var transContent = this.translateEmoji(barrageContent);
-                    tempBuffer.push({
-                        content: transContent,
-                        uid: messages[i].uid,
-                        type: type
-                    });
+                	if(this.barrageStatus == 1){
+                		var barrageContent = this.takeOffContentShell(messages[i].content);
+	                    var transContent = this.translateEmoji(barrageContent);
+	                    tempBuffer.push({
+	                        content: transContent,
+	                        uid: messages[i].uid,
+	                        type: type
+	                    });
+                	}
                     break;
                 case 2:
-                    if (messages[i].metaInfo && messages[i].metaInfo.animation == 5) {
-                        //连击动画
-                        this.comboAnimation(messages[i].metaInfo);
-                    } else {
-                        //喇叭
-                        this.systemMsg(messages[i].content);
-                    }
+                	if(this.animationStatus == 1){
+                		 if (messages[i].metaInfo && messages[i].metaInfo.animation == 5) {
+	                        //连击动画
+	                        this.comboAnimation(messages[i].metaInfo);
+	                    } else {
+	                        //喇叭
+	                        this.systemMsg(messages[i].content);
+	                    }
+                	}
                     break;
                 case 3:
                     break;
@@ -148,9 +169,9 @@ H5playerBarrageQueue.prototype = {
     },
     //喇叭
     systemMsg: function(content) {
-        if (this.systeMessage) {
+        if (this.systemMessage) {
             var msg = this.reformContent(content);
-            this.systeMessage.handOver(msg);
+            this.systemMessage.handOver(msg);
         }
     },
     //处理连击动画和喇叭的文案

@@ -46,17 +46,18 @@ H5playerBarrage.prototype = {
     },
     open: function() {
         var self = this;
+        this.queue.setBarrageStatus(1);
         this.tunnelManager.calculateTunnelCount(this.barrageConfig.barragePosition, function() {
             self.sendTimer = setInterval(self.check.bind(self), self.barrageCheckTime);
         });
     },
     close: function() {
-        //应该有个全局变量通知barrage.js不再更新buffer
         if (this.sendTimer) {
             clearInterval(this.sendTimer);
         }
         $('.live-h5player-barrage').html('');
         this.queue.clearBuffer();
+        this.queue.setBarrageStatus(0);
         this.bulletManager.clearStore();
     },
     changePosition: function(value, callback) {

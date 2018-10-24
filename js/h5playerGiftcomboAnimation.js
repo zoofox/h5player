@@ -23,6 +23,9 @@ H5playerGiftcomboAnimation.prototype = {
             }
         }
     },
+    clearBuffer:function(){
+    	this.buffer = [];
+    },
     handOver: function(params) {
         if (this.comboAnimationRunning) {
             this.buffer.push(params);

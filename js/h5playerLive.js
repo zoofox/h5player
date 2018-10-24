@@ -12,20 +12,17 @@ function H5playerLive(params, callback) {
     this.DEFAULT_VOLUME = params.defaultVolume; // 默认音量
     this.main = params.main;
     this.isLiving = false;
-    this.getLiveStreamUrl();
+    this.getLiveStreamUrl(callback);
 }
 H5playerLive.prototype = {
     //load播放器
-    flvjsPlayerLoad: function(obj, callback) {
+    flvjsPlayerLoad: function(obj, config, callback) {
         var self = this;
         this.playerDestroy(function() {
             var video = document.getElementById(self.videoId);
             self.video = video;
             self.videoEvent();
-            self.player = flvjs.createPlayer(obj, {
-                enableStashBuffer: false,
-                isLive: true
-            });
+            self.player = flvjs.createPlayer(obj, config);
             self.player.attachMediaElement(video);
             self.player.load();
             self.player.on(flvjs.Events.LOADING_COMPLETE, function() {
@@ -61,14 +58,13 @@ H5playerLive.prototype = {
         this.video.onloadeddata = function() {
             console.log('on loaded data');
         };
-        this.video.onprogress = function(e) {
-        };
+        this.video.onprogress = function(e) {};
         this.video.oncanplay = function() {
             $('.live-opening').hide();
             console.log('oncanplay');
             //兼容firefox不触发oncanplaythrough的问题
-            if(self.video.readyState >=3){
-            	 $('.live-loading').hide();
+            if (self.video.readyState >= 3) {
+                $('.live-loading').hide();
             }
         };
         this.video.oncanplaythrough = function() {
@@ -92,34 +88,34 @@ H5playerLive.prototype = {
             callback();
         }
     },
-    checkAutoPlay:function(callback){
-    	var promise = document.querySelector('video').play();
-		if (promise !== undefined) {  
-		    promise.then(function(){
-		    	callback();
-		    }).catch(function(error){
-		    	$('.h5player-unsupport-autoplay').show();
-		    })
-		}
+    checkAutoPlay: function(callback) {
+        var promise = document.querySelector('video').play();
+        if (promise !== undefined) {
+            promise.then(function() {
+                callback();
+            }).catch(function(error) {
+                $('.h5player-unsupport-autoplay').show();
+            })
+        }
     },
     //播放
     play: function() {
-    	var self = this;
-    	this.checkAutoPlay(function(){
-    		if (self.player) {
-	        	try{
+        var self = this;
+        this.checkAutoPlay(function() {
+            if (self.player) {
+                try {
                     self.isLiving = true;
-	            	self.player.play();
-	        	}catch(e){
-	        		window.console&&console.log(e);
-	        	}
-	        }
-    	});
+                    self.player.play();
+                } catch (e) {
+                    window.console && console.log(e);
+                }
+            }
+        });
     },
     //暂停
     pause: function() {
         if (this.player) {
-             self.isLiving = false;
+            self.isLiving = false;
             this.player.pause();
         }
     },
@@ -192,26 +188,39 @@ H5playerLive.prototype = {
         }
     },
     //获取直播流地址
-    getLiveStreamUrl: function() {
+    getLiveStreamUrl: function(callback) {
         var self = this;
         var params = {
             roomId: this.roomId,
             host: this.host
         }
-        this.stream = new H5playerStreamManager(params, function() {
-            self.setPlayUrl(self.stream.getCurrentStreamUrl(), function(mediaInfo) {
-                if (self.callback) {
-                    self.callback(self, mediaInfo);
+        if (this.stream) {
+            this.setPlayUrl(this.stream.getCurrentStreamUrl(), function(mediaInfo) {
+                if (callback) {
+                    callback(self, mediaInfo);
                 }
             });
-        });
+        } else {
+            this.stream = new H5playerStreamManager(params, function() {
+                self.setPlayUrl(self.stream.getCurrentStreamUrl(), function(mediaInfo) {
+                    if (callback) {
+                        callback(self, mediaInfo);
+                    }
+                });
+            });
+        }
+
     },
     //配置flv.js参数
     setPlayUrl: function(url, callback) {
         var self = this;
         var flvjsobj = this.generateFlvObject(url);
+        var config = {
+            enableStashBuffer: false,
+            isLive: true
+        };
         if (flvjsobj) {
-            this.flvjsPlayerLoad(flvjsobj, function(mediaInfo) {
+            this.flvjsPlayerLoad(flvjsobj, config, function(mediaInfo) {
                 self.initPlayerSound();
                 if (callback && 'function' == typeof callback) {
                     callback(mediaInfo);

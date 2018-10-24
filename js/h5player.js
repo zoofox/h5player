@@ -76,7 +76,8 @@ H5player.prototype = {
         var params = {
             player: this.player,
             videoId: this.videoId,
-            barrage: this.barrage
+            barrage: this.barrage,
+            main:this
         };
         var self = this;
         new H5playerControlBar(params, function(controlBar) {
@@ -116,14 +117,20 @@ H5player.prototype = {
         var playerHeight = videoHeight * playerWidth / videoWidth;
         $('#live-h5player-container').css('height', playerHeight);
     },
+    //flash->html5
     switchBack: function() {
         if (this.player) {
             this.player.getLiveStreamUrl();
+            this.barrage.queue.setBarrageStatus(1).setAnimationStatus(1);	
         }
     },
+    //html5->flash
     destroy: function() {
         if (this.player) {
             this.player.playerDestroy();
+            $('.live-h5player-barrage').html('');
+            $('#system-message,#giftcombo-animation').hide();
+            this.barrage.queue.setBarrageStatus(0).clearAnimationBuffer();	
         }
     },
     logInit: function() {
