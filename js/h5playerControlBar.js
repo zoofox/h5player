@@ -97,10 +97,26 @@ H5playerControlBar.prototype = {
         $('.h5player-fullscreen').click(function() {
             //退出全屏
             if (self.isFullScreen) {
+                $('.h5player-fullscreen').removeClass('h5player-fullscreen-ing');
                 self.exitFullScreen();
                 //全屏
             } else {
+                $('.h5player-fullscreen').addClass('h5player-fullscreen-ing');
                 self.requestFullScreen($('#live-h5player-container').get(0));
+            }
+        })
+        //剧场模式
+        $('.h5player-pagescreen').click(function() {
+            //退出
+            if (self.isPageScreen) {
+                self.isPageScreen = false;
+                $('.h5player-pagescreen').removeClass('h5player-pagescreen-ing')
+                    .find('.controlbar-tip').text('剧场模式');
+            } else {
+                self.isPageScreen = true;
+                $('.h5player-pagescreen').addClass('h5player-pagescreen-ing')
+                     .find('.controlbar-tip').text('退出剧场模式');
+                
             }
         })
         //屏幕旋转

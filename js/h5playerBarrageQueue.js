@@ -106,22 +106,6 @@ H5playerBarrageQueue.prototype = {
         this.buffer = this.buffer.concat(tempBuffer);
 
     },
-    updateLiveTime: function(liveTime) {
-        var str = '';
-        var sec = Math.floor(liveTime / 1000);
-        if (liveTime < 1000) {
-            str = '刚刚开播';
-        } else if (liveTime > 1000 && liveTime < 60 * 60 * 1000) {
-            var min = Math.floor(sec / 60);
-            str = ' 已开播：' + min + '分钟';
-        } else {
-            var hour = Math.floor(sec / 3600);
-            var min = Math.floor((sec - hour * 3600) / 60);
-            var str = '已开播时间：' + hour + '小时' + min + '分钟';
-            $('.live-time-now').text('已开播时间：' + hour + '小时' + min + '分钟');
-        }
-        $('.live-time-now').text(str);
-    },
     takeOffContentShell: function(content) {
         if (content.indexOf('<![JSON[') == 0 && content.indexOf(']]>' > -1)) {
             return JSON.parse(content.slice(8, -3));

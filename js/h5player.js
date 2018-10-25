@@ -41,7 +41,7 @@ H5player.prototype = {
                 self.barrageInit(function() {
                     h5playerLog('barrage init finish', 2);
                     self.controlBarInit(function() {
-                        window.console && console.log('h5player already...');
+                        window.console && console.log('h5player init all...');
                     });
                 })
             });
@@ -77,7 +77,7 @@ H5player.prototype = {
             player: this.player,
             videoId: this.videoId,
             barrage: this.barrage,
-            main:this
+            main: this
         };
         var self = this;
         new H5playerControlBar(params, function(controlBar) {
@@ -121,7 +121,7 @@ H5player.prototype = {
     switchBack: function() {
         if (this.player) {
             this.player.getLiveStreamUrl();
-            this.barrage.queue.setBarrageStatus(1).setAnimationStatus(1);	
+            this.barrage.queue.setBarrageStatus(1).setAnimationStatus(1);
         }
     },
     //html5->flash
@@ -130,7 +130,7 @@ H5player.prototype = {
             this.player.playerDestroy();
             $('.live-h5player-barrage').html('');
             $('#system-message,#giftcombo-animation').hide();
-            this.barrage.queue.setBarrageStatus(0).clearAnimationBuffer();	
+            this.barrage.queue.setBarrageStatus(0).clearAnimationBuffer();
         }
     },
     logInit: function() {
@@ -147,7 +147,12 @@ H5player.prototype = {
     },
     log: function(msg, level) {
         if (window.console) {
-            var logLevel = { 1: '[debug]', 2: '[info]', 3: '[warn]', 4: '[error]' }
+            var logLevel = {
+                1: '[debug]',
+                2: '[info]',
+                3: '[warn]',
+                4: '[error]'
+            }
             if (level >= h5playerLogLevel) {
                 console.log('h5playerlog:' + logLevel[level] + ' > ' + msg);
             }
@@ -180,12 +185,28 @@ H5player.prototype = {
         })
     },
     //for heartbeat
-    isLiving:function(){
-    	if(this.player){
-    		return this.player.isLiving;
-    	}else{
-    		return false;
-    	}
+    isLiving: function() {
+        if (this.player) {
+            return this.player.isLiving;
+        } else {
+            return false;
+        }
+    },
+    updateLiveTime: function(liveTime) {
+        var str = '';
+        var sec = Math.floor(liveTime / 1000);
+        if (liveTime < 1000) {
+            str = '刚刚开播';
+        } else if (liveTime > 1000 && liveTime < 60 * 60 * 1000) {
+            var min = Math.floor(sec / 60);
+            str = ' 已开播：' + min + '分钟';
+        } else {
+            var hour = Math.floor(sec / 3600);
+            var min = Math.floor((sec - hour * 3600) / 60);
+            var str = '已开播时间：' + hour + '小时' + min + '分钟';
+            $('.live-time-now').text('已开播时间：' + hour + '小时' + min + '分钟');
+        }
+        $('.live-time-now').text(str);
     }
 };
 H5player.isThisBrowser = function(name) {

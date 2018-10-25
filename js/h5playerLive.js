@@ -26,8 +26,10 @@ H5playerLive.prototype = {
             self.player = flvjs.createPlayer(obj, config);
             self.player.attachMediaElement(video);
             self.player.load();
+            self.logControl();
             self.player.on(flvjs.Events.LOADING_COMPLETE, function() {
                 console.log('下播...')
+                clearInterval(self.waitingTime);
             })
             self.player.on(flvjs.Events.METADATA_ARRIVED, function(e) {
                 alert('METADATA_ARRIVED')
@@ -50,19 +52,23 @@ H5playerLive.prototype = {
             }
         });
     },
+    logControl: function() {
+        var logDebugSwitch = this.main.logDebugSwitch;
+        flvjs.LoggingControl.enableVerbose = logDebugSwitch;
+        flvjs.LoggingControl.enableInfo = logDebugSwitch;
+        flvjs.LoggingControl.enableWarn = logDebugSwitch;
+        flvjs.LoggingControl.enableError = logDebugSwitch;
+    },
     videoEvent: function() {
         var self = this;
         this.video.onloadstart = function() {
             $('.live-opening').show();
-            console.log('on load start')
         };
         this.video.onloadeddata = function() {
-            console.log('on loaded data');
         };
         this.video.onprogress = function(e) {};
         this.video.oncanplay = function() {
             $('.live-opening').hide();
-            console.log('oncanplay');
             clearInterval(self.waitingTime);
             //兼容firefox不触发oncanplaythrough的问题
             if (self.video.readyState >= 3) {
@@ -70,28 +76,26 @@ H5playerLive.prototype = {
             }
         };
         this.video.oncanplaythrough = function() {
-            console.log('oncanplaythrough')
             $('.live-loading').hide();
         };
         this.video.onwaiting = function() {
             $('.live-opening').hide();
             $('.live-loading').show();
-            console.log('waiting');
             self.waitingHandler();
         };
     },
     //缓冲超过5秒则重新载入
-    waitingHandler:function(){
+    waitingHandler: function() {
         var self = this;
         clearInterval(this.waitingTime);
         this.waitingTimeStart = Date.now();
-        this.waitingTime = setInterval(function(){
+        this.waitingTime = setInterval(function() {
             var nowdata = Date.now();
-            if(nowdata - self.waitingTimeStart > 5000){
+            if (nowdata - self.waitingTimeStart > 5000) {
                 clearInterval(self.waitingTime);
                 self.refresh();
             }
-        },1000)
+        }, 1000)
     },
     //回收播放器
     playerDestroy: function(callback) {
@@ -230,7 +234,7 @@ H5playerLive.prototype = {
         var flvjsobj = this.generateFlvObject(url);
         var config = {
             enableStashBuffer: false,
-            isLive: true
+            enableWorker: true
         };
         if (flvjsobj) {
             this.flvjsPlayerLoad(flvjsobj, config, function(mediaInfo) {

@@ -234,16 +234,22 @@ body {
         background-size: 25px 25px; }
     .live-h5player-container .live-h5player-controlbar .h5player-fullscreen-ing {
       margin-right: 16px;
-      background: url("../imgs/h5player/fullscreen.png") no-repeat;
+      background: url("../imgs/h5player/fullscreen_exit.png") no-repeat;
       background-size: 25px 25px; }
       .live-h5player-container .live-h5player-controlbar .h5player-fullscreen-ing:hover {
-        background: url("../imgs/h5player/fullscreen_p.png") no-repeat;
+        background: url("../imgs/h5player/fullscreen_exit_p.png") no-repeat;
         background-size: 25px 25px; }
     .live-h5player-container .live-h5player-controlbar .h5player-pagescreen {
-      background: url("../imgs/h5player/pagescreen.png") no-repeat;
+      background: url("../imgs/h5player/theater_mode.png") no-repeat;
       background-size: 25px 25px; }
       .live-h5player-container .live-h5player-controlbar .h5player-pagescreen:hover {
-        background: url("../imgs/h5player/pagescreen_p.png") no-repeat;
+        background: url("../imgs/h5player/theater_mode_p.png") no-repeat;
+        background-size: 25px 25px; }
+    .live-h5player-container .live-h5player-controlbar .h5player-pagescreen-ing {
+      background: url("../imgs/h5player/theater_mode_exit.png") no-repeat;
+      background-size: 25px 25px; }
+      .live-h5player-container .live-h5player-controlbar .h5player-pagescreen-ing:hover {
+        background: url("../imgs/h5player/theater_mode_exit_p.png") no-repeat;
         background-size: 25px 25px; }
     .live-h5player-container .live-h5player-controlbar .h5player-definition {
       width: 34px;
