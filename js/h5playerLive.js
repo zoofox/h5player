@@ -14,6 +14,7 @@ function H5playerLive(params, callback) {
     this.isLiving = false;
     this.getLiveStreamUrl(callback);
     this.waitingTime = null;
+    this.waitingTimeProtectSwitch = true;
 }
 H5playerLive.prototype = {
     //load播放器
@@ -81,7 +82,9 @@ H5playerLive.prototype = {
         this.video.onwaiting = function() {
             $('.live-opening').hide();
             $('.live-loading').show();
-            self.waitingHandler();
+            if(self.waitingTimeProtectSwitch){
+                self.waitingHandler();
+            }
         };
     },
     //缓冲超过5秒则重新载入
