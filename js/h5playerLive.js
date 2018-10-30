@@ -29,17 +29,15 @@ H5playerLive.prototype = {
             self.player.load();
             self.logControl();
             self.player.on(flvjs.Events.LOADING_COMPLETE, function() {
-                console.log('下播...')
+                h5playerLog('LOADING_COMPLETE',2)
                 clearInterval(self.waitingTime);
             })
             self.player.on(flvjs.Events.METADATA_ARRIVED, function(e) {
-                alert('METADATA_ARRIVED')
+                h5playerLog('METADATA_ARRIVED', 2);
             })
             self.player.on(flvjs.Events.RECOVERED_EARLY_EOF, function() {
-                alert('RECOVERED_EARLY_EOF')
             })
             self.player.on(flvjs.Events.SCRIPTDATA_ARRIVED, function() {
-                alert('SCRIPTDATA_ARRIVED')
             })
             self.player.on(flvjs.Events.STATISTICS_INFO, function() {})
             self.player.on(flvjs.Events.MEDIA_INFO, function() {
@@ -69,7 +67,6 @@ H5playerLive.prototype = {
         };
         this.video.onprogress = function(e) {};
         this.video.oncanplay = function() {
-            // console.log('oncanplay')
             $('.live-opening').hide();
             clearInterval(self.waitingTime);
             //兼容firefox不触发oncanplaythrough的问题
@@ -78,11 +75,9 @@ H5playerLive.prototype = {
             }
         };
         this.video.oncanplaythrough = function() {
-            console.log('oncanplaythrough')
             $('.live-loading').hide();
         };
         this.video.onwaiting = function() {
-            console.log('waiting')
             $('.live-opening').hide();
             $('.live-loading').show();
             if(self.waitingTimeProtectSwitch){
