@@ -133,6 +133,213 @@ body {
           text-align: center;
           line-height: 40px;
           cursor: pointer; }
+    .live-h5player-container .live-h5player-status .live-over {
+      width: 508px;
+      height: 400px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -200px;
+      margin-left: -254px;
+      z-index: 2;
+      display: none; }
+      .live-h5player-container .live-h5player-status .live-over .live-over-tip {
+        width: 400px;
+        height: 100px;
+        margin-left: 100px; }
+        .live-h5player-container .live-h5player-status .live-over .live-over-tip .live-over-icon {
+          width: 100px;
+          height: 100px;
+          display: block;
+          float: left; }
+        .live-h5player-container .live-h5player-status .live-over .live-over-tip .live-over-text {
+          width: 280px;
+          height: 75px;
+          padding-top: 25px;
+          float: left;
+          margin-left: 12px; }
+          .live-h5player-container .live-h5player-status .live-over .live-over-tip .live-over-text .live-over-title {
+            color: #ff5959;
+            font-size: 16px;
+            margin-bottom: 12px; }
+          .live-h5player-container .live-h5player-status .live-over .live-over-tip .live-over-text .live-over-detail {
+            font-size: 12px;
+            color: #fff;
+            opacity: .5; }
+      .live-h5player-container .live-h5player-status .live-over .live-over-recommend {
+        width: 508px;
+        height: 189px;
+        margin-top: 44px; }
+        .live-h5player-container .live-h5player-status .live-over .live-over-recommend .recommend-item {
+          display: block;
+          width: 235px;
+          height: 187px;
+          border: 1px solid #3b3b3b;
+          float: left;
+          border-radius: 2px;
+          position: relative;
+          cursor: pointer;
+          text-decoration: none; }
+          .live-h5player-container .live-h5player-status .live-over .live-over-recommend .recommend-item .live-over-rec-img {
+            width: 225px;
+            height: 125px;
+            margin: 5px; }
+          .live-h5player-container .live-h5player-status .live-over .live-over-recommend .recommend-item .rec-info-box {
+            width: 100%; }
+            .live-h5player-container .live-h5player-status .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-title {
+              height: 14px;
+              line-height: 14px;
+              padding: 0 10px;
+              color: #fff;
+              font-size: 12px;
+              opacity: .8; }
+            .live-h5player-container .live-h5player-status .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content {
+              height: 14px;
+              line-height: 14px;
+              margin: 6px 10px 12px; }
+              .live-h5player-container .live-h5player-status .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content i {
+                display: inline-block;
+                width: 12px;
+                height: 12px; }
+              .live-h5player-container .live-h5player-status .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content span {
+                color: #fff;
+                opacity: .5;
+                font-size: 12px;
+                position: relative;
+                top: -2px; }
+              .live-h5player-container .live-h5player-status .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content .live-over-video-gift {
+                background: url("../imgs/h5player/over/video_gift@2x.png") no-repeat;
+                background-size: 12px 12px; }
+              .live-h5player-container .live-h5player-status .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content .live-over-video-play {
+                background: url("../imgs/h5player/over/video_play@2x.png") no-repeat;
+                background-size: 12px 12px; }
+              .live-h5player-container .live-h5player-status .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content .live-over-video-comments {
+                background: url("../imgs/h5player/over/video_comments@2x.png") no-repeat;
+                background-size: 12px 12px; }
+              .live-h5player-container .live-h5player-status .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content .live-over-gender-male {
+                background: url("../imgs/h5player/over/live_male@2x.png") no-repeat;
+                background-size: 12px 12px; }
+              .live-h5player-container .live-h5player-status .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content .live-over-gender-female {
+                background: url("../imgs/h5player/over/live_female@2x.png") no-repeat;
+                background-size: 12px 12px; }
+              .live-h5player-container .live-h5player-status .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content .live-over-room-hot {
+                background: url("../imgs/h5player/over/live_hot@2x.png") no-repeat;
+                background-size: 12px 12px; }
+              .live-h5player-container .live-h5player-status .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content .rec-info-live {
+                width: 150px;
+                float: left; }
+                .live-h5player-container .live-h5player-status .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content .rec-info-live .rec-anchor-name {
+                  display: inline-block;
+                  width: 66px;
+                  position: relative;
+                  top: 1px; }
+              .live-h5player-container .live-h5player-status .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content .rec-info-livearea {
+                width: 50px;
+                float: right;
+                color: #fff;
+                opacity: .5;
+                font-size: 12px;
+                text-align: right; }
+          .live-h5player-container .live-h5player-status .live-over .live-over-recommend .recommend-item .rec-angle-icon {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: 0;
+            left: 0; }
+        .live-h5player-container .live-h5player-status .live-over .live-over-recommend .recommend-item-video {
+          margin-right: 34px; }
+      .live-h5player-container .live-h5player-status .live-over .back-to-home {
+        width: 100px;
+        height: 18px;
+        line-height: 18px;
+        font-size: 16px;
+        float: right;
+        display: block;
+        margin-top: 28px;
+        text-decoration: none; }
+        .live-h5player-container .live-h5player-status .live-over .back-to-home .live-over-backto-home {
+          display: inline-block;
+          width: 18px;
+          height: 18px;
+          background: url("../imgs/h5player/over/back_to_home@2x.png") no-repeat;
+          background-size: 18px 18px; }
+        .live-h5player-container .live-h5player-status .live-over .back-to-home span {
+          color: #fff;
+          opacity: .8;
+          position: relative;
+          top: -2px; }
+        .live-h5player-container .live-h5player-status .live-over .back-to-home:hover .live-over-backto-home {
+          background: url("../imgs/h5player/over/back_to_home_p@2x.png") no-repeat;
+          background-size: 18px 18px; }
+        .live-h5player-container .live-h5player-status .live-over .back-to-home:hover span {
+          opacity: .6; }
+    .live-h5player-container .live-h5player-status .live-interrupt {
+      position: absolute;
+      z-index: 2;
+      width: 358px;
+      height: 120px;
+      top: 50%;
+      left: 50%;
+      margin-top: -60px;
+      margin-left: -179px;
+      display: none; }
+      .live-h5player-container .live-h5player-status .live-interrupt .live-interrupt-icon {
+        width: 120px;
+        height: 120px;
+        display: block;
+        float: left; }
+      .live-h5player-container .live-h5player-status .live-interrupt .live-interrupt-box {
+        width: 230px;
+        height: 110px;
+        float: left;
+        padding-top: 10px;
+        margin-left: 8px; }
+        .live-h5player-container .live-h5player-status .live-interrupt .live-interrupt-box p {
+          color: #fff;
+          opacity: .6;
+          font-size: 12px; }
+        .live-h5player-container .live-h5player-status .live-interrupt .live-interrupt-box .live-interrupt-title {
+          font-size: 16px;
+          margin-bottom: 12px; }
+        .live-h5player-container .live-h5player-status .live-interrupt .live-interrupt-box .live-interrupt-text {
+          height: 12px;
+          line-height: 12px;
+          margin-bottom: 8px; }
+          .live-h5player-container .live-h5player-status .live-interrupt .live-interrupt-box .live-interrupt-text .live-interrupt-ball {
+            display: inline-block;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 2px;
+            margin-right: 6px;
+            position: relative;
+            top: -3px; }
+        .live-h5player-container .live-h5player-status .live-interrupt .live-interrupt-box .live-interrupt-refresh {
+          width: 90px;
+          height: 28px;
+          line-height: 28px;
+          text-align: center;
+          border: 1px solid rgba(255, 255, 255, 0.4);
+          border-radius: 2px;
+          color: #fff;
+          opacity: .7;
+          font-size: 12px;
+          cursor: pointer;
+          margin-top: 20px; }
+          .live-h5player-container .live-h5player-status .live-interrupt .live-interrupt-box .live-interrupt-refresh .live-interrupt-refresh-icon {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            background: url("../imgs/h5player/interrupt/refresh.png") no-repeat;
+            background-size: 14px 14px;
+            position: relative;
+            top: 3px; }
+          .live-h5player-container .live-h5player-status .live-interrupt .live-interrupt-box .live-interrupt-refresh:hover {
+            opacity: 1;
+            border: 1px solid rgba(255, 255, 255, 0.7); }
+            .live-h5player-container .live-h5player-status .live-interrupt .live-interrupt-box .live-interrupt-refresh:hover .live-interrupt-refresh-icon {
+              background: url("../imgs/h5player/interrupt/refresh_p.png") no-repeat;
+              background-size: 14px 14px; }
   .live-h5player-container .live-h5player-video-box {
     width: 100%;
     height: 100%;
@@ -670,145 +877,6 @@ body {
         background: url("../imgs/h5player/combo/0/bar2.png") no-repeat;
         background-size: 50px 28px;
         float: left; }
-    .live-h5player-container .live-h5player-system .live-over {
-      width: 508px;
-      height: 400px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      margin-top: -200px;
-      margin-left: -254px;
-      display: none; }
-      .live-h5player-container .live-h5player-system .live-over .live-over-tip {
-        width: 400px;
-        height: 100px;
-        margin-left: 100px; }
-        .live-h5player-container .live-h5player-system .live-over .live-over-tip .live-over-icon {
-          width: 100px;
-          height: 100px;
-          display: block;
-          float: left; }
-        .live-h5player-container .live-h5player-system .live-over .live-over-tip .live-over-text {
-          width: 280px;
-          height: 75px;
-          padding-top: 25px;
-          float: left;
-          margin-left: 12px; }
-          .live-h5player-container .live-h5player-system .live-over .live-over-tip .live-over-text .live-over-title {
-            color: #ff5959;
-            font-size: 16px;
-            margin-bottom: 12px; }
-          .live-h5player-container .live-h5player-system .live-over .live-over-tip .live-over-text .live-over-detail {
-            font-size: 12px;
-            color: #fff;
-            opacity: .5; }
-      .live-h5player-container .live-h5player-system .live-over .live-over-recommend {
-        width: 508px;
-        height: 189px;
-        margin-top: 44px; }
-        .live-h5player-container .live-h5player-system .live-over .live-over-recommend .recommend-item {
-          display: block;
-          width: 235px;
-          height: 187px;
-          border: 1px solid #3b3b3b;
-          float: left;
-          border-radius: 2px;
-          position: relative;
-          cursor: pointer;
-          text-decoration: none; }
-          .live-h5player-container .live-h5player-system .live-over .live-over-recommend .recommend-item .live-over-rec-img {
-            width: 225px;
-            height: 125px;
-            margin: 5px; }
-          .live-h5player-container .live-h5player-system .live-over .live-over-recommend .recommend-item .rec-info-box {
-            width: 100%; }
-            .live-h5player-container .live-h5player-system .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-title {
-              height: 14px;
-              line-height: 14px;
-              padding: 0 10px;
-              color: #fff;
-              font-size: 12px;
-              opacity: .8; }
-            .live-h5player-container .live-h5player-system .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content {
-              height: 14px;
-              line-height: 14px;
-              margin: 6px 10px 12px; }
-              .live-h5player-container .live-h5player-system .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content i {
-                display: inline-block;
-                width: 12px;
-                height: 12px; }
-              .live-h5player-container .live-h5player-system .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content span {
-                color: #fff;
-                opacity: .5;
-                font-size: 12px;
-                position: relative;
-                top: -2px; }
-              .live-h5player-container .live-h5player-system .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content .live-over-video-gift {
-                background: url("../imgs/h5player/over/video_gift@2x.png") no-repeat;
-                background-size: 12px 12px; }
-              .live-h5player-container .live-h5player-system .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content .live-over-video-play {
-                background: url("../imgs/h5player/over/video_play@2x.png") no-repeat;
-                background-size: 12px 12px; }
-              .live-h5player-container .live-h5player-system .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content .live-over-video-comments {
-                background: url("../imgs/h5player/over/video_comments@2x.png") no-repeat;
-                background-size: 12px 12px; }
-              .live-h5player-container .live-h5player-system .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content .live-over-gender-male {
-                background: url("../imgs/h5player/over/live_male@2x.png") no-repeat;
-                background-size: 12px 12px; }
-              .live-h5player-container .live-h5player-system .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content .live-over-gender-female {
-                background: url("../imgs/h5player/over/live_female@2x.png") no-repeat;
-                background-size: 12px 12px; }
-              .live-h5player-container .live-h5player-system .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content .live-over-room-hot {
-                background: url("../imgs/h5player/over/live_hot@2x.png") no-repeat;
-                background-size: 12px 12px; }
-              .live-h5player-container .live-h5player-system .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content .rec-info-live {
-                width: 150px;
-                float: left; }
-                .live-h5player-container .live-h5player-system .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content .rec-info-live .rec-anchor-name {
-                  display: inline-block;
-                  width: 66px;
-                  position: relative;
-                  top: 1px; }
-              .live-h5player-container .live-h5player-system .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content .rec-info-livearea {
-                width: 50px;
-                float: right;
-                color: #fff;
-                opacity: .5;
-                font-size: 12px;
-                text-align: right; }
-          .live-h5player-container .live-h5player-system .live-over .live-over-recommend .recommend-item .rec-angle-icon {
-            width: 40px;
-            height: 40px;
-            position: absolute;
-            top: 0;
-            left: 0; }
-        .live-h5player-container .live-h5player-system .live-over .live-over-recommend .recommend-item-video {
-          margin-right: 34px; }
-      .live-h5player-container .live-h5player-system .live-over .back-to-home {
-        width: 100px;
-        height: 18px;
-        line-height: 18px;
-        font-size: 16px;
-        float: right;
-        display: block;
-        margin-top: 28px;
-        text-decoration: none; }
-        .live-h5player-container .live-h5player-system .live-over .back-to-home .live-over-backto-home {
-          display: inline-block;
-          width: 18px;
-          height: 18px;
-          background: url("../imgs/h5player/over/back_to_home@2x.png") no-repeat;
-          background-size: 18px 18px; }
-        .live-h5player-container .live-h5player-system .live-over .back-to-home span {
-          color: #fff;
-          opacity: .8;
-          position: relative;
-          top: -2px; }
-        .live-h5player-container .live-h5player-system .live-over .back-to-home:hover .live-over-backto-home {
-          background: url("../imgs/h5player/over/back_to_home_p@2x.png") no-repeat;
-          background-size: 18px 18px; }
-        .live-h5player-container .live-h5player-system .live-over .back-to-home:hover span {
-          opacity: .6; }
   .live-h5player-container .live-h5player-rightmenu {
     display: none;
     width: 200px;

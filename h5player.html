@@ -10,12 +10,16 @@
 <body>
     <div class="live-h5player-container" id="live-h5player-container">
     	<div class="live-h5player-status">
+            <!-- 直播开场 -->
             <img src="./imgs/h5player/slogan.png" alt="" class="live-opening">
+            <!-- 直播缓冲 -->
             <div class="live-loading">
         		<img src="./imgs/h5player/loading.png" alt="" class="live-loading-icon">
                 <p class="live-loading-text">缓冲中</p>
             </div>
+            <!-- 直播时长 -->
             <p class="live-time live-time-hidden"><span class="red-ball"></span>&nbsp;<span class="live-time-now">已开播：3小时22分钟</span></p>
+            <!-- 不支持自动播放 -->
             <div class="h5player-unsupport-autoplay">
                 <div class="unsupport-autoplay-box">
                     <img src="./imgs/h5player/slogan.png" alt="" class="unsupport-autoplay-icon"> 
@@ -23,35 +27,7 @@
                     <div class="unsupport-autoplay-btn">点击播放</div>
                 </div>
             </div>
-        </div>
-        <div class="live-h5player-video-box">
-            <video class="live-h5player-video" id='video'></video>
-        </div>
-        <div class="live-h5player-barrage">
-        </div>
-        <div class="live-h5player-system">
-            <!-- 喇叭 -->
-        	<div class="system-message" id="system-message">
-        		<div class="left-bar"></div>
-                <div class="middle-bar">
-                    <p class="message-content"></p>
-                </div>
-                <div class="right-bar"></div>
-                <div class="clear"></div>
-        	</div>
-            <!-- 连击动画飘屏 -->
-            <div class="giftcombo-animation" id="giftcombo-animation">
-                <canvas class="left-bar" id="left-bar" width='50' height='28'></canvas>
-                <div class="middle-bar">
-                    <canvas class="" id="middle-bar" height='28'></canvas>
-                    <div class="giftcombo-content">
-                         <img src="./imgs/h5player/combo/0/gift.gif" alt="" class="giftcombo-img">
-                         <p class="giftcombo-text"></p>
-                    </div>
-                </div>
-                <canvas class="right-bar" id="right-bar" width='50' height='28'></canvas>
-                <div class="clear"></div>
-            </div>
+             <!-- 直播结束 -->
             <div class="live-over">
                 <div class="live-over-tip">
                     <img src="./imgs/h5player/over/live_over_icon@2x.png" alt="" class="live-over-icon">
@@ -97,6 +73,48 @@
                     <i class="live-over-backto-home"></i>
                     <span>返回首页</span>
                 </a>
+            </div>
+            <!-- 直播中断 -->
+            <div class="live-interrupt">
+                <img src="./imgs/h5player/interrupt/cry.png" alt="" class="live-interrupt-icon">
+                <div class="live-interrupt-box">
+                    <p class="live-interrupt-title">直播链接已断开</p>
+                    <p class="live-interrupt-text"><span class="live-interrupt-ball"></span>可能主播的网络问题导致断开了直播</p>
+                    <p class="live-interrupt-text"><span class="live-interrupt-ball"></span>可能您的网络加载失败</p>
+                    <div class="live-interrupt-refresh">
+                        <i class="live-interrupt-refresh-icon"></i>
+                       重新刷新
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="live-h5player-video-box">
+            <video class="live-h5player-video" id='video'></video>
+        </div>
+        <div class="live-h5player-barrage">
+        </div>
+        <div class="live-h5player-system">
+            <!-- 喇叭 -->
+        	<div class="system-message" id="system-message">
+        		<div class="left-bar"></div>
+                <div class="middle-bar">
+                    <p class="message-content"></p>
+                </div>
+                <div class="right-bar"></div>
+                <div class="clear"></div>
+        	</div>
+            <!-- 连击动画飘屏 -->
+            <div class="giftcombo-animation" id="giftcombo-animation">
+                <canvas class="left-bar" id="left-bar" width='50' height='28'></canvas>
+                <div class="middle-bar">
+                    <canvas class="" id="middle-bar" height='28'></canvas>
+                    <div class="giftcombo-content">
+                         <img src="./imgs/h5player/combo/0/gift.gif" alt="" class="giftcombo-img">
+                         <p class="giftcombo-text"></p>
+                    </div>
+                </div>
+                <canvas class="right-bar" id="right-bar" width='50' height='28'></canvas>
+                <div class="clear"></div>
             </div>
         </div>
         <div class="live-h5player-controlbar controlbar-bottom">
