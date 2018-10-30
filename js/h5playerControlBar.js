@@ -112,11 +112,12 @@ H5playerControlBar.prototype = {
                 self.isPageScreen = false;
                 $('.h5player-pagescreen').removeClass('h5player-pagescreen-ing')
                     .find('.controlbar-tip').text('剧场模式');
+                 videoTheaterMode(0);
             } else {
                 self.isPageScreen = true;
                 $('.h5player-pagescreen').addClass('h5player-pagescreen-ing')
                      .find('.controlbar-tip').text('退出剧场模式');
-                
+                videoTheaterMode(1);
             }
         })
         //屏幕旋转

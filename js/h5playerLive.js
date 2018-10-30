@@ -14,7 +14,7 @@ function H5playerLive(params, callback) {
     this.isLiving = false;
     this.getLiveStreamUrl(callback);
     this.waitingTime = null;
-    this.waitingTimeProtectSwitch = true;
+    this.waitingTimeProtectSwitch = false;
 }
 H5playerLive.prototype = {
     //load播放器
@@ -69,6 +69,7 @@ H5playerLive.prototype = {
         };
         this.video.onprogress = function(e) {};
         this.video.oncanplay = function() {
+            // console.log('oncanplay')
             $('.live-opening').hide();
             clearInterval(self.waitingTime);
             //兼容firefox不触发oncanplaythrough的问题
@@ -77,9 +78,11 @@ H5playerLive.prototype = {
             }
         };
         this.video.oncanplaythrough = function() {
+            console.log('oncanplaythrough')
             $('.live-loading').hide();
         };
         this.video.onwaiting = function() {
+            console.log('waiting')
             $('.live-opening').hide();
             $('.live-loading').show();
             if(self.waitingTimeProtectSwitch){
@@ -236,7 +239,7 @@ H5playerLive.prototype = {
         var self = this;
         var flvjsobj = this.generateFlvObject(url);
         var config = {
-            enableStashBuffer: false,
+            // enableStashBuffer: false,
             enableWorker: true
         };
         if (flvjsobj) {

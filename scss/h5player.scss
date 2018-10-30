@@ -828,6 +828,169 @@ body {
                 float: left;
             }
         }
+        .live-over{
+             width: 508px;height: 400px;
+             position: absolute;
+             top:50%;
+             left:50%;
+             margin-top: -200px;
+            margin-left: -254px;
+            display: none;
+            .live-over-tip{
+                width: 400px;
+                height: 100px;
+                margin-left: 100px;
+                .live-over-icon{
+                    width: 100px;height: 100px;
+                    display: block;
+                    float: left;
+                }
+                .live-over-text{
+                    width: 280px;
+                    height: 75px;
+                    padding-top: 25px;
+                    float: left;
+                    margin-left: 12px;
+                    .live-over-title{
+                        color:#ff5959;
+                        font-size: 16px;
+                        margin-bottom: 12px;
+                    }
+                    .live-over-detail{
+                        font-size: 12px;
+                        color:#fff;
+                        opacity: .5;
+                    }
+                }
+            }
+            .live-over-recommend{
+                width: 508px;
+                height: 189px;
+                margin-top: 44px;
+                .recommend-item{
+                    display: block;
+                    width: 235px;height: 187px;
+                    border:1px solid #3b3b3b;
+                    float: left;
+                    border-radius: 2px;
+                    position: relative;
+                    cursor:pointer;
+                    text-decoration: none;
+                    .live-over-rec-img{
+                        width: 225px;
+                        height: 125px;
+                        margin: 5px;
+                    }
+                    .rec-info-box{
+                        width: 100%;
+                        .rec-info-title{
+                            height: 14px;
+                            line-height: 14px;
+                            padding: 0 10px;
+                            color:#fff;
+                            font-size: 12px;
+                            opacity: .8;
+                        }
+                        .rec-info-content{
+                            height: 14px;
+                            line-height: 14px;
+                            margin:6px 10px 12px;
+                            i{
+
+                               display: inline-block;width: 12px;height: 12px;
+                            }
+                            span{
+                                color:#fff;
+                                opacity: .5;
+                                font-size: 12px;
+                                position: relative;top:-2px;
+                            }
+                            .live-over-video-gift{
+                                background: url('../imgs/h5player/over/video_gift@2x.png') no-repeat;
+                                background-size: 12px 12px;
+                            }
+                            .live-over-video-play{
+                                background: url('../imgs/h5player/over/video_play@2x.png') no-repeat;
+                                background-size: 12px 12px;
+                            }
+                            .live-over-video-comments{
+                                background: url('../imgs/h5player/over/video_comments@2x.png') no-repeat;
+                                background-size: 12px 12px;
+                            }
+                            .live-over-gender-male{
+                                background: url('../imgs/h5player/over/live_male@2x.png') no-repeat;
+                                background-size: 12px 12px;
+                            }
+                            .live-over-gender-female{
+                                background: url('../imgs/h5player/over/live_female@2x.png') no-repeat;
+                                background-size: 12px 12px;
+                            }
+                            .live-over-room-hot{
+                                background: url('../imgs/h5player/over/live_hot@2x.png') no-repeat;
+                                background-size: 12px 12px;
+                            }
+                            .rec-info-live{
+                                width: 150px;
+                                float: left;
+                                .rec-anchor-name{
+                                    display: inline-block;
+                                    width: 66px;
+                                    position: relative;
+                                    top: 1px
+                                }
+                            }
+                            .rec-info-livearea{
+                                width: 50px;
+                                float: right;
+                                color:#fff;
+                                opacity: .5;
+                                font-size: 12px;
+                                text-align: right;
+                            }
+                        }
+                    }
+                    .rec-angle-icon{
+                        width: 40px;height: 40px;
+                        position: absolute;
+                        top: 0;
+                        left:0;
+                    }
+                }
+                .recommend-item-video{
+                    margin-right: 34px;
+                }
+            }
+            .back-to-home{
+                width: 100px;height: 18px;
+                line-height: 18px;
+                font-size: 16px;
+                float: right;
+                display: block;
+                margin-top: 28px;
+                text-decoration: none;
+                .live-over-backto-home{
+                    display: inline-block;
+                    width: 18px;height: 18px;
+                    background: url('../imgs/h5player/over/back_to_home@2x.png') no-repeat;
+                    background-size: 18px 18px;
+                }
+                span{
+                    color:#fff;
+                    opacity: .8;
+                    position: relative;
+                    top: -2px;
+                }
+                &:hover{
+                    .live-over-backto-home{
+                        background: url('../imgs/h5player/over/back_to_home_p@2x.png') no-repeat;
+                        background-size: 18px 18px;
+                    }
+                    span{
+                        opacity: .6;
+                    } 
+                };
+            }
+        }
     }
     .live-h5player-rightmenu {
         display: none;
@@ -849,20 +1012,21 @@ body {
             &:hover {
                 background-color: #d0d0d0;
             }
-            ;
             &:first-child {
                 cursor: auto;
                 border-bottom: 2px solid rgba(0, 0, 0, .1);
                 &:hover {
                     background-color: #f0f0f0;
                 }
-                ;
             }
-            ;
         }
     }
 }
-
+.ellipsis{
+   overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 .clear {
     clear: both;
 }
