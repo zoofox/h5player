@@ -207,6 +207,17 @@ H5player.prototype = {
             $('.live-time-now').text('已开播时间：' + hour + '小时' + min + '分钟');
         }
         $('.live-time-now').text(str);
+    },
+    offLive:function(name,roomId){
+        if(this.player){
+            this.destroy();
+            $('.live-over-detail').text(escapeString(name)+'的直播已结束，喜欢就点击关注吧！');
+            this.player.offLive(function(data){
+                if(data.code == 0){
+                    
+                }
+            });
+        }
     }
 };
 H5player.isThisBrowser = function(name) {

@@ -327,6 +327,19 @@ H5playerLive.prototype = {
             }
         }
         return name == '' ? "{}" : "";
+    },
+    //下播，取推荐视频和直播
+    offLive:function(roomId,callback){
+        this.isLiving = false;
+        var opts = {
+            url:this.host+'/room/get-recommend.htm?roomId='+roomId,
+            type:'GET',
+            cache:false,
+            success:function(data){
+                callback(data);
+            }
+        };
+        $.ajax(opts);
     }
-
 }
+
