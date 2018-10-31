@@ -209,7 +209,6 @@ H5player.prototype = {
         $('.live-time-now').text(str);
     },
     offLive:function(name,roomId){
-        console.log(name,roomId);
         var self = this;
         if(this.player){
             this.destroy();

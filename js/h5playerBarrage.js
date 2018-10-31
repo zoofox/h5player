@@ -17,6 +17,7 @@ function H5playerBarrage(params, callback) {
     this.firing = false;
     this.isAysnc = 0;//0同步 1异步
     this.callback = callback;
+    this.checkTime = 0;
     this.barrageInit(params);
 }
 H5playerBarrage.prototype = {
@@ -100,6 +101,7 @@ H5playerBarrage.prototype = {
     },
     //检查当前是否有等待发送的弹幕
     check: function() {
+        this.checkProtect();
         if (!this.firing && !this.queue.isEmpty() && !this.tunnelManager.calculating) {
             var self = this;
             this.firing = true;
@@ -127,6 +129,17 @@ H5playerBarrage.prototype = {
                 }
             });
         }
+    },
+    checkProtect(){
+        var nowDate = Date.now();
+        if(this.checkTime!=0){
+            if(nowDate - this.checkTime > this.barrageCheckTime*2){
+                this.queue.clearBuffer();
+                this.queue.giftCombo.clearBuffer();
+                this.queue.systemMessage.clearBuffer();
+            }
+        }
+        this.checkTime = nowDate;
     },
     /*
     分配弹道和弹幕
