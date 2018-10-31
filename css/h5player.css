@@ -206,7 +206,9 @@ body {
                 opacity: .5;
                 font-size: 12px;
                 position: relative;
-                top: -2px; }
+                top: -2px;
+                padding-right: 12px;
+                padding-left: 2px; }
               .live-h5player-container .live-h5player-status .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-content .live-over-video-gift {
                 background: url("../imgs/h5player/over/video_gift@2x.png") no-repeat;
                 background-size: 12px 12px; }

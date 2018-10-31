@@ -209,13 +209,15 @@ H5player.prototype = {
         $('.live-time-now').text(str);
     },
     offLive:function(name,roomId){
+        console.log(name,roomId);
+        var self = this;
         if(this.player){
             this.destroy();
             $('.live-over-detail').text(escapeString(name)+'的直播已结束，喜欢就点击关注吧！');
-            this.player.offLive(function(data){
-                if(data.code == 0){
-                    
-                }
+            this.player.offLive(roomId,function(data){
+                 $('.live-over-recommend').html(data);
+                 $('.h5player-unsupport-autoplay,.live-interrupt').hide();
+                 $('.live-over').show();
             });
         }
     }
@@ -236,5 +238,5 @@ H5player.isThisBrowser = function(name) {
     return false;
 }
 H5player.isSupported = function(name) {
-    return flvjs.isSupported();
+    return window.MediaSource && window.MediaSource.isTypeSupported('video/mp4; codecs="avc1.42E01E,mp4a.40.2"');
 }
