@@ -89,7 +89,7 @@
             </div>
         </div>
         <div class="live-h5player-video-box">
-            <video class="live-h5player-video" id='video'></video>
+            <video class="live-h5player-video" id='h5player-video'></video>
         </div>
         <div class="live-h5player-barrage">
         </div>
@@ -247,14 +247,14 @@
     $('.html5-btn').click(function(){
         if(!h5player){
              h5player = new H5player({
-                roomId: 20185,
+                roomId: 4536540,
                 host: '',
-                videoId: 'video',
+                videoId: '',
                 anchorName:'xxx',
                 userUid: 1001//当前用户的uid
             });
              h5player.init(function(){
-                
+
              })
         }else{
              h5player.switchBack();

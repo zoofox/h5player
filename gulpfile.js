@@ -33,7 +33,7 @@ gulp.task('player', function () {
         'js/h5playerBarrage.js',
         'js/h5playerLive.js',
         'js/h5playerControlBar.js',
-        'js/h5player.js',
+        'js/h5player.js'
        ])
         .pipe(concat('h5player.min.js'))
         .pipe(uglify())

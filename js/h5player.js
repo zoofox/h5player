@@ -4,7 +4,7 @@ h5播放器入口
 function H5player(params) {
     this.h5playerVersion = '0.0.1'; //h5player版本
     this.roomId = params.roomId || '';
-    this.videoId = params.videoId || 'video';
+    this.videoId = params.videoId || 'h5player-video';
     this.userUid = params.userUid || '';
     this.anchorName = escapeString(params.anchorName) || '主播';
     this.host = params.host || 'https://chushou.tv';
@@ -129,9 +129,31 @@ H5player.prototype = {
         });
     },
     setPlayerSize: function(videoWidth, videoHeight) {
-        var playerWidth = $('#live-h5player-container').width();
-        var playerHeight = videoHeight * playerWidth / videoWidth;
-        $('#live-h5player-container').css('height', playerHeight);
+        var containerWidth = $('#live-h5player-container').width();
+        
+        var containerHeight = containerWidth*9/16;
+      
+        // var containerHeight = $('#live-h5player-container').height();
+        var containerScale = (containerWidth / containerHeight).toFixed(2);
+        var videoScale = (videoWidth / videoHeight).toFixed(2);
+        console.log(containerScale,videoScale)
+
+        if(videoScale >= containerScale){
+            var vh = containerWidth*(videoHeight / videoWidth).toFixed(2);
+            $('.live-h5player-video-box').css({
+                'width':'100%',
+                'height':vh
+            });
+        }else{
+            var vw = containerHeight*(videoWidth / videoHeight).toFixed(2);
+            $('.live-h5player-video-box').css({
+                'width':vw,
+                'height':'100%'
+            });
+        }
+
+
+        $('#live-h5player-container').css('height', containerHeight);
     },
     //flash->html5
     switchBack: function() {
@@ -150,9 +172,7 @@ H5player.prototype = {
             $('#system-message,#giftcombo-animation').hide();
             this.barrage.queue.setBarrageStatus(0).clearAnimationBuffer();
         }
-        if (H5ChangeToFlash && typeof 'H5ChangeToFlash' == 'function') {
-            H5ChangeToFlash();
-        }
+        H5ChangeToFlash();
     },
     logInit: function() {
         this.logDebugLevel = this.getUrlParam('h5playerdebug'); //0关闭 1debug 2info 3warn 4error
@@ -187,6 +207,7 @@ H5player.prototype = {
     },
     onGetMideaInfo: function(mediaInfo) {
         this.mediaInfo = mediaInfo;
+        console.log(mediaInfo)
         this.setPlayerSize(mediaInfo.width, mediaInfo.height);
     },
     bind: function() {
@@ -225,8 +246,7 @@ H5player.prototype = {
         } else {
             var hour = Math.floor(sec / 3600);
             var min = Math.floor((sec - hour * 3600) / 60);
-            var str = '已开播时间：' + hour + '小时' + min + '分钟';
-            $('.live-time-now').text('已开播时间：' + hour + '小时' + min + '分钟');
+            var str = '已开播：' + hour + '小时' + min + '分钟';
         }
         $('.live-time-now').text(str);
     },
