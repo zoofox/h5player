@@ -235,8 +235,9 @@ H5playerLive.prototype = {
         var self = this;
         var flvjsobj = this.generateFlvObject(url);
         var config = {
-            // enableStashBuffer: false,
-            enableWorker: true
+            enableStashBuffer: false,
+            enableWorker: true,
+            autoCleanupSourceBuffer:true
         };
         if (flvjsobj) {
             this.flvjsPlayerLoad(flvjsobj, config, function(mediaInfo) {
