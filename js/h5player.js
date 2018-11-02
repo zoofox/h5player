@@ -6,7 +6,7 @@ function H5player(params) {
     this.roomId = params.roomId || '';
     this.videoId = params.videoId || 'video';
     this.userUid = params.userUid || '';
-    this.anchorName = escapeString(params.anchorName)||'主播';
+    this.anchorName = escapeString(params.anchorName) || '主播';
     this.host = params.host || 'https://chushou.tv';
     this.COOKIE_NAME = 'h5player'; //cookie名
     this.COOKIE_EXPIRE_DAYS = 7; //cookie过期天数
@@ -37,26 +37,26 @@ H5player.prototype = {
             this.logInit();
             $('.h5player-rightmenu-item').eq(0).text('HTML5 Live Player v' + this.h5playerVersion);
             this.h5liveplayerInit(function(playerErr) {
-                if(playerErr){
-                     callback(playerErr);
-                }else{
+                if (playerErr) {
+                    callback(playerErr);
+                } else {
                     h5playerLog('live player init finish', 2);
                     self.barrageInit(function() {
                         h5playerLog('barrage init finish', 2);
                         self.controlBarInit(function() {
                             window.console && console.log('h5player init all...');
                             $('#live-h5player-container').show();
-                            if(callback && typeof callback == 'function'){
+                            if (callback && typeof callback == 'function') {
                                 callback();
                             }
                         });
                     })
                 }
-                
+
             });
             self.bind();
         } else {
-            if(callback && typeof callback == 'function'){
+            if (callback && typeof callback == 'function') {
                 callback('当前浏览器不支持HTML5播放');
             }
         }
@@ -73,10 +73,10 @@ H5player.prototype = {
             main: this
         };
         var self = this;
-        new H5playerLive(params, function(player, mediaInfo,err) {
-            if(err){
+        new H5playerLive(params, function(player, mediaInfo, err) {
+            if (err) {
                 callback(err);
-            }else{
+            } else {
                 self.player = player;
                 if (mediaInfo && mediaInfo.width) {
                     self.mediaInfo = mediaInfo;
@@ -84,7 +84,7 @@ H5player.prototype = {
                 self.setPlayerSize(self.mediaInfo.width, self.mediaInfo.height);
                 callback();
             }
-            
+
         });
     },
     //控制栏初始化
@@ -137,7 +137,7 @@ H5player.prototype = {
     switchBack: function() {
         if (this.player) {
             $('#live-h5player-container').show();
-            this.player.getLiveStreamUrl();
+            this.player.getLiveStreamUrl(false);
             this.barrage.queue.setBarrageStatus(1).setAnimationStatus(1);
         }
     },
@@ -150,7 +150,7 @@ H5player.prototype = {
             $('#system-message,#giftcombo-animation').hide();
             this.barrage.queue.setBarrageStatus(0).clearAnimationBuffer();
         }
-        if(H5ChangeToFlash && typeof 'H5ChangeToFlash' == 'function'){
+        if (H5ChangeToFlash && typeof 'H5ChangeToFlash' == 'function') {
             H5ChangeToFlash();
         }
     },
@@ -230,16 +230,35 @@ H5player.prototype = {
         }
         $('.live-time-now').text(str);
     },
-    //下播
-    offLive:function(){
+    //重新上播
+    onLive: function(callback) {
         var self = this;
-        if(this.player){
+        this.player.getLiveStreamUrl(true, function(player, mediaInfo, err) {
+            if (err) {
+                if (callback && typeof callback == 'function') {
+                    callback(err);
+                }
+            } else {
+                if (mediaInfo && mediaInfo.width) {
+                    self.mediaInfo = mediaInfo;
+                }
+                self.setPlayerSize(self.mediaInfo.width, self.mediaInfo.height);
+                if (callback && typeof callback == 'function') {
+                    callback();
+                }
+            }
+        })
+    },
+    //下播
+    offLive: function() {
+        var self = this;
+        if (this.player) {
             this.destroy();
-            $('.live-over-detail').text(self.anchorName+'的直播已结束，喜欢就点击关注吧！');
-            this.player.offLive(self.roomId,function(data){
-                 $('.live-over-recommend').html(data);
-                 $('.h5player-unsupport-autoplay,.live-interrupt,.live-loading').hide();
-                 $('.live-over').show();
+            $('.live-over-detail').text(self.anchorName + '的直播已结束，喜欢就点击关注吧！');
+            this.player.offLive(self.roomId, function(data) {
+                $('.live-over-recommend').html(data);
+                $('.h5player-unsupport-autoplay,.live-interrupt,.live-loading').hide();
+                $('.live-over').show();
             });
         }
     }

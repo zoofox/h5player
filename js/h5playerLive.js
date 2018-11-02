@@ -14,7 +14,7 @@ function H5playerLive(params, callback) {
     this.isLiving = false;
     this.waitingTime = null;
     this.waitingTimeProtectSwitch = false; //缓冲保护，前期先关闭
-    this.getLiveStreamUrl(callback);
+    this.getLiveStreamUrl(true, callback);
 }
 H5playerLive.prototype = {
     //load播放器
@@ -213,8 +213,8 @@ H5playerLive.prototype = {
             this.player.currentTime = parseFloat(currentTime) - 1;
         }
     },
-    //获取直播流地址
-    getLiveStreamUrl: function(callback) {
+    //获取直播流地址 needStream 是否需要重新取流
+    getLiveStreamUrl: function(needStream,callback) {
         var self = this;
         var params = {
             roomId: this.roomId,
