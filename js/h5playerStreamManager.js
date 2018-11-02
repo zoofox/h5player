@@ -95,7 +95,7 @@ H5playerStreamManager.prototype.getCurrentStreamDefinitionIndex = function () {
  *  获取播放url
  * */
 H5playerStreamManager.prototype.getPlayUrl = function () {
-    if(this._roomId) {
+    if(this._roomId && !isNaN(this._roomId)) {
         var self = this;
         var opts = {
             url:this._host + "/h5player/video/get-play-url.htm?roomId="+this._roomId+'&protocols=2',
@@ -106,12 +106,14 @@ H5playerStreamManager.prototype.getPlayUrl = function () {
                 self.parseData(res);
             },
             error:function(xhr) {
-                window.console&&console.log("H5playerStreamManager jsonp error:" + JSON.stringify(xhr));
+                this._callback(JSON.stringify(xhr));
             }
         };
         $.ajax(opts);
     } else {
-        console.log("roomId error");//没有直播
+        if(this._callback){
+            this._callback('非法roomId');
+        }
         return false;
     }
 }
@@ -138,12 +140,15 @@ H5playerStreamManager.prototype.parseData = function (resObj) {
             if(this._callback) {
                 this._callback();
             }
-        } else if(405 == resObj.code) {     // 主播下线
-            alert('已下播')
+        } else if(405 == resObj.code) {// 主播下线
+            if(this._callback) {
+                this._callback();
+            }
         } else {    // 没有开播
-             alert('未开播')
+             if(this._callback) {
+                this._callback();
+            }
         }
-
     } else {
         console.log("H5playerStreamManager parsedata error");
     }

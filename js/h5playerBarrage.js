@@ -130,7 +130,7 @@ H5playerBarrage.prototype = {
             });
         }
     },
-    checkProtect(){
+    checkProtect:function(){
         var nowDate = Date.now();
         if(this.checkTime!=0){
             if(nowDate - this.checkTime > this.barrageCheckTime*2){

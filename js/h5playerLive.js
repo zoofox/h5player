@@ -12,9 +12,9 @@ function H5playerLive(params, callback) {
     this.DEFAULT_VOLUME = params.defaultVolume; // 默认音量
     this.main = params.main;
     this.isLiving = false;
-    this.getLiveStreamUrl(callback);
     this.waitingTime = null;
     this.waitingTimeProtectSwitch = false; //缓冲保护，前期先关闭
+    this.getLiveStreamUrl(callback);
 }
 H5playerLive.prototype = {
     //load播放器
@@ -68,6 +68,7 @@ H5playerLive.prototype = {
         };
         this.video.onprogress = function(e) {};
         this.video.oncanplay = function() {
+            h5playerLog('oncanplay',1);
             $('.live-opening').hide();
             clearInterval(self.waitingTime);
             //兼容firefox不触发oncanplaythrough的问题
@@ -76,11 +77,13 @@ H5playerLive.prototype = {
             }
         };
         this.video.oncanplaythrough = function() {
+            h5playerLog('oncanplaythrough',1);
             $('.live-loading').hide();
         };
         this.video.onwaiting = function() {
             $('.live-opening').hide();
             $('.live-loading').show();
+            h5playerLog('waiting..',1);
             if(self.waitingTimeProtectSwitch){
                 self.waitingHandler();
             }
@@ -220,12 +223,16 @@ H5playerLive.prototype = {
         if (this.stream) {
             this.refresh();
         } else {
-            this.stream = new H5playerStreamManager(params, function() {
-                self.setPlayUrl(self.stream.getCurrentStreamUrl(), function(mediaInfo) {
-                    if (callback) {
-                        callback(self, mediaInfo);
-                    }
-                });
+            this.stream = new H5playerStreamManager(params, function(err) {
+                if(err){
+                    callback(self,null,err);
+                }else{
+                    self.setPlayUrl(self.stream.getCurrentStreamUrl(), function(mediaInfo) {
+                        if (callback) {
+                            callback(self, mediaInfo);
+                        }
+                    });
+                }
             });
         }
 

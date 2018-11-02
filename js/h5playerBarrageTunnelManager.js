@@ -21,7 +21,6 @@ H5playerBarrageTunnelManager.prototype = {
             this.callback(this);
         }
     },
-    //window resize需要重新init?
     initTunnels: function(callback) {
         var videoIdHeight = $('#live-h5player-container').height();
         this.tunnelCount = Math.floor(videoIdHeight / this.singleTunnelHeight);

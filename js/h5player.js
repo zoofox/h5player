@@ -4,8 +4,9 @@ h5播放器入口
 function H5player(params) {
     this.h5playerVersion = '0.0.1'; //h5player版本
     this.roomId = params.roomId || '';
-    this.videoId = params.videoId || '';
+    this.videoId = params.videoId || 'video';
     this.userUid = params.userUid || '';
+    this.anchorName = escapeString(params.anchorName)||'主播';
     this.host = params.host || 'https://chushou.tv';
     this.COOKIE_NAME = 'h5player'; //cookie名
     this.COOKIE_EXPIRE_DAYS = 7; //cookie过期天数
@@ -28,26 +29,36 @@ function H5player(params) {
         height: 720
     };
     window.h5playerLogLevel = 0;
-    this.playerInit();
 }
 H5player.prototype = {
-    playerInit: function() {
+    init: function(callback) {
         if (flvjs.isSupported()) {
             var self = this;
             this.logInit();
             $('.h5player-rightmenu-item').eq(0).text('HTML5 Live Player v' + this.h5playerVersion);
-            this.h5liveplayerInit(function() {
-                h5playerLog('live player init finish', 2);
-                self.barrageInit(function() {
-                    h5playerLog('barrage init finish', 2);
-                    self.controlBarInit(function() {
-                        window.console && console.log('h5player init all...');
-                    });
-                })
+            this.h5liveplayerInit(function(playerErr) {
+                if(playerErr){
+                     callback(playerErr);
+                }else{
+                    h5playerLog('live player init finish', 2);
+                    self.barrageInit(function() {
+                        h5playerLog('barrage init finish', 2);
+                        self.controlBarInit(function() {
+                            window.console && console.log('h5player init all...');
+                            $('#live-h5player-container').show();
+                            if(callback && typeof callback == 'function'){
+                                callback();
+                            }
+                        });
+                    })
+                }
+                
             });
             self.bind();
         } else {
-            alert('浏览器不支持播放');
+            if(callback && typeof callback == 'function'){
+                callback('当前浏览器不支持HTML5播放');
+            }
         }
     },
     //播放初始化
@@ -62,13 +73,18 @@ H5player.prototype = {
             main: this
         };
         var self = this;
-        new H5playerLive(params, function(player, mediaInfo) {
-            self.player = player;
-            if (mediaInfo && mediaInfo.width) {
-                self.mediaInfo = mediaInfo;
+        new H5playerLive(params, function(player, mediaInfo,err) {
+            if(err){
+                callback(err);
+            }else{
+                self.player = player;
+                if (mediaInfo && mediaInfo.width) {
+                    self.mediaInfo = mediaInfo;
+                }
+                self.setPlayerSize(self.mediaInfo.width, self.mediaInfo.height);
+                callback();
             }
-            self.setPlayerSize(self.mediaInfo.width, self.mediaInfo.height);
-            callback();
+            
         });
     },
     //控制栏初始化
@@ -120,17 +136,22 @@ H5player.prototype = {
     //flash->html5
     switchBack: function() {
         if (this.player) {
+            $('#live-h5player-container').show();
             this.player.getLiveStreamUrl();
             this.barrage.queue.setBarrageStatus(1).setAnimationStatus(1);
         }
     },
     //html5->flash
     destroy: function() {
+        $('#live-h5player-container').hide();
         if (this.player) {
             this.player.playerDestroy();
             $('.live-h5player-barrage').html('');
             $('#system-message,#giftcombo-animation').hide();
             this.barrage.queue.setBarrageStatus(0).clearAnimationBuffer();
+        }
+        if(H5ChangeToFlash && typeof 'H5ChangeToFlash' == 'function'){
+            H5ChangeToFlash();
         }
     },
     logInit: function() {
@@ -170,6 +191,7 @@ H5player.prototype = {
     },
     bind: function() {
         var self = this;
+        //尺寸变化按分辨率调整大小及弹幕
         $(window).resize(function() {
             self.setPlayerSize(self.mediaInfo.width, self.mediaInfo.height);
             if (self.barrage && self.barrage.tunnelManager) {
@@ -184,7 +206,7 @@ H5player.prototype = {
             }
         })
     },
-    //for heartbeat
+    //心跳
     isLiving: function() {
         if (this.player) {
             return this.player.isLiving;
@@ -208,14 +230,15 @@ H5player.prototype = {
         }
         $('.live-time-now').text(str);
     },
-    offLive:function(name,roomId){
+    //下播
+    offLive:function(){
         var self = this;
         if(this.player){
             this.destroy();
-            $('.live-over-detail').text(escapeString(name)+'的直播已结束，喜欢就点击关注吧！');
-            this.player.offLive(roomId,function(data){
+            $('.live-over-detail').text(self.anchorName+'的直播已结束，喜欢就点击关注吧！');
+            this.player.offLive(self.roomId,function(data){
                  $('.live-over-recommend').html(data);
-                 $('.h5player-unsupport-autoplay,.live-interrupt').hide();
+                 $('.h5player-unsupport-autoplay,.live-interrupt,.live-loading').hide();
                  $('.live-over').show();
             });
         }
