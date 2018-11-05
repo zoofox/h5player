@@ -21,7 +21,6 @@ H5playerControlBar.prototype = {
         //标记videoWidth videoHeight用于处理退出全屏后video宽高
         this.videoWidth = $('.live-h5player-container').width();
         this.videoHeight = $('.live-h5player-container').height();
-        this.videoFullScreenWidth = 0; //全屏video宽度
         //播放
         $('.h5player-pauseplay').removeClass('h5player-pauseplay-switch').attr('data-status', 1)
             .find('.controlbar-tip').text('暂停');
@@ -55,9 +54,15 @@ H5playerControlBar.prototype = {
             var containerY = $('.live-h5player-container').offset().top;
             var menuX = clientX - containerX;
             var menuY = clientY - containerY;
+            var menuWidth = $('.live-h5player-rightmenu').width();
+            var menuHeight = $('.live-h5player-rightmenu').height();
+            var containerWidth = $('.live-h5player-container').width();
+            var containerHeight = $('.live-h5player-container').height();
+            var x = menuX + menuWidth > containerWidth?menuX - menuWidth:menuX;
+            var y = menuY + menuHeight > containerHeight?menuY - menuHeight:menuY;
             $('.live-h5player-rightmenu').css({
-                top: menuY,
-                left: menuX
+                top: y,
+                left: x
             }).show();
             return false;
         });
@@ -114,35 +119,24 @@ H5playerControlBar.prototype = {
                     .find('.controlbar-tip').text('剧场模式');
                  videoTheaterMode(0);
             } else {
+                if (self.isFullScreen) {
+                    $('.h5player-fullscreen').removeClass('h5player-fullscreen-ing');
+                    self.exitFullScreen();
+                }
                 self.isPageScreen = true;
                 $('.h5player-pagescreen').addClass('h5player-pagescreen-ing')
                      .find('.controlbar-tip').text('退出剧场模式');
                 videoTheaterMode(1);
             }
+            setTimeout(function(){
+                self.main.setPlayerSize();
+            },300)
         })
         //屏幕旋转
         $('.h5player-rotate').click(function() {
-            //第一次进入全屏的旋转操作
-            if (self.isFullScreen && self.videoFullScreenWidth == 0) {
-                self.videoFullScreenWidth = $('.live-h5player-container').width();
-                self.videoFullScreenHeight = $('.live-h5player-container').height();
-            }
-            //第一次退出全屏的旋转操作
-            if (!self.isFullScreen && self.videoWidth == 0) {
-                self.videoWidth = $('.live-h5player-container').width();
-                self.videoHeight = $('.live-h5player-container').height();
-            }
             self.videoRotateDeg += 90;
             self.videoRotateDeg = self.videoRotateDeg % 360;
-            if (self.isFullScreen) {
-                var nextWidth = (self.videoRotateDeg / 90) % 2 == 1 ? self.videoFullScreenHeight : self.videoFullScreenWidth;
-            } else {
-                var nextWidth = (self.videoRotateDeg / 90) % 2 == 1 ? self.videoHeight : self.videoWidth;
-            }
-            $('.live-h5player-video-box').css({
-                'transform': 'rotate(' + self.videoRotateDeg + 'deg)',
-                'width': nextWidth
-            });
+            self.main.setPlayerSize();
         })
         //全屏状态下esc按键无法监视，故采用fullscreenchange统一监视全屏和退出全屏操作并处理video宽高
         $(document).bind('fullscreenchange webkitfullscreenchange mozfullscreenchange', function() {
@@ -286,16 +280,10 @@ H5playerControlBar.prototype = {
         })
         //控制栏显示
         $('.live-h5player-container').hover(function() {
-            if ($('.live-h5player-controlbar').hasClass('controlbar-bottom')) {
-                $('.live-h5player-controlbar').removeClass('controlbar-bottom');
-            }
             if ($('#live-h5player-container .live-time').hasClass('live-time-hidden')) {
                 $('#live-h5player-container .live-time').removeClass('live-time-hidden');
             }
         }, function() {
-            if (!$('.live-h5player-controlbar').hasClass('controlbar-bottom')) {
-                $('.live-h5player-controlbar').addClass('controlbar-bottom');
-            }
             if (!$('#live-h5player-container .live-time').hasClass('live-time-hidden')) {
                 $('#live-h5player-container .live-time').addClass('live-time-hidden');
             }
@@ -315,6 +303,9 @@ H5playerControlBar.prototype = {
                 self.player.play();
             })
 
+        })
+        $('.live-interrupt-refresh').click(function(){
+            location.href = location.href;
         })
     },
     //弹幕参数
@@ -395,11 +386,7 @@ H5playerControlBar.prototype = {
         this.isFullScreen = true;
         $('.h5player-fullscreen').addClass('h5player-fullscreen-ing')
             .find('.controlbar-tip').text('退出全屏');
-
-        $('.live-h5player-video-box').css({
-            'width': '100%'
-        });
-        this.videoFullScreenWidth = 0;
+         this.main.setPlayerSize();
     },
     //退出窗口全屏
     exitFullScreen: function() {
@@ -418,17 +405,7 @@ H5playerControlBar.prototype = {
         this.isFullScreen = false;
         $('.h5player-fullscreen').removeClass('h5player-fullscreen-ing')
             .find('.controlbar-tip').text('窗口全屏');;
-        if ((this.videoRotateDeg / 90) % 2 == 1) {
-            $('.live-h5player-video-box').css({
-                'width': this.videoHeight
-            });
-        } else {
-            $('.live-h5player-video-box').css({
-                'width': '100%'
-            });
-        }
-        //设置为0 防止退出全屏后窗口宽高变化
-        this.videoWidth = 0;
+        this.main.setPlayerSize();
     },
     //检查当前是否全屏，不用this.isFullScreen是因为esc按键退出全屏isFullScreen始终为true
     checkFull: function() {

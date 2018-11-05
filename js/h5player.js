@@ -81,7 +81,7 @@ H5player.prototype = {
                 if (mediaInfo && mediaInfo.width) {
                     self.mediaInfo = mediaInfo;
                 }
-                self.setPlayerSize(self.mediaInfo.width, self.mediaInfo.height);
+                self.setPlayerSize();
                 callback();
             }
 
@@ -128,32 +128,59 @@ H5player.prototype = {
             callback();
         });
     },
-    setPlayerSize: function(videoWidth, videoHeight) {
-        var containerWidth = $('#live-h5player-container').width();
-        
-        var containerHeight = containerWidth*9/16;
-      
-        // var containerHeight = $('#live-h5player-container').height();
-        var containerScale = (containerWidth / containerHeight).toFixed(2);
-        var videoScale = (videoWidth / videoHeight).toFixed(2);
-        console.log(containerScale,videoScale)
+    setPlayerSize: function() {
+        var videoWidth = this.mediaInfo.width;
+        var videoHeight = this.mediaInfo.height;
 
-        if(videoScale >= containerScale){
-            var vh = containerWidth*(videoHeight / videoWidth).toFixed(2);
+        if (this.controlBar) {
+            this.controlBar.videoWidth = $('#live-h5player-container').width();
+            this.controlBar.videoHeight = $('#live-h5player-container').height();
+        }
+        if (this.controlBar && (this.controlBar.videoRotateDeg / 90) % 2 == 1) {
+            //旋转
+            var containerWidth = $('#live-h5player-container').height();
+            var containerHeight = $('#live-h5player-container').width();
+
+            var containerScale = (containerWidth / containerHeight).toFixed(2);
+            var videoScale = (videoWidth / videoHeight).toFixed(2);
+
+            if (videoScale >= containerScale) {
+                var vw = containerWidth;
+                var vmargin = (containerWidth - vh) / 2;
+            } else {
+                var vw = containerHeight * (videoWidth / videoHeight).toFixed(2);
+                var vmargin = 0;
+            }
             $('.live-h5player-video-box').css({
-                'width':'100%',
-                'height':vh
+                'width': vw+'px',
+                'marginTop': vmargin
             });
-        }else{
-            var vw = containerHeight*(videoWidth / videoHeight).toFixed(2);
+        } else {
+            var containerWidth = $('#live-h5player-container').width();
+            var containerHeight = $('#live-h5player-container').height();
+            var containerScale = (containerWidth / containerHeight).toFixed(2);
+            var videoScale = (videoWidth / videoHeight).toFixed(2);
+
+            if (videoScale >= containerScale) {
+                var vw = '100%';
+                var vh = containerWidth * (videoHeight / videoWidth).toFixed(2);
+                var vmargin = (containerHeight - vh) / 2;
+            } else {
+                var vw = containerHeight * (videoWidth / videoHeight).toFixed(2);
+                var vh = '100%';
+                var vmargin = 0;
+            }
             $('.live-h5player-video-box').css({
-                'width':vw,
-                'height':'100%'
+                'width': vw,
+                'height': vh,
+                'marginTop': vmargin
             });
         }
-
-
-        $('#live-h5player-container').css('height', containerHeight);
+        if (this.controlBar) {
+            $('.live-h5player-video-box').css({
+                'transform': 'rotate(' + this.controlBar.videoRotateDeg + 'deg)'
+            });
+        }
     },
     //flash->html5
     switchBack: function() {
@@ -207,24 +234,25 @@ H5player.prototype = {
     },
     onGetMideaInfo: function(mediaInfo) {
         this.mediaInfo = mediaInfo;
-        console.log(mediaInfo)
-        this.setPlayerSize(mediaInfo.width, mediaInfo.height);
+        this.setPlayerSize();
     },
     bind: function() {
         var self = this;
         //尺寸变化按分辨率调整大小及弹幕
         $(window).resize(function() {
-            self.setPlayerSize(self.mediaInfo.width, self.mediaInfo.height);
-            if (self.barrage && self.barrage.tunnelManager) {
-                //重新计算弹幕轨道区域大小
-                self.barrage.tunnelManager.calculateTunnelCount(self.barrage.barrageConfig.barragePosition, function(activeTunnels, nowActiveCount, lastActiveCount) {
-                    //缩小则隐藏多余弹幕
-                    if (lastActiveCount > nowActiveCount || self.barrage.barrageConfig.barragePosition == 2) {
-                        var startIndex = activeTunnels[activeTunnels.length - 1].index + 1;
-                        self.barrage.bulletManager.hide(startIndex, -1, function() {})
-                    }
-                })
-            }
+            setTimeout(function(){
+                self.setPlayerSize();
+                if (self.barrage && self.barrage.tunnelManager) {
+                    //重新计算弹幕轨道区域大小
+                    self.barrage.tunnelManager.calculateTunnelCount(self.barrage.barrageConfig.barragePosition, function(activeTunnels, nowActiveCount, lastActiveCount) {
+                        //缩小则隐藏多余弹幕
+                        if (lastActiveCount > nowActiveCount || self.barrage.barrageConfig.barragePosition == 2) {
+                            var startIndex = activeTunnels[activeTunnels.length - 1].index + 1;
+                            self.barrage.bulletManager.hide(startIndex, -1, function() {})
+                        }
+                    })
+                }
+            },300)
         })
     },
     //心跳
@@ -246,13 +274,18 @@ H5player.prototype = {
         } else {
             var hour = Math.floor(sec / 3600);
             var min = Math.floor((sec - hour * 3600) / 60);
-            var str = '已开播：' + hour + '小时' + min + '分钟';
+            if(hour >= 10){
+                var str = '已开播：超过10小时';
+            }else{
+                var str = '已开播：' + hour + '小时' + min + '分钟';
+            }
         }
         $('.live-time-now').text(str);
     },
     //重新上播
     onLive: function(callback) {
         var self = this;
+         $('.live-interrupt,.live-loading,.live-over').hide();
         this.player.getLiveStreamUrl(true, function(player, mediaInfo, err) {
             if (err) {
                 if (callback && typeof callback == 'function') {
@@ -262,7 +295,7 @@ H5player.prototype = {
                 if (mediaInfo && mediaInfo.width) {
                     self.mediaInfo = mediaInfo;
                 }
-                self.setPlayerSize(self.mediaInfo.width, self.mediaInfo.height);
+                self.setPlayerSize();
                 if (callback && typeof callback == 'function') {
                     callback();
                 }

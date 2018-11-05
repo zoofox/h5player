@@ -36,7 +36,7 @@ gulp.task('player', function () {
         'js/h5player.js'
        ])
         .pipe(concat('h5player.min.js'))
-        .pipe(uglify())
+        // .pipe(uglify())
         .pipe(gulp.dest('./js'));
         
 });

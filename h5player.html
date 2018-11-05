@@ -18,7 +18,7 @@
                 <p class="live-loading-text">缓冲中</p>
             </div>
             <!-- 直播时长 -->
-            <p class="live-time live-time-hidden"><span class="red-ball"></span>&nbsp;<span class="live-time-now">已开播：3小时22分钟</span></p>
+            <p class="live-time live-time-hidden"><span class="red-ball"></span>&nbsp;<span class="live-time-now">已开播：--小时--分钟</span></p>
             <!-- 不支持自动播放 -->
             <div class="h5player-unsupport-autoplay">
                 <div class="unsupport-autoplay-box">
@@ -117,7 +117,7 @@
                 <div class="clear"></div>
             </div>
         </div>
-        <div class="live-h5player-controlbar controlbar-bottom">
+        <div class="live-h5player-controlbar">
             <div class="controlbar-left h5player-pauseplay" data-status='1'>
                 <p class="controlbar-tip">暂停</p>
             </div>
@@ -198,6 +198,10 @@
         padding: 0;
         margin:0;
     }
+    #live-h5player-container{
+        /*width: 1064px!important;*/
+        height: 540px!important;
+    }
     .test-btn {
         padding:5px 10px; 
         line-height: 40px;
@@ -247,7 +251,7 @@
     $('.html5-btn').click(function(){
         if(!h5player){
              h5player = new H5player({
-                roomId: 4536540,
+                roomId: 39849,
                 host: '',
                 videoId: '',
                 anchorName:'xxx',

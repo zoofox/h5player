@@ -14,6 +14,7 @@ function H5playerLive(params, callback) {
     this.isLiving = false;
     this.waitingTime = null;
     this.waitingTimeProtectSwitch = false; //缓冲保护，前期先关闭
+    this.WAITING_TIME = 20*1000; //断流等待时长
     this.getLiveStreamUrl(true, callback);
 }
 H5playerLive.prototype = {
@@ -81,9 +82,7 @@ H5playerLive.prototype = {
             $('.live-opening').hide();
             $('.live-loading').show();
             h5playerLog('waiting..', 1);
-            if (self.waitingTimeProtectSwitch) {
-                self.waitingHandler();
-            }
+            self.waitingHandler();
         };
     },
     //缓冲超过5秒则重新载入
@@ -93,9 +92,10 @@ H5playerLive.prototype = {
         this.waitingTimeStart = Date.now();
         this.waitingTime = setInterval(function() {
             var nowdata = Date.now();
-            if (nowdata - self.waitingTimeStart > 5000) {
+            if (nowdata - self.waitingTimeStart > self.WAITING_TIME) {
+                self.isLiving = false;
                 clearInterval(self.waitingTime);
-                self.refresh();
+                self.interrupt();
             }
         }, 1000)
     },
@@ -138,7 +138,7 @@ H5playerLive.prototype = {
     //暂停
     pause: function() {
         if (this.player) {
-            self.isLiving = false;
+            this.isLiving = false;
             this.player.pause();
         }
     },
@@ -246,7 +246,7 @@ H5playerLive.prototype = {
         var flvjsobj = this.generateFlvObject(url);
         var config = {
             enableStashBuffer: false,
-            enableWorker: true,
+            enableWorker: false,
             autoCleanupSourceBuffer: true
         };
         if (flvjsobj) {
@@ -346,7 +346,6 @@ H5playerLive.prototype = {
     //下播，取推荐视频和直播
     offLive: function(roomId, callback) {
         var self = this;
-        console.log('-------')
         this.isLiving = false;
         var opts = {
             url: this.host + '/room/get-recommend.htm?roomId=' + roomId,
@@ -379,7 +378,7 @@ H5playerLive.prototype = {
     },
     //直播流中断，可能是下播
     interrupt: function() {
-        this.main.destroy();
+        $('.live-opening,.live-loading').hide();
         $('.live-interrupt').show();
         $('.h5player-unsupport-autoplay').hide();
     }

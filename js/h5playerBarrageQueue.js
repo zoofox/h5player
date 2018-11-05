@@ -81,7 +81,7 @@ H5playerBarrageQueue.prototype = {
 	                    var transContent = this.translateEmoji(barrageContent);
 	                    tempBuffer.push({
 	                        content: transContent,
-	                        uid: messages[i].uid,
+	                        uid: messages[i].user.uid,
 	                        type: type
 	                    });
                 	}
