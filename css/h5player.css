@@ -146,7 +146,7 @@ body {
       z-index: 20;
       display: none; }
       .live-h5player-container .live-h5player-status .live-over .live-over-tip {
-        width: 400px;
+        width: 420px;
         height: 100px;
         margin-left: 100px; }
         .live-h5player-container .live-h5player-status .live-over .live-over-tip .live-over-icon {
@@ -155,11 +155,12 @@ body {
           display: block;
           float: left; }
         .live-h5player-container .live-h5player-status .live-over .live-over-tip .live-over-text {
-          width: 280px;
+          width: 300px;
           height: 75px;
           padding-top: 25px;
           float: left;
-          margin-left: 12px; }
+          margin-left: 12px;
+          text-align: left; }
           .live-h5player-container .live-h5player-status .live-over .live-over-tip .live-over-text .live-over-title {
             color: #ff5959;
             font-size: 16px;
@@ -250,8 +251,10 @@ body {
             position: absolute;
             top: 0;
             left: 0; }
-        .live-h5player-container .live-h5player-status .live-over .live-over-recommend .recommend-item-video {
-          margin-right: 34px; }
+          .live-h5player-container .live-h5player-status .live-over .live-over-recommend .recommend-item:first-child {
+            margin-right: 34px; }
+        .live-h5player-container .live-h5player-status .live-over .live-over-recommend .recmmond-single {
+          margin-left: 136px; }
       .live-h5player-container .live-h5player-status .live-over .back-to-home {
         width: 100px;
         height: 18px;

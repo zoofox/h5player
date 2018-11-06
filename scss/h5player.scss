@@ -157,7 +157,7 @@ body {
             z-index: 20;
             display: none;
             .live-over-tip{
-                width: 400px;
+                width: 420px;
                 height: 100px;
                 margin-left: 100px;
                 .live-over-icon{
@@ -166,11 +166,12 @@ body {
                     float: left;
                 }
                 .live-over-text{
-                    width: 280px;
+                    width: 300px;
                     height: 75px;
                     padding-top: 25px;
                     float: left;
                     margin-left: 12px;
+                    text-align: left;
                     .live-over-title{
                         color:#ff5959;
                         font-size: 16px;
@@ -277,9 +278,14 @@ body {
                         top: 0;
                         left:0;
                     }
+                    &:first-child {
+                         margin-right: 34px;
+                    }
+                }
+                .recmmond-single{
+                    margin-left: 136px;
                 }
                 .recommend-item-video{
-                    margin-right: 34px;
                 }
             }
             .back-to-home{
@@ -883,7 +889,7 @@ body {
                                     background-size: 34px 32px;
                                 }
                                 .barrage-position-fullscreen {
-                                    background: url('../imgs/h5player/barrage/full_P.png') no-repeat;
+                                    background: url('../imgs/h5player/barrage/full_p.png') no-repeat;
                                     background-size: 34px 32px;
                                 }
                             }
@@ -902,7 +908,7 @@ body {
                                 background-size: 34px 32px;
                             }
                             .barrage-position-fullscreen {
-                                background: url('../imgs/h5player/barrage/full_P.png') no-repeat;
+                                background: url('../imgs/h5player/barrage/full_p.png') no-repeat;
                                 background-size: 34px 32px;
                             }
                         }

@@ -185,9 +185,15 @@ H5player.prototype = {
     //flash->html5
     switchBack: function() {
         if (this.player) {
-            $('#live-h5player-container').show();
-            this.player.getLiveStreamUrl(false);
+             $('#live-h5player-container').show();
             this.barrage.queue.setBarrageStatus(1).setAnimationStatus(1);
+            //已经下播，再切回则重新取流
+            if(this.player.everOffLive){
+                this.player.setOffLive(false);
+                this.onLive();
+            }else{
+                this.player.getLiveStreamUrl(false);
+            }
         }
     },
     //html5->flash
@@ -266,9 +272,9 @@ H5player.prototype = {
     updateLiveTime: function(liveTime) {
         var str = '';
         var sec = Math.floor(liveTime / 1000);
-        if (liveTime < 1000) {
+        if (liveTime < 60*1000) {
             str = '刚刚开播';
-        } else if (liveTime > 1000 && liveTime < 60 * 60 * 1000) {
+        } else if (liveTime > 60*1000 && liveTime < 60 * 60 * 1000) {
             var min = Math.floor(sec / 60);
             str = ' 已开播：' + min + '分钟';
         } else {
@@ -306,10 +312,20 @@ H5player.prototype = {
     offLive: function() {
         var self = this;
         if (this.player) {
-            this.destroy();
+            this.player.playerDestroy();
+            $('.live-h5player-barrage').html('');
+            $('#system-message,#giftcombo-animation').hide();
+            this.barrage.queue.setBarrageStatus(0).clearAnimationBuffer();
             $('.live-over-detail').text(self.anchorName + '的直播已结束，喜欢就点击关注吧！');
             this.player.offLive(self.roomId, function(data) {
-                $('.live-over-recommend').html(data);
+                if(data.num == 0){
+                    $('.live-over-recommend').hide();
+                    $('.live-over-tip').css('marginTop','127px');
+                }else{
+                    $('.live-over-tip').css('marginTop','0');
+                    $('.live-over-recommend').html(data).show();
+                }
+                $('.back-to-home').attr('href',self.host+'/home.htm');
                 $('.h5player-unsupport-autoplay,.live-interrupt,.live-loading').hide();
                 $('.live-over').show();
             });
