@@ -382,11 +382,14 @@ H5playerLive.prototype = {
     },
     //直播流中断，可能是下播
     interrupt: function() {
-        this.isLiving = false;
-        this.playerDestroy();
-        $('.live-opening,.live-loading').hide();
-        $('.live-interrupt').show();
-        $('.h5player-unsupport-autoplay').hide();
+        //已下播则不处理
+        if(!this.everOffLive){
+            this.isLiving = false;
+            this.playerDestroy();
+            $('.live-opening,.live-loading').hide();
+            $('.live-interrupt').show();
+            $('.h5player-unsupport-autoplay').hide();
+        }
     },
     setOffLive:function(status){
         this.everOffLive = status;

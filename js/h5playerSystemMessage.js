@@ -34,7 +34,7 @@ H5playerSystemMessage.prototype = {
             'background-size': middleBarWidth + 'px 24px'
         });
         $('#system-message .message-content').html(msg.str).css('width', textWidth + 'px');
-        var systemMessageWidth = $('#system-message').width();
+        var systemMessageWidth = textWidth + 80;
         var allWidth = videoWidth + systemMessageWidth;
         $('#system-message').css({
             'display': 'block',
