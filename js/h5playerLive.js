@@ -116,6 +116,10 @@ H5playerLive.prototype = {
             promise.then(function() {
                 callback();
             }).catch(function(error) {
+                //可能为下播或者流中断的playerDestroy导致，无需提示自动播放
+                if(JSON.stringify(error).indexOf('interrupted by a call to pause') > -1){
+                    return;
+                }
                 $('.h5player-unsupport-autoplay').show();
             })
         }
@@ -220,6 +224,7 @@ H5playerLive.prototype = {
             roomId: this.roomId,
             host: this.host
         }
+        this.setOffLive(false);
         if (this.stream && !needNewStream) {
             this.refresh();
             if (callback) {
@@ -347,14 +352,12 @@ H5playerLive.prototype = {
         var self = this;
         this.isLiving = false;
         this.setOffLive(true);
-
         var opts = {
             url: this.host + '/room/get-recommend.htm?roomId=' + roomId,
             type: 'GET',
             cache: false,
             dataType: 'json',
             success: function(data) {
-                // var data = JSON.parse('{"code":0,"message":"","data":[{"id":-1,"panelId":-1,"type":3,"name":"王者归来，君临天下","meta":{"creator":"mds丶剑仙","gender":"male","displayTag":"王者荣耀","upCount":36214,"timelineId":4041145,"giftCount":16845,"avatar":"http://kascdn.kascend.com/jellyfish/avatar/20160715/51821220_1468539459405.jpg!jellyfishavatar","commentCount":8563,"duration":"03:40","uid":51821220,"playCount":5913423,"hasUp":false,"createdTime":1498746447000},"cover":"http://v0103.kascend.com/jellyfish/game/video/51821220/1498745537715.jpg","targetKey":"2058834","desc":"","order":-1,"style":5,"categoryId":-1,"startTime":null,"endTime":null,"state":-1,"createdTime":null,"updatedTime":null,"display":0,"hot":1,"scope":1,"cornerMark":-1,"show":true,"categorySpecified":false},{"id":-1,"panelId":-1,"type":1,"name":"排位排位，优秀鸭！","meta":{"onlineCount":33665,"creator":"小凡☄","gender":"male","liveType":1,"liveTagName":"巅峰王者","gameTargetKey":"3-1159-3","avatar":"http://kascdn.kascend.com/jellyfish/avatar/490285602/1528279442804.jpg!jellyfishavatar","roomId":32331188,"professional":1,"gameName":"王者荣耀","subscriberCount":191597,"gameCtxPath":"pvp","live":true},"cover":"http://sc-live.kascend.com/jellyfish/20/32331188/1540964857729.jpg","targetKey":"32331188","desc":"","order":-1,"style":1,"categoryId":-1,"startTime":null,"endTime":null,"state":-1,"createdTime":null,"updatedTime":null,"display":0,"hot":1,"scope":1,"cornerMark":-1,"show":true,"categorySpecified":false}]}')
                 var appendHtml = {num:0,html:''};
                 if (data.code == 0) {
                     var recDatas = data.data;
@@ -367,10 +370,10 @@ H5playerLive.prototype = {
                             if (curData.type == 1) {
                                 //直播
                                 var gender = curData.meta.gender;
-                                appendHtml += '<a class="recommend-item recommend-item-live singleClass" href="' + self.host + '/room/' + curData.targetKey + '.htm"><img src="' + curData.cover + '" alt="" class="live-over-rec-img"><div class="rec-info-box"><p class="rec-info-title ellipsis">' + escapeString(curData.name) + '</p><div class="rec-info-content"><p class="rec-info-live ellipsis"><i class="live-over-gender-' + gender + '"></i><span class="rec-anchor-name ellipsis">' + escapeString(curData.meta.creator) + '</span><i class="live-over-room-hot"></i><span>' + formateNumber(curData.meta.onlineCount) + '</span></p><p class="rec-info-livearea ellipsis">' + curData.meta.gameName + '</p></div></div><img src="./imgs/h5player/over/angle_icon_live.png" alt="" class="rec-angle-icon angle-icon-live"></a>';
+                                appendHtml.html += '<a class="recommend-item recommend-item-live singleClass" href="' + self.host + '/room/' + curData.targetKey + '.htm"><img src="' + curData.cover + '" alt="" class="live-over-rec-img"><div class="rec-info-box"><p class="rec-info-title ellipsis">' + escapeString(curData.name) + '</p><div class="rec-info-content"><p class="rec-info-live ellipsis"><i class="live-over-gender-' + gender + '"></i><span class="rec-anchor-name ellipsis">' + escapeString(curData.meta.creator) + '</span><i class="live-over-room-hot"></i><span>' + formateNumber(curData.meta.onlineCount) + '</span></p><p class="rec-info-livearea ellipsis">' + curData.meta.gameName + '</p></div></div><img src="./imgs/h5player/over/angle_icon_live.png" alt="" class="rec-angle-icon angle-icon-live"></a>';
                             } else if (curData.type == 3) {
                                 //视频
-                                appendHtml += ' <a class="recommend-item recommend-item-video singleClass"  href="' + self.host + '/gamezone/video/play/' + curData.targetKey + '.htm"><img src="' + curData.cover + '" alt="" class="live-over-rec-img"><div class="rec-info-box"><p class="rec-info-title ellipsis">' + escapeString(curData.name) + '</p><div class="rec-info-content"><i class="live-over-video-gift"></i><span>' + formateNumber(curData.meta.giftCount) + '</span><i class="live-over-video-play"></i><span>' + formateNumber(curData.meta.playCount) + '</span><i class="live-over-video-comments"></i><span>' + formateNumber(curData.meta.commentCount) + '</span></div></div><img src="./imgs/h5player/over/angle_icon_video.png" alt="" class="rec-angle-icon angle-icon-video"></a>';
+                                appendHtml.html += ' <a class="recommend-item recommend-item-video singleClass"  href="' + self.host + '/gamezone/video/play/' + curData.targetKey + '.htm"><img src="' + curData.cover + '" alt="" class="live-over-rec-img"><div class="rec-info-box"><p class="rec-info-title ellipsis">' + escapeString(curData.name) + '</p><div class="rec-info-content"><i class="live-over-video-gift"></i><span>' + formateNumber(curData.meta.giftCount) + '</span><i class="live-over-video-play"></i><span>' + formateNumber(curData.meta.playCount) + '</span><i class="live-over-video-comments"></i><span>' + formateNumber(curData.meta.commentCount) + '</span></div></div><img src="./imgs/h5player/over/angle_icon_video.png" alt="" class="rec-angle-icon angle-icon-video"></a>';
                             }
                         }
                     }
@@ -384,6 +387,7 @@ H5playerLive.prototype = {
     interrupt: function() {
         //已下播则不处理
         if(!this.everOffLive){
+            this.setOffLive(true);
             this.isLiving = false;
             this.playerDestroy();
             $('.live-opening,.live-loading').hide();

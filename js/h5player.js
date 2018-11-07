@@ -185,7 +185,7 @@ H5player.prototype = {
     //flash->html5
     switchBack: function() {
         if (this.player) {
-             $('#live-h5player-container').show();
+             $('#live-h5player-container,.live-opening').show();
             this.barrage.queue.setBarrageStatus(1).setAnimationStatus(1);
             //已经下播，再切回则重新取流
             if(this.player.everOffLive){
@@ -291,7 +291,8 @@ H5player.prototype = {
     //重新上播
     onLive: function(callback) {
         var self = this;
-         $('.live-interrupt,.live-loading,.live-over').hide();
+        $('.live-interrupt,.live-loading,.live-over').hide();
+        this.barrage.queue.setBarrageStatus(1).setAnimationStatus(1);
         this.player.getLiveStreamUrl(true, function(player, mediaInfo, err) {
             if (err) {
                 if (callback && typeof callback == 'function') {
@@ -316,14 +317,13 @@ H5player.prototype = {
             $('.live-h5player-barrage').html('');
             $('#system-message,#giftcombo-animation').hide();
             this.barrage.queue.setBarrageStatus(0).clearAnimationBuffer();
-            $('.live-over-detail').text(self.anchorName + '的直播已结束，喜欢就点击关注吧！');
             this.player.offLive(self.roomId, function(data) {
                 if(data.num == 0){
                     $('.live-over-recommend').hide();
                     $('.live-over-tip').css('marginTop','127px');
                 }else{
                     $('.live-over-tip').css('marginTop','0');
-                    $('.live-over-recommend').html(data).show();
+                    $('.live-over-recommend').html(data.html).show();
                 }
                 $('.back-to-home').attr('href',self.host+'/home.htm');
                 $('.h5player-unsupport-autoplay,.live-interrupt,.live-loading').hide();

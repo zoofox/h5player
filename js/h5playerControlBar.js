@@ -58,8 +58,8 @@ H5playerControlBar.prototype = {
             var menuHeight = $('.live-h5player-rightmenu').height();
             var containerWidth = $('.live-h5player-container').width();
             var containerHeight = $('.live-h5player-container').height();
-            var x = menuX + menuWidth > containerWidth?menuX - menuWidth:menuX;
-            var y = menuY + menuHeight > containerHeight?menuY - menuHeight:menuY;
+            var x = menuX + menuWidth > containerWidth ? menuX - menuWidth : menuX;
+            var y = menuY + menuHeight > containerHeight ? menuY - menuHeight : menuY;
             $('.live-h5player-rightmenu').css({
                 top: y,
                 left: x
@@ -112,25 +112,11 @@ H5playerControlBar.prototype = {
         })
         //剧场模式
         $('.h5player-pagescreen').click(function() {
-            //退出
-            if (self.isPageScreen) {
-                self.isPageScreen = false;
-                $('.h5player-pagescreen').removeClass('h5player-pagescreen-ing')
-                    .find('.controlbar-tip').text('剧场模式');
-                 videoTheaterMode(0);
-            } else {
-                if (self.isFullScreen) {
-                    $('.h5player-fullscreen').removeClass('h5player-fullscreen-ing');
-                    self.exitFullScreen();
-                }
-                self.isPageScreen = true;
-                $('.h5player-pagescreen').addClass('h5player-pagescreen-ing')
-                     .find('.controlbar-tip').text('退出剧场模式');
-                videoTheaterMode(1);
-            }
-            setTimeout(function(){
-                self.main.setPlayerSize();
-            },300)
+            self.theaterMode();
+        })
+        //双击进入剧场模式
+        $('#live-h5player-container').dblclick(function() {
+             self.theaterMode();
         })
         //屏幕旋转
         $('.h5player-rotate').click(function() {
@@ -280,12 +266,20 @@ H5playerControlBar.prototype = {
         })
         //控制栏显示
         $('.live-h5player-container').hover(function() {
-            if ($('#live-h5player-container .live-time').hasClass('live-time-hidden')) {
-                $('#live-h5player-container .live-time').removeClass('live-time-hidden');
+            if (!self.player.everOffLive) {
+                if ($('#live-h5player-container .live-time').hasClass('live-time-hidden')) {
+                    $('#live-h5player-container .live-time').removeClass('live-time-hidden');
+                }
+                if (!$('.live-h5player-controlbar').hasClass('live-h5player-controlbar-show')) {
+                    $('.live-h5player-controlbar').addClass('live-h5player-controlbar-show');
+                }
             }
         }, function() {
             if (!$('#live-h5player-container .live-time').hasClass('live-time-hidden')) {
                 $('#live-h5player-container .live-time').addClass('live-time-hidden');
+            }
+            if ($('.live-h5player-controlbar').hasClass('live-h5player-controlbar-show')) {
+                $('.live-h5player-controlbar').removeClass('live-h5player-controlbar-show');
             }
         })
         $('.live-h5player-container').click(function() {
@@ -304,7 +298,7 @@ H5playerControlBar.prototype = {
             })
 
         })
-        $('.live-interrupt-refresh').click(function(){
+        $('.live-interrupt-refresh').click(function() {
             location.href = location.href;
         })
     },
@@ -386,7 +380,7 @@ H5playerControlBar.prototype = {
         this.isFullScreen = true;
         $('.h5player-fullscreen').addClass('h5player-fullscreen-ing')
             .find('.controlbar-tip').text('退出全屏');
-         this.main.setPlayerSize();
+        this.main.setPlayerSize();
     },
     //退出窗口全屏
     exitFullScreen: function() {
@@ -416,6 +410,29 @@ H5playerControlBar.prototype = {
     setStreamDefinition: function(index, def) {
         $('.definition-item').eq(index).addClass('active').siblings('.definition-item').removeClass('active');
         $('.definition-text').attr('class', 'definition-text definition-' + def);
+    },
+    //剧场模式
+    theaterMode: function() {
+        var self = this;
+        //退出
+        if (this.isPageScreen) {
+            this.isPageScreen = false;
+            $('.h5player-pagescreen').removeClass('h5player-pagescreen-ing')
+                .find('.controlbar-tip').text('剧场模式');
+            videoTheaterMode(0);
+        } else {
+            if (this.isFullScreen) {
+                $('.h5player-fullscreen').removeClass('h5player-fullscreen-ing');
+                this.exitFullScreen();
+            }
+            this.isPageScreen = true;
+            $('.h5player-pagescreen').addClass('h5player-pagescreen-ing')
+                .find('.controlbar-tip').text('退出剧场模式');
+            videoTheaterMode(1);
+        }
+        setTimeout(function() {
+            self.main.setPlayerSize();
+        }, 300)
     }
 
 
