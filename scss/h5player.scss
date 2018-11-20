@@ -1,4 +1,4 @@
-svn up /opt/branches-static/body {
+body {
     width: 100%;
 }
 
@@ -429,14 +429,14 @@ svn up /opt/branches-static/body {
             .controlbar-tip {
                 z-index: 20;
                 width: 50px;
-                height: 30px;
-                line-height: 30px;
+                height: 26px;
+                line-height: 26px;
                 color: #aaa;
                 font-size: 12px;
                 text-align: center;
                 border-radius: 2px;
                 position: absolute;
-                top: -37px;
+                top: -32px;
                 left: 50%;
                 background: #000;
                 margin-left: -25px;
@@ -444,7 +444,7 @@ svn up /opt/branches-static/body {
                 &:before {
                     content: "";
                     position: absolute;
-                    bottom: -8px;
+                    bottom: -4px;
                     left: 50%;
                     margin-left: -6px;
                     border-left: 6px solid transparent;
@@ -455,7 +455,7 @@ svn up /opt/branches-static/body {
                 &:after {
                     content: "";
                     position: absolute;
-                    bottom: -7px;
+                    bottom: -4px;
                     left: 50%;
                     margin-left: -6px;
                     border-left: 6px solid transparent;
@@ -762,7 +762,7 @@ svn up /opt/branches-static/body {
                     position: relative;
                     .controlbar-tip {
                         display: block;
-                        top: -25px;
+                        top: -18px;
                     }
                 }
                 &:hover {
@@ -946,7 +946,7 @@ svn up /opt/branches-static/body {
             height: 28px;
             display: inline-block;
             font-size: 23px;
-            font-family: PingFangSC-Regular, SimHei, sans-serif;
+            font-family: SimHei, "Microsoft JhengHei", Arial, Helvetica, sans-serif;
             text-align: center;
             padding: 0 3px;
             user-select: none;

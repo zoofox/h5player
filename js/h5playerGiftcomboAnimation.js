@@ -17,9 +17,9 @@ H5playerGiftcomboAnimation.prototype = {
         //默认图，cancas画图出现异常时使用
         return {
             "barImgs": {
-                "textBarImg0": '../imgs/h5player/combo/1/bar0.png',
-                "textBarImg1": '../imgs/h5player/combo/1/bar1.png',
-                "textBarImg2": '../imgs/h5player/combo/1/bar2.png'
+                "textBarImg0": MAIN_PIC_PREFIX_PATH+'/h5player/combo/1/bar0.png',
+                "textBarImg1": MAIN_PIC_PREFIX_PATH+'/h5player/combo/1/bar1.png',
+                "textBarImg2": MAIN_PIC_PREFIX_PATH+'/h5player/combo/1/bar2.png'
             }
         }
     },

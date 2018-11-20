@@ -132,14 +132,17 @@ H5player.prototype = {
         var videoWidth = this.mediaInfo.width;
         var videoHeight = this.mediaInfo.height;
 
+        var cw = $('#live-h5player-container').width();
+        var ch = $('#live-h5player-container').height();
+
         if (this.controlBar) {
-            this.controlBar.videoWidth = $('#live-h5player-container').width();
-            this.controlBar.videoHeight = $('#live-h5player-container').height();
+            this.controlBar.videoWidth = cw;
+            this.controlBar.videoHeight = ch;
         }
         if (this.controlBar && (this.controlBar.videoRotateDeg / 90) % 2 == 1) {
             //旋转
-            var containerWidth = $('#live-h5player-container').height();
-            var containerHeight = $('#live-h5player-container').width();
+            var containerWidth = ch;
+            var containerHeight = cw;
 
             var containerScale = (containerWidth / containerHeight).toFixed(2);
             var videoScale = (videoWidth / videoHeight).toFixed(2);
@@ -156,8 +159,8 @@ H5player.prototype = {
                 'marginTop': vmargin
             });
         } else {
-            var containerWidth = $('#live-h5player-container').width();
-            var containerHeight = $('#live-h5player-container').height();
+            var containerWidth = cw;
+            var containerHeight = ch;
             var containerScale = (containerWidth / containerHeight).toFixed(2);
             var videoScale = (videoWidth / videoHeight).toFixed(2);
 
@@ -181,17 +184,47 @@ H5player.prototype = {
                 'transform': 'rotate(' + this.controlBar.videoRotateDeg + 'deg)'
             });
         }
+        this.resizeGiftAnimation(cw,ch);
     },
+    //礼物动画
+    resizeGiftAnimation:function(cw,ch){
+        //直播间礼物动画最大尺寸660*560，播放器两侧各留50px
+        if(typeof NewSwfGiftAnimation == 'object'){
+             if(cw >= 760){
+                if(ch >= 660){
+                    NewSwfGiftAnimation.resize(660, 560);
+                }else{
+                    var newWidth = Math.floor((ch-100)*660/560);
+                    NewSwfGiftAnimation.resize(newWidth, ch-100);
+                }
+            }else{
+                if(ch >= 660){
+                    var newHeight = Math.floor((cw-100)*560/660);
+                    NewSwfGiftAnimation.resize(cw-100, newHeight);
+                }else{
+                    if((cw-100)/(ch-100) > 660 / 560){
+                        var newWidth = Math.floor((ch-100)*660/560);
+                        NewSwfGiftAnimation.resize(newWidth, ch-100);
+                    }else{
+                        var newHeight = Math.floor((cw-100)*560/660);
+                        NewSwfGiftAnimation.resize(cw-100, newHeight);
+                    }
+                }
+            }
+        }
+    }
+    ,
     //flash->html5
     switchBack: function() {
         if (this.player) {
-             $('#live-h5player-container,.live-opening').show();
-            this.barrage.queue.setBarrageStatus(1).setAnimationStatus(1);
+            $('#live-h5player-container,.live-opening').show();
+            this.switchTime = Date.now();
             //已经下播，再切回则重新取流
             if(this.player.everOffLive){
                 this.player.setOffLive(false);
                 this.onLive();
             }else{
+                this.barrage.queue.setBarrageStatus(1).setAnimationStatus(1);
                 this.player.getLiveStreamUrl(false);
             }
         }
@@ -204,6 +237,9 @@ H5player.prototype = {
             $('.live-h5player-barrage').html('');
             $('#system-message,#giftcombo-animation').hide();
             this.barrage.queue.setBarrageStatus(0).clearAnimationBuffer();
+            if(this.controlBar.checkFull()){
+                this.controlBar.exitFullScreen();
+            }
         }
         H5ChangeToFlash();
     },
@@ -265,9 +301,9 @@ H5player.prototype = {
     isLiving: function() {
         if (this.player) {
             return this.player.isLiving;
-        } else {
-            return false;
         }
+        return false;
+        
     },
     updateLiveTime: function(liveTime) {
         var str = '';
@@ -339,7 +375,8 @@ H5player.isThisBrowser = function(name) {
         'chrome': /chrome\/([\d.]+)/,
         'firefox': /firefox\/([\d.]+)/,
         'opera': /opera\/.*version\/([\d.]+)/,
-        'safari': /version\/([\d.]+).*safari/
+        'safari': /version\/([\d.]+).*safari/,
+        'edge': /Windows NT 6.1; Trident\/7.0;/
     };
     var currentReg = reg[name] ? reg[name] : new RegExp(name, "g");
     if (currentReg.test(ua)) {
@@ -348,5 +385,8 @@ H5player.isThisBrowser = function(name) {
     return false;
 }
 H5player.isSupported = function(name) {
-    return window.MediaSource && window.MediaSource.isTypeSupported('video/mp4; codecs="avc1.42E01E,mp4a.40.2"');
+    /*
+    ie11只支持websocket-flv,所以排除掉所有ie
+     */
+    return window.MediaSource && window.MediaSource.isTypeSupported('video/mp4; codecs="avc1.42E01E,mp4a.40.2"')&&!this.isThisBrowser('ie');
 }

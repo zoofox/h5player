@@ -103,7 +103,7 @@ body {
       top: 0;
       left: 0;
       background: rgba(0, 0, 0, 0.6);
-      z-index: 20; }
+      z-index: 21; }
       .live-h5player-container .live-h5player-status .h5player-unsupport-autoplay .unsupport-autoplay-box {
         width: 300px;
         height: 230px;
@@ -188,7 +188,8 @@ body {
             height: 125px;
             margin: 5px; }
           .live-h5player-container .live-h5player-status .live-over .live-over-recommend .recommend-item .rec-info-box {
-            width: 100%; }
+            width: 100%;
+            text-align: left; }
             .live-h5player-container .live-h5player-status .live-over .live-over-recommend .recommend-item .rec-info-box .rec-info-title {
               height: 14px;
               line-height: 14px;
@@ -379,14 +380,14 @@ body {
       .live-h5player-container .live-h5player-controlbar .controlbar-right .controlbar-tip {
         z-index: 20;
         width: 50px;
-        height: 30px;
-        line-height: 30px;
+        height: 26px;
+        line-height: 26px;
         color: #aaa;
         font-size: 12px;
         text-align: center;
         border-radius: 2px;
         position: absolute;
-        top: -37px;
+        top: -32px;
         left: 50%;
         background: #000;
         margin-left: -25px;
@@ -395,7 +396,7 @@ body {
         .live-h5player-container .live-h5player-controlbar .controlbar-right .controlbar-tip:before {
           content: "";
           position: absolute;
-          bottom: -8px;
+          bottom: -4px;
           left: 50%;
           margin-left: -6px;
           border-left: 6px solid transparent;
@@ -405,7 +406,7 @@ body {
         .live-h5player-container .live-h5player-controlbar .controlbar-right .controlbar-tip:after {
           content: "";
           position: absolute;
-          bottom: -7px;
+          bottom: -4px;
           left: 50%;
           margin-left: -6px;
           border-left: 6px solid transparent;
@@ -636,7 +637,7 @@ body {
           position: relative; }
           .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-tip-box .controlbar-tip {
             display: block;
-            top: -25px; }
+            top: -18px; }
         .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox:hover .barrage-tip-box .controlbar-tip {
           display: none; }
         .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column {
@@ -736,7 +737,7 @@ body {
                 background: url("../imgs/h5player/barrage/up_p.png") no-repeat;
                 background-size: 34px 32px; }
               .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-position .barrage-position-choice:hover .barrage-position-fullscreen {
-                background: url("../imgs/h5player/barrage/full_P.png") no-repeat;
+                background: url("../imgs/h5player/barrage/full_p.png") no-repeat;
                 background-size: 34px 32px; }
             .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-position .active .barrage-position-text {
               color: #ff5959; }
@@ -747,7 +748,7 @@ body {
               background: url("../imgs/h5player/barrage/up_p.png") no-repeat;
               background-size: 34px 32px; }
             .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column .barrage-position .active .barrage-position-fullscreen {
-              background: url("../imgs/h5player/barrage/full_P.png") no-repeat;
+              background: url("../imgs/h5player/barrage/full_p.png") no-repeat;
               background-size: 34px 32px; }
         .live-h5player-container .live-h5player-controlbar .h5player-barrage .barrage-setbox .barrage-set-column-position {
           border: none;
@@ -758,6 +759,8 @@ body {
     .live-h5player-container .live-h5player-controlbar .h5player-barrage-off {
       background: url("../imgs/h5player/barrage_off.png") no-repeat;
       background-size: 34px 20px; }
+  .live-h5player-container .live-h5player-controlbar-show {
+    bottom: 0; }
   .live-h5player-container .live-h5player-barrage {
     width: 100%;
     height: 100%;
@@ -771,7 +774,7 @@ body {
       height: 28px;
       display: inline-block;
       font-size: 23px;
-      font-family: PingFangSC-Regular, SimHei, sans-serif;
+      font-family: SimHei, "Microsoft JhengHei", Arial, Helvetica, sans-serif;
       text-align: center;
       padding: 0 3px;
       user-select: none;
@@ -909,8 +912,6 @@ body {
         border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
         .live-h5player-container .live-h5player-rightmenu .h5player-rightmenu-item:first-child:hover {
           background-color: #f0f0f0; }
-  .live-h5player-container:hover .live-h5player-controlbar {
-    bottom: 0; }
 
 .ellipsis {
   overflow: hidden;

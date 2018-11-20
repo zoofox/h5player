@@ -45,13 +45,23 @@ H5playerControlBar.prototype = {
         } else {
             $('.definition-items').html('');
         }
-
+        var me = this;
         //右键菜单
         $('.live-h5player-container').contextmenu(function(e) {
+            /*
+            firefox flash切回h5自动弹出右键菜单，判断切回时间差小于200ms则不做菜单显示处理
+             */
+            if(me.main.switchTime && H5player.isThisBrowser('firefox')){
+                var nowdate = Date.now();
+                if(nowdate - me.main.switchTime < 200){
+                    return false;
+                }
+            }
+            var documentScroll = $(document).scrollTop();
             var clientX = e.clientX;
             var clientY = e.clientY;
             var containerX = $('.live-h5player-container').offset().left;
-            var containerY = $('.live-h5player-container').offset().top;
+            var containerY = $('.live-h5player-container').offset().top - documentScroll;
             var menuX = clientX - containerX;
             var menuY = clientY - containerY;
             var menuWidth = $('.live-h5player-rightmenu').width();
@@ -115,8 +125,11 @@ H5playerControlBar.prototype = {
             self.theaterMode();
         })
         //双击进入剧场模式
-        $('#live-h5player-container').dblclick(function() {
-             self.theaterMode();
+        $('#live-h5player-container').dblclick(function(e) {
+            var target = e.target;
+            if(e.target.className.indexOf('live-h5player-controlbar')==-1 && $(e.target).parents('.live-h5player-controlbar').length ==0){
+                    self.theaterMode();
+            }
         })
         //屏幕旋转
         $('.h5player-rotate').click(function() {
@@ -292,10 +305,15 @@ H5playerControlBar.prototype = {
         })
         $('.unsupport-autoplay-btn').click(function() {
             $('.h5player-unsupport-autoplay').hide();
-            self.player.getCurrentTime(function(currentTime) {
-                self.player.seekTo(currentTime);
-                self.player.play();
-            })
+            try{
+                self.player.getCurrentTime(function(currentTime) {
+                    self.player.seekTo(currentTime);
+                    self.player.play();
+                })
+            }catch(e){
+                h5playerLog('自动播放按钮异常:'+e, 4);
+            }
+            
 
         })
         $('.live-interrupt-refresh').click(function() {
@@ -377,10 +395,28 @@ H5playerControlBar.prototype = {
     },
     //窗口全屏video处理
     fullScreenVideoChange: function(element) {
+        if (this.isPageScreen) {
+            this.isPageScreen = false;
+            $('.h5player-pagescreen').removeClass('h5player-pagescreen-ing')
+                .find('.controlbar-tip').text('剧场模式');
+            videoTheaterMode(0);
+        }
         this.isFullScreen = true;
         $('.h5player-fullscreen').addClass('h5player-fullscreen-ing')
             .find('.controlbar-tip').text('退出全屏');
         this.main.setPlayerSize();
+        //全屏时，动画置入h5播放器内
+        if(NewSwfGiftAnimation){
+            NewSwfGiftAnimation.insertToH5player();
+        }
+        //礼物红包置入h5播放器
+        if(barragePacket){
+            barragePacket.setPacketParent(1);
+        }
+        //产品红包
+        if(packRoom){
+            packRoom.insertToH5player();
+        }
     },
     //退出窗口全屏
     exitFullScreen: function() {
@@ -400,6 +436,18 @@ H5playerControlBar.prototype = {
         $('.h5player-fullscreen').removeClass('h5player-fullscreen-ing')
             .find('.controlbar-tip').text('窗口全屏');;
         this.main.setPlayerSize();
+        //退出全屏时，动画移出h5播放器
+        if(typeof NewSwfGiftAnimation == 'object'){
+            NewSwfGiftAnimation.divorcedFromH5player();
+        }
+        //红包移出h5播放器
+        if(typeof barragePacket == 'object'){
+            barragePacket.setPacketParent(0).remove();
+        }
+        //产品红包
+        if(typeof packRoom == 'object'){
+            packRoom.divorcedFromH5player();
+        }
     },
     //检查当前是否全屏，不用this.isFullScreen是因为esc按键退出全屏isFullScreen始终为true
     checkFull: function() {

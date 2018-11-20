@@ -23,7 +23,7 @@ gulp.task('watch',function(e){
 });
 
 gulp.task('player', function () {
-    gulp.src(['js/flv.min.js',
+    gulp.src([
         'js/h5playerStreamManager.js',
         'js/h5playerGiftcomboAnimation.js',
         'js/h5playerSystemMessage.js',
@@ -35,10 +35,15 @@ gulp.task('player', function () {
         'js/h5playerControlBar.js',
         'js/h5player.js'
        ])
-        .pipe(concat('h5player.min.js'))
-        // .pipe(uglify())
+        .pipe(concat('temp.min.js'))
+        .pipe(uglify())
         .pipe(gulp.dest('./js'));
-        
+    gulp.src([
+        'js/temp.min.js',
+        'js/flv.min.js'
+       ])
+        .pipe(concat('h5player.min.js'))
+        .pipe(gulp.dest('./js'));
 });
 
 

@@ -117,9 +117,14 @@ H5playerLive.prototype = {
                 callback();
             }).catch(function(error) {
                 //可能为下播或者流中断的playerDestroy导致，无需提示自动播放
-                if(JSON.stringify(error).indexOf('interrupted by a call to pause') > -1){
-                    return;
+                try{
+                    if(error.message.indexOf('interrupted by a call to pause') > -1){
+                        return;
+                    }
+                }catch(e){
+
                 }
+                h5playerLog(JSON.stringify(error),3);
                 $('.h5player-unsupport-autoplay').show();
             })
         }
