@@ -2,7 +2,7 @@
 h5播放器入口
  */
 function H5player(params) {
-    this.h5playerVersion = '0.0.1'; //h5player版本
+    this.h5playerVersion = '0.0.3'; //h5player版本
     this.roomId = params.roomId || '';
     this.videoId = params.videoId || 'h5player-video';
     this.userUid = params.userUid || '';

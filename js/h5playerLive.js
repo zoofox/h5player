@@ -14,7 +14,7 @@ function H5playerLive(params, callback) {
     this.isLiving = false;
     this.waitingTime = null;
     this.waitingTimeProtectSwitch = false; //缓冲保护，前期先关闭
-    this.WAITING_TIME = 20*1000; //断流等待时长
+    this.WAITING_TIME = 60 * 1000; //断流等待时长
     this.getLiveStreamUrl(true, callback);
 }
 H5playerLive.prototype = {
@@ -44,7 +44,7 @@ H5playerLive.prototype = {
                 self.main.onGetMideaInfo(self.player.mediaInfo);
             })
             self.player.on(flvjs.Events.ERROR, function(e) {
-                h5playerLog(e, 4);
+                h5playerLog('err:'+e, 4);
             })
             if (typeof callback === 'function') {
                 callback(self.player.mediaInfo);
@@ -64,7 +64,9 @@ H5playerLive.prototype = {
             $('.live-opening').show();
         };
         this.video.onloadeddata = function() {};
-        this.video.onprogress = function(e) {};
+        this.video.onprogress = function(e) {
+            h5playerLog('onprogress', 1);
+        };
         this.video.oncanplay = function() {
             h5playerLog('oncanplay', 1);
             $('.live-opening').hide();
@@ -76,7 +78,9 @@ H5playerLive.prototype = {
         };
         this.video.oncanplaythrough = function() {
             h5playerLog('oncanplaythrough', 1);
+            h5playerLog(self.player.currentTime+','+self.player.buffered.length+','+self.player.buffered.start(0)+','+self.player.buffered.end(0), 1);
             $('.live-loading').hide();
+            // self.safariProtect();
         };
         this.video.onwaiting = function() {
             $('.live-opening').hide();
@@ -84,6 +88,16 @@ H5playerLive.prototype = {
             h5playerLog('waiting..', 1);
             self.waitingHandler();
         };
+    },
+    safariProtect:function(){
+        if(H5player.isThisBrowser('safari')){
+            var currentTime = this.player.currentTime;
+            var end = this.player.buffered.end(0);
+            if(currentTime > 1 && end - currentTime < 2){
+                h5playerLog('trigger safari protect', 3);
+                this.player.currentTime = end - 2;
+            }
+        }
     },
     //缓冲超过5秒则重新载入
     waitingHandler: function() {
@@ -117,14 +131,14 @@ H5playerLive.prototype = {
                 callback();
             }).catch(function(error) {
                 //可能为下播或者流中断的playerDestroy导致，无需提示自动播放
-                try{
-                    if(error.message.indexOf('interrupted by a call to pause') > -1){
+                try {
+                    if (error.message.indexOf('interrupted by a call to pause') > -1) {
                         return;
                     }
-                }catch(e){
+                } catch (e) {
 
                 }
-                h5playerLog(JSON.stringify(error),3);
+                h5playerLog(JSON.stringify(error), 3);
                 $('.h5player-unsupport-autoplay').show();
             })
         }
@@ -254,8 +268,6 @@ H5playerLive.prototype = {
         var self = this;
         var flvjsobj = this.generateFlvObject(url);
         var config = {
-            enableStashBuffer: false,
-            enableWorker: false,
             autoCleanupSourceBuffer: true
         };
         if (flvjsobj) {
@@ -270,9 +282,9 @@ H5playerLive.prototype = {
             });
         } else {
             if (callback && 'function' == typeof callback) {
-                callback(null, '流格式解析错误,url:'+url);
+                callback(null, '流格式解析错误,url:' + url);
             }
-            h5playerLog('流格式解析错误,url:'+url, 4);
+            h5playerLog('流格式解析错误,url:' + url, 4);
         }
     },
     generateFlvObject: function(url) {
@@ -363,13 +375,16 @@ H5playerLive.prototype = {
             cache: false,
             dataType: 'json',
             success: function(data) {
-                var appendHtml = {num:0,html:''};
+                var appendHtml = {
+                    num: 0,
+                    html: ''
+                };
                 if (data.code == 0) {
                     var recDatas = data.data;
                     var dataLen = recDatas.length;
                     if (dataLen != 0) {
-                        appendHtml.num  = dataLen;
-                        var singleClass = (dataLen == 1)?'recmmond-single':'';
+                        appendHtml.num = dataLen;
+                        var singleClass = (dataLen == 1) ? 'recmmond-single' : '';
                         for (var i = 0; i < dataLen; i++) {
                             var curData = recDatas[i];
                             if (curData.type == 1) {
@@ -391,7 +406,7 @@ H5playerLive.prototype = {
     //直播流中断，可能是下播
     interrupt: function() {
         //已下播则不处理
-        if(!this.everOffLive){
+        if (!this.everOffLive) {
             this.setOffLive(true);
             this.isLiving = false;
             this.playerDestroy();
@@ -400,7 +415,7 @@ H5playerLive.prototype = {
             $('.h5player-unsupport-autoplay').hide();
         }
     },
-    setOffLive:function(status){
+    setOffLive: function(status) {
         this.everOffLive = status;
     }
 }
