@@ -2,7 +2,7 @@
 h5播放器入口
  */
 function H5player(params) {
-    this.h5playerVersion = '0.0.3'; //h5player版本
+    this.h5playerVersion = '0.0.4'; //h5player版本
     this.roomId = params.roomId || '';
     this.videoId = params.videoId || 'h5player-video';
     this.userUid = params.userUid || '';
@@ -16,13 +16,13 @@ function H5player(params) {
     this.DEFAULT_BARRAGE_OPACITY = 0; //弹幕透明度 0无 1低 2中 3高
     this.DEFAULT_BARRAGE_POSITION = 0; //弹幕位置 0全屏 1顶端 2底端
     this.SINGLE_TUNNEL_HEIGHT = 36; //弹幕轨道高度，弹幕高度30px
-    this.BARRAGE_FLY_SPEED = 120; // 弹幕运行速度px/s
+    this.BARRAGE_FLY_SPEED = 100; // 弹幕运行速度px/s
     this.SYSTEM_MESSAGE_FLY_SPEED = 100; // 喇叭速度px/s
     this.GIFTCOMBO_ANIMATION_FLY_SPEED = 120; // 连击动画飘屏速度px/s
     this.BARRAGE_CHECK_TIME = 300; //弹幕计时器间隔时长 ms
     this.logDebugSwitch = false; //日志调试开关
     this.BARRAGE_SPEED_MODE = 0; //弹幕速度 0变速 1匀速
-    this.BARRAGE_MAX_SPEED = 200; //弹幕最大速度
+    this.BARRAGE_MAX_SPEED = 250; //弹幕最大速度
     this.LONG_BARRAGE_NEED_TIME = 3; //弹幕长度超过屏幕宽度时的默认时长 秒
     this.mediaInfo = {
         width: 1280,
@@ -241,7 +241,9 @@ H5player.prototype = {
                 this.controlBar.exitFullScreen();
             }
         }
-        H5ChangeToFlash();
+        if(typeof H5ChangeToFlash !='undefined'){
+            H5ChangeToFlash();
+        }
     },
     logInit: function() {
         this.logDebugLevel = this.getUrlParam('h5playerdebug'); //0关闭 1debug 2info 3warn 4error
@@ -386,7 +388,12 @@ H5player.isThisBrowser = function(name) {
 }
 H5player.isSupported = function(name) {
     /*
-    ie11只支持websocket-flv,所以排除掉所有ie
+    only support http-flv
      */
-    return window.MediaSource && window.MediaSource.isTypeSupported('video/mp4; codecs="avc1.42E01E,mp4a.40.2"')&&!this.isThisBrowser('ie');
+    try{
+        var featureList = flvjs.getFeatureList();
+        return featureList.mseFlvPlayback && featureList.mseLiveFlvPlayback;
+    }catch(e){
+        return false;
+    }
 }

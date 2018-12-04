@@ -130,13 +130,19 @@ H5playerBarrage.prototype = {
             });
         }
     },
+    //切换标签页清除弹幕
     checkProtect:function(){
         var nowDate = Date.now();
         if(this.checkTime!=0){
             if(nowDate - this.checkTime > this.barrageCheckTime*2){
-                this.queue.clearBuffer();
-                this.queue.giftCombo.clearBuffer();
-                this.queue.systemMessage.clearBuffer();
+                h5playerLog('barrage check exception, seems to switch page,trigger clear buffer event',3);
+                if(!this.bulletManager.storeIsEmpty()){
+                    this.queue.clearBuffer();
+                    this.queue.giftCombo.clearBuffer();
+                    this.queue.systemMessage.clearBuffer();
+                    $('.live-h5player-barrage').html('');
+                    this.bulletManager.clearStore();
+                }
             }
         }
         this.checkTime = nowDate;
@@ -191,38 +197,37 @@ H5playerBarrage.prototype = {
         var top = this.tunnelManager.tunnelBlankHeight + tunnel.index * this.singleTunnelHeight;
         var fontColor = bullet.barrage.content.fontColor;
         var color = fontColor == ''?'#fff':fontColor;
-        /*
-        变速思路：
-        1. 弹幕越长，速度越快。弹幕速度 = 屏幕宽度/弹幕默认速度 - 弹幕宽度/弹幕默认速度,如果弹幕宽度比屏宽大，则取默认时长（3秒）。计算得弹幕速度
-        2. 该弹道没有上一条弹幕记录，则 时长 = （屏幕宽度+弹幕宽度）/ 弹幕速度
-        3. 该弹幕有上一条弹幕记录，则计算上一条是否已走完，已走完，则 时长 = （屏幕宽度+弹幕宽度）/ 弹幕速度
-        4. 上一条未走完，则比较该弹幕速度走完屏幕的时间t1与上一条弹幕剩余时间t2
-        5. t1>t2，时长 = 弹幕宽度/ 弹幕速度 + t1
-        6. t2>t1, 时长 = （屏幕宽度+弹幕宽度）/ (屏幕宽度/t2)
-         */
+       
         if (this.barrageSpeedMode == 0) { //变速
             var lastDuration = tunnel.lastDuration;
             var lastTimeStamp = tunnel.lastTimeStamp;
-            if (lastDuration == 0) {
-                var time = (allwidth / this.barrageFlySpeed).toFixed(2);
-                var releaseTunnelTime = (textWidth / this.barrageFlySpeed).toFixed(2);
-            } else {
-                var originVideoTime = (videoWidth / this.barrageFlySpeed).toFixed(2);
-                var tempTime = (videoWidth > textWidth) ? (originVideoTime - (textWidth / (this.barrageFlySpeed))).toFixed(2) : this.longBarrageNeedTime; //超长弹幕默认时间
+            var calculateSpeed = this.calculateSpeed(textWidth);
+            //弹道第一次跑弹幕
+            if(lastDuration == 0){
+                var time = (allwidth / calculateSpeed).toFixed(2);
+                var releaseTunnelTime = (textWidth / calculateSpeed).toFixed(2);
+            }else{
                 var nowTime = Date.now();
+                //上一次弹幕到当前消费时间
                 var lastBarrageConsumed = nowTime - lastTimeStamp;
-                if (lastBarrageConsumed / 1000 < lastDuration) {
+                //上一条弹幕已经跑完，按计算速度飞行
+                if(parseFloat(lastBarrageConsumed / 1000) > lastDuration){
+                    var time = (allwidth / calculateSpeed).toFixed(2);
+                    var releaseTunnelTime = (textWidth / calculateSpeed).toFixed(2);
+                }else{
+                //上一条未跑完
                     var lastBarrageLeftTime = (lastDuration - lastBarrageConsumed / 1000).toFixed(2); //上一条弹幕走完剩余时间
-                    if (tempTime - lastBarrageLeftTime < 0) { //该速度会追上上一条弹幕则取上一条剩余时间
-                        var time = (allwidth * lastBarrageLeftTime / videoWidth).toFixed(2);
-                        var releaseTunnelTime = (textWidth * lastBarrageLeftTime / videoWidth).toFixed(2);
-                    } else { //不会追赶上则使用该速度
-                        var time = (parseFloat(textWidth * tempTime / videoWidth) + parseFloat(tempTime)).toFixed(2);
-                        var releaseTunnelTime = (textWidth * tempTime / videoWidth).toFixed(2);
+                    var originVideoTime = (videoWidth / calculateSpeed).toFixed(2); //弹幕通过一屏时长
+                    //飘一屏小于上一条剩余时长，将发生碰撞
+                    if(parseFloat(originVideoTime) < parseFloat(lastBarrageLeftTime)){
+                        var newSpeed = (videoWidth / lastBarrageLeftTime).toFixed(2)
+                        var time = (allwidth / newSpeed).toFixed(2);
+                        var releaseTunnelTime = (textWidth / newSpeed).toFixed(2);
+                    }else{
+                    //不会碰撞，按计算速度飞行
+                        var time = (allwidth / calculateSpeed).toFixed(2);
+                        var releaseTunnelTime = (textWidth / calculateSpeed).toFixed(2);
                     }
-                } else {
-                    var time = (parseFloat(textWidth * tempTime / videoWidth) + parseFloat(tempTime)).toFixed(2);
-                    var releaseTunnelTime = (textWidth * tempTime / videoWidth).toFixed(2);
                 }
             }
         } else { //匀速
@@ -264,6 +269,18 @@ H5playerBarrage.prototype = {
             self.tunnelManager.setTunnelStatus(tunnel.index, tunnel.sign, true);
         }, releaseTunnelTime * 1000);
         callback();
+    },
+    //不考虑碰撞的情况下，计算弹幕速度
+    calculateSpeed:function(textWidth){
+        if(textWidth > 13.5){
+            if(textWidth < 900){
+                return 0.17*textWidth+97;
+            }else{
+                return this.barrageMaxSpeed;
+            }
+        }else{
+            return this.barrageFlySpeed;
+        }
     },
     //查看是否有弹道可用 返回可用数
     getTunnelReady: function(callback) {

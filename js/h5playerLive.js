@@ -31,8 +31,11 @@ H5playerLive.prototype = {
             self.logControl();
             self.player.on(flvjs.Events.LOADING_COMPLETE, function() {
                 h5playerLog('LOADING_COMPLETE', 2);
-                self.interrupt();
-                clearInterval(self.waitingTime);
+                //兼容 firefox关闭或切换标签页瞬间触发LOADING_COMPLETE导致显示流中断界面 的问题
+                if(!H5player.isThisBrowser('firefox')){
+                    self.interrupt();
+                    clearInterval(self.waitingTime);
+                }
             })
             self.player.on(flvjs.Events.METADATA_ARRIVED, function(e) {
                 h5playerLog('METADATA_ARRIVED', 2);
@@ -65,7 +68,6 @@ H5playerLive.prototype = {
         };
         this.video.onloadeddata = function() {};
         this.video.onprogress = function(e) {
-            h5playerLog('onprogress', 1);
         };
         this.video.oncanplay = function() {
             h5playerLog('oncanplay', 1);
@@ -80,7 +82,7 @@ H5playerLive.prototype = {
             h5playerLog('oncanplaythrough', 1);
             h5playerLog(self.player.currentTime+','+self.player.buffered.length+','+self.player.buffered.start(0)+','+self.player.buffered.end(0), 1);
             $('.live-loading').hide();
-            // self.safariProtect();
+            self.pauseProtect();
         };
         this.video.onwaiting = function() {
             $('.live-opening').hide();
@@ -89,14 +91,11 @@ H5playerLive.prototype = {
             self.waitingHandler();
         };
     },
-    safariProtect:function(){
-        if(H5player.isThisBrowser('safari')){
-            var currentTime = this.player.currentTime;
-            var end = this.player.buffered.end(0);
-            if(currentTime > 1 && end - currentTime < 2){
-                h5playerLog('trigger safari protect', 3);
-                this.player.currentTime = end - 2;
-            }
+    //safari浏览器oncanplaythrough后概率性出现画面暂停问题
+    pauseProtect:function(){
+        if(H5player.isThisBrowser('safari') && this.video.paused){
+            h5playerLog('trigger safari pause protect', 3);
+            this.play();
         }
     },
     //缓冲超过5秒则重新载入
@@ -390,10 +389,10 @@ H5playerLive.prototype = {
                             if (curData.type == 1) {
                                 //直播
                                 var gender = curData.meta.gender;
-                                appendHtml.html += '<a class="recommend-item recommend-item-live singleClass" href="' + self.host + '/room/' + curData.targetKey + '.htm"><img src="' + curData.cover + '" alt="" class="live-over-rec-img"><div class="rec-info-box"><p class="rec-info-title ellipsis">' + escapeString(curData.name) + '</p><div class="rec-info-content"><p class="rec-info-live ellipsis"><i class="live-over-gender-' + gender + '"></i><span class="rec-anchor-name ellipsis">' + escapeString(curData.meta.creator) + '</span><i class="live-over-room-hot"></i><span>' + formateNumber(curData.meta.onlineCount) + '</span></p><p class="rec-info-livearea ellipsis">' + curData.meta.gameName + '</p></div></div><img src="./imgs/h5player/over/angle_icon_live.png" alt="" class="rec-angle-icon angle-icon-live"></a>';
+                                appendHtml.html += '<a class="recommend-item recommend-item-live singleClass" href="' + self.host + '/room/' + curData.targetKey + '.htm"><img src="' + curData.cover + '" alt="" class="live-over-rec-img"><div class="rec-info-box"><p class="rec-info-title ellipsis">' + escapeString(curData.name) + '</p><div class="rec-info-content"><p class="rec-info-live ellipsis"><i class="live-over-gender-' + gender + '"></i><span class="rec-anchor-name ellipsis">' + escapeString(curData.meta.creator) + '</span><i class="live-over-room-hot"></i><span>' + formateNumber(curData.meta.onlineCount) + '</span></p><p class="rec-info-livearea ellipsis">' + curData.meta.gameName + '</p></div></div><img src="'+MAIN_PIC_PREFIX_PATH+'/h5player/over/angle_icon_live.png" alt="" class="rec-angle-icon angle-icon-live"></a>';
                             } else if (curData.type == 3) {
                                 //视频
-                                appendHtml.html += ' <a class="recommend-item recommend-item-video singleClass"  href="' + self.host + '/gamezone/video/play/' + curData.targetKey + '.htm"><img src="' + curData.cover + '" alt="" class="live-over-rec-img"><div class="rec-info-box"><p class="rec-info-title ellipsis">' + escapeString(curData.name) + '</p><div class="rec-info-content"><i class="live-over-video-gift"></i><span>' + formateNumber(curData.meta.giftCount) + '</span><i class="live-over-video-play"></i><span>' + formateNumber(curData.meta.playCount) + '</span><i class="live-over-video-comments"></i><span>' + formateNumber(curData.meta.commentCount) + '</span></div></div><img src="./imgs/h5player/over/angle_icon_video.png" alt="" class="rec-angle-icon angle-icon-video"></a>';
+                                appendHtml.html += ' <a class="recommend-item recommend-item-video singleClass"  href="' + self.host + '/gamezone/video/play/' + curData.targetKey + '.htm"><img src="' + curData.cover + '" alt="" class="live-over-rec-img"><div class="rec-info-box"><p class="rec-info-title ellipsis">' + escapeString(curData.name) + '</p><div class="rec-info-content"><i class="live-over-video-gift"></i><span>' + formateNumber(curData.meta.giftCount) + '</span><i class="live-over-video-play"></i><span>' + formateNumber(curData.meta.playCount) + '</span><i class="live-over-video-comments"></i><span>' + formateNumber(curData.meta.commentCount) + '</span></div></div><img src="'+MAIN_PIC_PREFIX_PATH+'/h5player/over/angle_icon_video.png" alt="" class="rec-angle-icon angle-icon-video"></a>';
                             }
                         }
                     }
