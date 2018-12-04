@@ -4,7 +4,7 @@
 <head>
     <title>h5 video test page</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="http://127.0.0.1:9090/css/roomdetail.css">
+    <link rel="stylesheet" type="text/css" href="http://192.168.200.200:9090/css/roomdetail.css">
 </head>
 
 <body style="">
@@ -63,28 +63,6 @@
         <div class="live-h5player-barrage">
         </div>
         <div class="live-h5player-system">
-            <!-- 喇叭 -->
-        	<div class="system-message" id="system-message">
-        		<div class="left-bar"></div>
-                <div class="middle-bar">
-                    <p class="message-content"></p>
-                </div>
-                <div class="right-bar"></div>
-                <div class="clear"></div>
-        	</div>
-            <!-- 连击动画飘屏 -->
-            <div class="giftcombo-animation" id="giftcombo-animation">
-                <canvas class="left-bar" id="left-bar" width='50' height='28'></canvas>
-                <div class="middle-bar">
-                    <canvas class="" id="middle-bar" height='28'></canvas>
-                    <div class="giftcombo-content">
-                         <img src="./imgs/h5player/combo/0/gift.gif" alt="" class="giftcombo-img">
-                         <p class="giftcombo-text"></p>
-                    </div>
-                </div>
-                <canvas class="right-bar" id="right-bar" width='50' height='28'></canvas>
-                <div class="clear"></div>
-            </div>
         </div>
         <div class="live-h5player-controlbar">
             <div class="controlbar-left h5player-pauseplay" data-status='1'>
@@ -151,25 +129,27 @@
                             </div>
                         </div>
                     </div>
-                    <div class="barrage-tip-box">
+                    <!-- <div class="barrage-tip-box">
                         <p class="controlbar-tip controlbar-tip-long">关闭弹幕</p>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
         <div class="live-h5player-rightmenu">
             <p class="h5player-rightmenu-item"></p>
             <p class="h5player-rightmenu-item h5plyaer-switch-flash">切换到Flash播放器</p>
+            <!-- <p class="h5player-rightmenu-item">视频统计信息</p> -->
         </div>
     </div>
     <style>
     body{
         padding: 0;
         margin:0;
+            min-width: 100px;
     }
     #live-h5player-container{
         /*width: 1064px!important;*/
-        height: 540px!important;
+        height: 640px!important;
     }
     .test-btn {
         padding:5px 10px; 
@@ -204,23 +184,25 @@
     <script type="text/javascript" src="https://cdn.kascend.com/jellyfish/sysv730/js/lib/jquery/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="./js/util/config.js"></script>
     <script type="text/javascript" src="./js/util/chushou_emoji.js"></script>
-    <script type="text/javascript" src="./js/flv.min.js"></script>
-    <script type="text/javascript" src="./js/h5playerStreamManager.js"></script>
-    <script type="text/javascript" src="./js/h5playerGiftcomboAnimation.js"></script>
-    <script type="text/javascript" src="./js/h5playerSystemMessage.js"></script>
-    <script type="text/javascript" src="./js/h5playerBarrageQueue.js"></script>
-    <script type="text/javascript" src="./js/h5playerBarrageTunnelManager.js"></script>
-    <script type="text/javascript" src="./js/h5playerBarrageBulletManager.js"></script>
-    <script type="text/javascript" src="./js/h5playerBarrage.js"></script>
-    <script type="text/javascript" src="./js/h5playerLive.js"></script>
-    <script type="text/javascript" src="./js/h5playerControlBar.js"></script>
-    <script type="text/javascript" src="./js/h5player.js"></script>
+    <script type="text/javascript" src="http://192.168.200.200:9090/js/business/room_detail/h5player/h5playerFateData.js"></script>
+    <script type="text/javascript" src="http://192.168.200.200:9090/js/business/room_detail/h5player/screenAnimation.js"></script>
+    <script type="text/javascript" src="http://192.168.200.200:9090/js/business/room_detail/h5player/flv.min.js"></script>
+    <script type="text/javascript" src="http://192.168.200.200:9090/js/business/room_detail/h5player/h5playerStreamManager.js"></script>
+    <script type="text/javascript" src="http://192.168.200.200:9090/js/business/room_detail/h5player/h5playerGiftcomboAnimation.js"></script>
+    <script type="text/javascript" src="http://192.168.200.200:9090/js/business/room_detail/h5player/h5playerSystemMessage.js"></script>
+    <script type="text/javascript" src="http://192.168.200.200:9090/js/business/room_detail/h5player/h5playerBarrageQueue.js"></script>
+    <script type="text/javascript" src="http://192.168.200.200:9090/js/business/room_detail/h5player/h5playerBarrageTunnelManager.js"></script>
+    <script type="text/javascript" src="http://192.168.200.200:9090/js/business/room_detail/h5player/h5playerBarrageBulletManager.js"></script>
+    <script type="text/javascript" src="http://192.168.200.200:9090/js/business/room_detail/h5player/h5playerBarrage.js"></script>
+    <script type="text/javascript" src="http://192.168.200.200:9090/js/business/room_detail/h5player/h5playerLive.js"></script>
+    <script type="text/javascript" src="http://192.168.200.200:9090/js/business/room_detail/h5player/h5playerControlBar.js"></script>
+    <script type="text/javascript" src="http://192.168.200.200:9090/js/business/room_detail/h5player/h5player.js"></script>
     <script type="text/javascript">
     var h5player = null;
     $('.html5-btn').click(function(){
         if(!h5player){
              h5player = new H5player({
-                roomId: 39849,
+                roomId: 81664631,
                 host: '',
                 videoId: '',
                 anchorName:'xxx',
